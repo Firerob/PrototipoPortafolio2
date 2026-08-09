@@ -8,9 +8,11 @@ import { ArrowUpRight } from 'lucide-react';
 import { projects } from '@/content/projects';
 import {
   resetWorksScroll,
+  setWorksCount,
   setWorksProgress,
   subscribeActiveIndex,
   worksScroll,
+  worksScrollLength,
 } from '@/lib/worksScroll';
 import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicLayoutEffect';
 
@@ -38,7 +40,18 @@ export default function ProjectsOrbit() {
   const pin = useRef<HTMLDivElement>(null);
   const prefersReduced = useReducedMotion();
 
-  useEffect(() => resetWorksScroll, []);
+  /*
+    Set the count here as well as in OrbitCards.
+
+    OrbitCards lives behind a dynamic ssr:false import, so on a slow load this
+    section's ScrollTrigger can fire onRefresh/onUpdate before the canvas has
+    mounted. setWorksProgress early-returns while count is 0, which would
+    leave the caption pinned to project 1 until the first scroll after mount.
+  */
+  useEffect(() => {
+    setWorksCount(projects.length);
+    return resetWorksScroll;
+  }, []);
 
   useIsomorphicLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -58,17 +71,37 @@ export default function ProjectsOrbit() {
           trigger: section.current,
           start: 'top top',
           /*
-            Function-based, re-evaluated on refresh. A hard-coded pixel length
-            silently breaks the moment the viewport changes size — the classic
-            pinned-section bug where the animation ends early or never
-            finishes.
+            Length is a function of BOTH the viewport and the card count.
+
+            Function-based so `invalidateOnRefresh` re-evaluates it on resize —
+            a hard-coded pixel length breaks the moment the viewport changes.
+            But the count term matters just as much: the previous
+            `innerHeight * 4` was tuned by hand for six projects, so adding a
+            seventh would have squeezed every card's on-screen moment shorter
+            without anything visibly "breaking". worksScrollLength() spends a
+            fixed budget on the fly-in plus a fixed budget PER CARD, so the pin
+            grows with the deck.
           */
-          end: () => `+=${window.innerHeight * 4}`,
+          end: () => `+=${Math.round(worksScrollLength(projects.length, window.innerHeight))}`,
           pin: pinEl,
           // Pre-renders the pin a frame early, removing the 1px jump that
           // otherwise shows at pin start on a Lenis-smoothed scroll.
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          /*
+            Refresh BEFORE any trigger whose start/end depends on this
+            section's height.
+
+            Pinning injects a spacer that makes #works ~5x taller. ScrollTrigger
+            refreshes in creation order by default, so HeroCanvas's parking
+            trigger — which ends at "#works bottom" — was measuring the
+            unpinned 900px height and computing a bottom at ~1800px. It parked
+            the renderer (frameloop="never") a fifth of the way through the
+            orbit while the DOM caption kept advancing: the scene visibly froze
+            mid-sweep. A higher refreshPriority makes this pin measure first so
+            dependents see the real post-pin geometry.
+          */
+          refreshPriority: 1,
           // No `scrub` needed: this drives a value, not a tween, and Lenis has
           // already smoothed the scroll position feeding it.
           onUpdate: (self) => setWorksProgress(self.progress),

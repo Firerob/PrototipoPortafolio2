@@ -1,0 +1,232 @@
+{
+  "app/layout.jsx": {
+    "mtime": 1786249459.7533133,
+    "ast_hash": "93c6bc5e463160b5357f279270a6b009",
+    "semantic_hash": "93c6bc5e463160b5357f279270a6b009"
+  },
+  "app/page.jsx": {
+    "mtime": 1786250271.9632087,
+    "ast_hash": "ab8ae803ff8e7544ac20dcada2982e47",
+    "semantic_hash": "ab8ae803ff8e7544ac20dcada2982e47"
+  },
+  "components/background/FluidBackground.tsx": {
+    "mtime": 1786251293.650676,
+    "ast_hash": "e4d41fccb2d2ff8bc706ad9d398c0bca",
+    "semantic_hash": "e4d41fccb2d2ff8bc706ad9d398c0bca"
+  },
+  "components/hero/BackdropWord.jsx": {
+    "mtime": 1786240190.3881238,
+    "ast_hash": "967569de6481058b78c7328715944292",
+    "semantic_hash": "967569de6481058b78c7328715944292"
+  },
+  "components/hero/CurvedGrid.jsx": {
+    "mtime": 1786240153.5445483,
+    "ast_hash": "cbd87cbca95b3122310de8a8374f553c",
+    "semantic_hash": "cbd87cbca95b3122310de8a8374f553c"
+  },
+  "components/hero/HeroSection.jsx": {
+    "mtime": 1786249433.8860664,
+    "ast_hash": "daf4770742257bc69def238c2c97e5f8",
+    "semantic_hash": "daf4770742257bc69def238c2c97e5f8"
+  },
+  "components/hero/Prism.jsx": {
+    "mtime": 1786250241.5791898,
+    "ast_hash": "863edb28156186491a6e00be243115fe",
+    "semantic_hash": "863edb28156186491a6e00be243115fe"
+  },
+  "components/hero/ScrollCue.tsx": {
+    "mtime": 1786249414.620558,
+    "ast_hash": "c17a9b0bd0572047e91acdab016ccfc8",
+    "semantic_hash": "c17a9b0bd0572047e91acdab016ccfc8"
+  },
+  "components/hero/SpotGlow.jsx": {
+    "mtime": 1786240210.9574974,
+    "ast_hash": "b36a3aa1eae9aed5b5ae822d0837679e",
+    "semantic_hash": "b36a3aa1eae9aed5b5ae822d0837679e"
+  },
+  "components/hud/Navbar.jsx": {
+    "mtime": 1786241276.9654894,
+    "ast_hash": "5606f9b7f34aadcc62a68a56f9c09687",
+    "semantic_hash": "5606f9b7f34aadcc62a68a56f9c09687"
+  },
+  "components/hud/OrientationGizmo.jsx": {
+    "mtime": 1786242274.044639,
+    "ast_hash": "47e748b4d0cf8994eb3d938e83a3c50f",
+    "semantic_hash": "47e748b4d0cf8994eb3d938e83a3c50f"
+  },
+  "components/projects/ProjectsOrbit.tsx": {
+    "mtime": 1786256198.4400613,
+    "ast_hash": "dbf220a54602b5deebb63e4b94e0fb5b",
+    "semantic_hash": ""
+  },
+  "components/providers/SmoothScroll.tsx": {
+    "mtime": 1786249305.4247892,
+    "ast_hash": "0c049e849563c15a9740c7e6603605e3",
+    "semantic_hash": "0c049e849563c15a9740c7e6603605e3"
+  },
+  "components/sections/AboutSection.jsx": {
+    "mtime": 1786242361.1675053,
+    "ast_hash": "09da0af3bbd0c6bb31c5d14fda3ef583",
+    "semantic_hash": "09da0af3bbd0c6bb31c5d14fda3ef583"
+  },
+  "components/sections/ContactSection.jsx": {
+    "mtime": 1786242361.1675053,
+    "ast_hash": "b3ed8dc1cdf0a4655aab5143f557445c",
+    "semantic_hash": "b3ed8dc1cdf0a4655aab5143f557445c"
+  },
+  "components/sections/NewsSection.jsx": {
+    "mtime": 1786242361.1655054,
+    "ast_hash": "4298f1237a7c5f81f04f95719080f173",
+    "semantic_hash": "4298f1237a7c5f81f04f95719080f173"
+  },
+  "components/sections/SiteFooter.jsx": {
+    "mtime": 1786248061.7839825,
+    "ast_hash": "910e189f090bafce62b661bbe0007933",
+    "semantic_hash": "910e189f090bafce62b661bbe0007933"
+  },
+  "components/sections/WorkCard.jsx": {
+    "mtime": 1786241043.9289153,
+    "ast_hash": "c02604829375073d26270aea16411bde",
+    "semantic_hash": "c02604829375073d26270aea16411bde"
+  },
+  "components/sections/WorksSection.jsx": {
+    "mtime": 1786242354.0582788,
+    "ast_hash": "7fe6ada616104318647d615efe07d8a8",
+    "semantic_hash": "7fe6ada616104318647d615efe07d8a8"
+  },
+  "components/three/BackdropCanvas.tsx": {
+    "mtime": 1786247963.8344686,
+    "ast_hash": "370852fdc6b96d31d97d8f1a576ddaca",
+    "semantic_hash": "370852fdc6b96d31d97d8f1a576ddaca"
+  },
+  "components/three/HeroCanvas.tsx": {
+    "mtime": 1786256207.2275527,
+    "ast_hash": "88a59c007ca0acbce0f746d471b32867",
+    "semantic_hash": ""
+  },
+  "components/three/HeroScene.tsx": {
+    "mtime": 1786250151.315624,
+    "ast_hash": "3e2dcac44ce8c9e8740392acd52c6cbf",
+    "semantic_hash": "3e2dcac44ce8c9e8740392acd52c6cbf"
+  },
+  "components/three/OrbitCards.tsx": {
+    "mtime": 1786256006.2946403,
+    "ast_hash": "544a9d4118115a0986e7f3d3942bcb4c",
+    "semantic_hash": ""
+  },
+  "components/three/PointerProvider.tsx": {
+    "mtime": 1786247905.3323298,
+    "ast_hash": "a00ec79cd396113d4a9d74bef5b51259",
+    "semantic_hash": "a00ec79cd396113d4a9d74bef5b51259"
+  },
+  "components/three/orbitCardShader.ts": {
+    "mtime": 1786251128.0492494,
+    "ast_hash": "adfc705b56adc879afac3f44148b104d",
+    "semantic_hash": "adfc705b56adc879afac3f44148b104d"
+  },
+  "components/ui/Reveal.jsx": {
+    "mtime": 1786241262.3658533,
+    "ast_hash": "02008e39c67483bdaf8279dbcca0e6f8",
+    "semantic_hash": "02008e39c67483bdaf8279dbcca0e6f8"
+  },
+  "components/ui/SectionHeading.jsx": {
+    "mtime": 1786241023.5866256,
+    "ast_hash": "8348248288907aad651e9908bdeb7ca7",
+    "semantic_hash": "8348248288907aad651e9908bdeb7ca7"
+  },
+  "content/projects.ts": {
+    "mtime": 1786242073.9423828,
+    "ast_hash": "9c77efa7e8999b0a961343c01cf989dd",
+    "semantic_hash": "9c77efa7e8999b0a961343c01cf989dd"
+  },
+  "content/site.js": {
+    "mtime": 1786241009.1006382,
+    "ast_hash": "3c918c319fcdd13cb2fe2d8f249d8ec9",
+    "semantic_hash": "3c918c319fcdd13cb2fe2d8f249d8ec9"
+  },
+  "hooks/useIsomorphicLayoutEffect.ts": {
+    "mtime": 1786249529.7922277,
+    "ast_hash": "59363540df748fe4e3bdf02ee3577e17",
+    "semantic_hash": "59363540df748fe4e3bdf02ee3577e17"
+  },
+  "jsconfig.json": {
+    "mtime": 1786240052.560805,
+    "ast_hash": "1785e71c7510902b04f35784b434ec4b",
+    "semantic_hash": "1785e71c7510902b04f35784b434ec4b"
+  },
+  "lib/fluid/adapt_fluid.py": {
+    "mtime": 1786246386.875631,
+    "ast_hash": "0960706b62d565fe3387578bb4801c30",
+    "semantic_hash": "0960706b62d565fe3387578bb4801c30"
+  },
+  "lib/fluid/fluidConfig.ts": {
+    "mtime": 1786252567.4122205,
+    "ast_hash": "ffc1ccdd7f0c7b4888918514a6d85265",
+    "semantic_hash": "ffc1ccdd7f0c7b4888918514a6d85265"
+  },
+  "lib/fluid/webglFluid.d.ts": {
+    "mtime": 1786246395.171307,
+    "ast_hash": "03e742f7947f1fc0a3714e6eda2c3064",
+    "semantic_hash": "03e742f7947f1fc0a3714e6eda2c3064"
+  },
+  "lib/fluid/webglFluid.js": {
+    "mtime": 1786246386.8200502,
+    "ast_hash": "74e9719a9c01b4f3df0fe379e2f7d089",
+    "semantic_hash": "74e9719a9c01b4f3df0fe379e2f7d089"
+  },
+  "lib/frameState.d.ts": {
+    "mtime": 1786242191.7747002,
+    "ast_hash": "36c3265c7e166625a773e94645e965ce",
+    "semantic_hash": "36c3265c7e166625a773e94645e965ce"
+  },
+  "lib/frameState.js": {
+    "mtime": 1786240097.4253185,
+    "ast_hash": "93ff3b49ff5e2f1bdcc802f64203761b",
+    "semantic_hash": "93ff3b49ff5e2f1bdcc802f64203761b"
+  },
+  "lib/worksScroll.ts": {
+    "mtime": 1786255729.1476252,
+    "ast_hash": "147125bc8692f9b0371c7f19cf5f104a",
+    "semantic_hash": ""
+  },
+  "next.config.mjs": {
+    "mtime": 1786252557.143301,
+    "ast_hash": "c17c19839ad0a991eeb104e4724f08c7",
+    "semantic_hash": "c17c19839ad0a991eeb104e4724f08c7"
+  },
+  "package.json": {
+    "mtime": 1786250843.4641,
+    "ast_hash": "d87a9dc15e7ad18a8071f1324c721cad",
+    "semantic_hash": "d87a9dc15e7ad18a8071f1324c721cad"
+  },
+  "postcss.config.mjs": {
+    "mtime": 1786240045.8647475,
+    "ast_hash": "e9d66e1263ec6f84f9c7f4b88b00e4f9",
+    "semantic_hash": "e9d66e1263ec6f84f9c7f4b88b00e4f9"
+  },
+  "scripts/shoot.mjs": {
+    "mtime": 1786251302.4040358,
+    "ast_hash": "88eff8f6878dbb053f94ba00665832fc",
+    "semantic_hash": "88eff8f6878dbb053f94ba00665832fc"
+  },
+  "tsconfig.json": {
+    "mtime": 1786242054.4403162,
+    "ast_hash": "71226aedb8672426141d2fc9f6201bbd",
+    "semantic_hash": "71226aedb8672426141d2fc9f6201bbd"
+  },
+  "types/project.ts": {
+    "mtime": 1786242060.4467258,
+    "ast_hash": "a9a97339c0f0dac5f509c5a556eb850e",
+    "semantic_hash": "a9a97339c0f0dac5f509c5a556eb850e"
+  },
+  ".github/workflows/deploy.yml": {
+    "mtime": 1786252587.2566051,
+    "ast_hash": "1743a80491696a927119a61ac9fa347d",
+    "semantic_hash": "1743a80491696a927119a61ac9fa347d"
+  },
+  "public/fluid/LDR_LLL1_0.png": {
+    "mtime": 1786246386.8390498,
+    "ast_hash": "65b063168317bdd54a8c18e0ff0096bc",
+    "semantic_hash": "65b063168317bdd54a8c18e0ff0096bc"
+  }
+}

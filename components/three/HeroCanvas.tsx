@@ -91,6 +91,16 @@ export default function HeroCanvas({
         start: 'top bottom',
         endTrigger: endEl,
         end: 'bottom top',
+        /*
+          Refresh AFTER the works pin (which uses refreshPriority: 1).
+
+          This trigger's end depends on #works' height, and pinning inflates
+          that height by its spacer. Measuring first meant reading the
+          pre-pin 900px section and parking the canvas at ~1800px — a fifth of
+          the way into the orbit. The scene froze there while the caption kept
+          counting, which is precisely the "carousel stops halfway" symptom.
+        */
+        refreshPriority: -1,
         onToggle: (self) => setActive(self.isActive),
       });
     }, node);

@@ -4,25 +4,34 @@ import { useLayoutEffect, useMemo, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { MathUtils, Vector3, type Group, type ShaderMaterial } from 'three';
 import type { Project } from '@/types/project';
-import { setWorksCount, worksScroll } from '@/lib/worksScroll';
+import { assemblyFraction, orbitPhase, setWorksCount, worksScroll } from '@/lib/worksScroll';
 import {
   makeOrbitCardUniforms,
   orbitCardFragment,
   orbitCardVertex,
 } from './orbitCardShader';
 
-/** Radius of the ring the cards settle onto, around the prism at the origin. */
-const ORBIT_RADIUS = 3.05;
-/** Full turns the ring makes across the whole scroll. */
-const ORBIT_TURNS = 0.85;
+/*
+  Ring and card sizing, set against the camera rather than by eye.
+
+  Camera sits at z = 5.2 with a 42° vertical fov, so the front of the ring is
+  (5.2 - ORBIT_RADIUS) away and the viewport is 2·d·tan(21°) tall there. The
+  first pass used radius 3.05 with a 1.82-tall card: front distance 2.15,
+  visible height 1.74 — the active card covered 105% of the frame, swallowing
+  the prism and bleeding off both edges.
+
+  These numbers put the front card at ~62% of frame height: unmistakably the
+  focus, while the prism and its neighbours stay visible around it.
+*/
+const ORBIT_RADIUS = 2.78;
 /** Where each card starts: off-screen left, so the sweep reads left-to-right. */
 const ENTRY = new Vector3(-13, -1.2, 2.2);
 
-const CARD_W = 1.34;
-const CARD_H = 1.82;
+const CARD_W = 0.92;
+const CARD_H = 1.24;
 
-/** Fraction of total scroll spent assembling the ring; the rest is orbiting. */
-const ASSEMBLY = 0.45;
+/** Smoothed follow of the raw scroll value — see the useFrame comment. */
+const SCRUB_LAMBDA = 0.0016;
 
 // Allocated once. Building Vector3s inside useFrame would mean hundreds of
 // short-lived objects per second and periodic GC hitches.
@@ -48,6 +57,7 @@ interface OrbitCardsProps {
 export default function OrbitCards({ projects, reducedMotion = false }: OrbitCardsProps) {
   const groups = useRef<(Group | null)[]>([]);
   const materials = useRef<(ShaderMaterial | null)[]>([]);
+  const scrubbed = useRef(0);
   const { camera } = useThree();
 
   const uniformSets = useMemo(
@@ -61,8 +71,44 @@ export default function OrbitCards({ projects, reducedMotion = false }: OrbitCar
 
   useFrame((_, delta) => {
     const dt = Math.min(delta, 1 / 30);
-    const progress = worksScroll.progress;
     const count = projects.length;
+
+    /*
+      Damped follow of the raw scroll value.
+
+      This is the `scrub: 1` feel, applied where it can actually work. GSAP's
+      `scrub` only smooths a tween's playhead, and this ScrollTrigger drives a
+      value via onUpdate rather than tweening anything — setting `scrub` on it
+      is a no-op. Easing the consumed value here gives the same weighted lag,
+      and 1 - lambda^dt makes it frame-rate independent so 144Hz and 60Hz
+      settle at the same speed.
+    */
+    scrubbed.current = reducedMotion
+      ? worksScroll.progress
+      : scrubbed.current +
+        (worksScroll.progress - scrubbed.current) * (1 - Math.pow(SCRUB_LAMBDA, dt));
+
+    const progress = scrubbed.current;
+
+    /*
+      Ring rotation.
+
+      Two fixes over the previous version, both of which the measured capture
+      exposed:
+
+      1. Direction is NEGATIVE. Adding the rotation brought cards to the front
+         in reverse index order (5,4,3,2,1) while the caption counted upward,
+         so the panel never described the card you were looking at.
+      2. The sweep is exactly (count-1)/count turns across the orbit phase,
+         not a hand-picked 0.85. Card i now faces the camera at precisely
+         orbitPhase == i/(count-1): card 0 as the ring starts turning, the
+         last card exactly at the end of the pin, evenly spaced in between.
+         worksScroll.setWorksProgress inverts this same expression for the
+         caption, so the two cannot drift apart again.
+    */
+    const phase = orbitPhase(progress, count);
+    const rotation = count > 1 ? (phase * (count - 1) * Math.PI * 2) / count : 0;
+    const assembly = assemblyFraction(count);
 
     for (let i = 0; i < count; i += 1) {
       const group = groups.current[i];
@@ -77,16 +123,18 @@ export default function OrbitCards({ projects, reducedMotion = false }: OrbitCar
         block. The slices deliberately overlap (the /count window is wider than
         the i/count spacing) — a strict queue looks mechanical.
       */
-      const start = (i / count) * ASSEMBLY;
-      const arrival = MathUtils.clamp((progress - start) / (ASSEMBLY / count + 0.18), 0, 1);
+      const start = (i / count) * assembly;
+      // Window sized so the LAST card still finishes flying in by the time the
+      // assembly phase ends. Deriving it from `assembly` (rather than adding a
+      // fixed 0.18) keeps that true at any card count.
+      const window = assembly / count + assembly * 0.55;
+      const arrival = MathUtils.clamp((progress - start) / window, 0, 1);
       // smootherstep: zero velocity AND zero acceleration at both ends, so the
       // card neither jerks off the entry point nor punches into its slot.
       const eased = arrival * arrival * arrival * (arrival * (arrival * 6 - 15) + 10);
 
-      // Orbital slot. The ring keeps rotating after assembly finishes, so the
-      // cards revolve around the prism for the rest of the scroll.
-      const angle =
-        (i / count) * Math.PI * 2 + progress * ORBIT_TURNS * Math.PI * 2;
+      // Orbital slot. Negative rotation so cards front in index order.
+      const angle = (i / count) * Math.PI * 2 - rotation;
 
       slot.set(
         Math.sin(angle) * ORBIT_RADIUS,

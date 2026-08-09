@@ -20,6 +20,46 @@ export const worksScroll: WorksScrollState = {
   count: 0,
 };
 
+/*
+  ── Scroll budget, in viewport heights ──────────────────────────────────────
+
+  These are the single source of truth for how long the pinned section runs.
+  ProjectsOrbit derives its ScrollTrigger `end` from them and OrbitCards
+  derives its assembly/orbit split from the same numbers, so the pin length
+  and the animation phases can never disagree.
+
+  Making the budget PER CARD is the actual fix for "the pin is too short":
+  add a seventh project and the pin grows by PER_CARD_VH automatically. A
+  fixed `+=3000` silently starves every card added after the number was tuned.
+*/
+export const ASSEMBLY_VH = 0.9;
+export const PER_CARD_VH = 0.62;
+
+/** Total pinned scroll distance in pixels for the current viewport. */
+export function worksScrollLength(count: number, viewportHeight: number): number {
+  return viewportHeight * (ASSEMBLY_VH + PER_CARD_VH * Math.max(count, 1));
+}
+
+/**
+ * Fraction of the pinned range spent flying the cards in, before the ring
+ * starts rotating. Derived from the same budget as the pin length, so the
+ * fly-in always occupies exactly ASSEMBLY_VH viewport heights no matter how
+ * many projects exist.
+ */
+export function assemblyFraction(count: number): number {
+  return ASSEMBLY_VH / (ASSEMBLY_VH + PER_CARD_VH * Math.max(count, 1));
+}
+
+/**
+ * Progress through the orbit phase alone: 0 when the ring starts turning,
+ * 1 at the end of the pin. Both the 3D ring and the caption read this, which
+ * is what keeps the visible front card and the caption in lockstep.
+ */
+export function orbitPhase(progress: number, count: number): number {
+  const assembly = assemblyFraction(count);
+  return Math.min(1, Math.max(0, (progress - assembly) / (1 - assembly)));
+}
+
 type IndexListener = (index: number) => void;
 const listeners = new Set<IndexListener>();
 
@@ -30,18 +70,25 @@ export function setWorksCount(count: number): void {
 export function setWorksProgress(progress: number): void {
   worksScroll.progress = Math.min(1, Math.max(0, progress));
 
-  if (worksScroll.count === 0) return;
+  const count = worksScroll.count;
+  if (count === 0) return;
 
   /*
     Which card is "current".
 
-    The orbit assembles over the first ~45% of the scroll, so the readout maps
-    the remaining travel across the deck. Without the offset the details panel
-    would race through every project while the cards are still flying in.
+    Derived from the SAME orbitPhase() the ring rotation uses, so the caption
+    always names the card actually facing the camera. The previous version
+    used its own hand-tuned `settle = 0.45` constant and a floor() bucket,
+    which drifted out of sync with the ring in two ways at once: it sat on
+    card 1 for the first 54% of the scroll (measured: 1950px of 3600px with
+    the counter frozen at 01/06), and it counted upward while the ring was
+    actually bringing cards to the front in reverse order.
+
+    OrbitCards places card i at the front when orbitPhase == i/(count-1), so
+    rounding that expression back out is exact by construction.
   */
-  const settle = 0.45;
-  const t = Math.max(0, worksScroll.progress - settle) / (1 - settle);
-  const next = Math.min(worksScroll.count - 1, Math.floor(t * worksScroll.count));
+  const next =
+    count === 1 ? 0 : Math.round(orbitPhase(worksScroll.progress, count) * (count - 1));
 
   if (next === worksScroll.activeIndex) return;
   worksScroll.activeIndex = next;
