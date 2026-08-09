@@ -1,0 +1,57 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+next-env.d.ts
+
+# production
+/build
+
+# testing
+/coverage
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*
+!.env.example
+
+# typescript
+*.tsbuildinfo
+
+# vercel
+.vercel
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# Claude Code local tooling (skills, generated agent docs) — not part of the
+# deployed site, and ui-ux-pro-max-skill is itself a nested git clone that
+# git cannot embed correctly (it would show up as a broken submodule link).
+.claude/
+AGENTS.md
+CLAUDE.md
+
+# Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+# Large saved-page reference files (6-17MB each) used only as visual
+# reference early in the project — not part of the Next.js app. Named
+# explicitly rather than a blanket *.html rule so a real future HTML asset
+# (e.g. under public/) doesn't get silently swallowed.
+/1：09 Portfolio (8_8_2026 17：01：43).html
+/1：09 Portfolio (8_8_2026 20：33：04).html
+/NEWS ｜ Alche, Inc (8_8_2026 20：35：08).html

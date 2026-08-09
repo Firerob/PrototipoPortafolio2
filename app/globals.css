@@ -1,0 +1,82 @@
+@import 'tailwindcss';
+
+/*
+  Palette note: the UI-UX-Pro-Max colors.csv has no dark cyberpunk portfolio
+  entry — its "Portfolio/Personal" row is a light monochrome scheme
+  (#FAFAFA bg). These values are therefore a hand-derived dark palette, not a
+  database match. Muted text is held at >=4.5:1 on the void background so the
+  HUD copy stays readable (quick-reference §1 Accessibility).
+*/
+@theme {
+  --color-void: #050508;
+  --color-ink: #0a0a12;
+  --color-surface: #10101c;
+
+  --color-accent: #6d4bff;
+  --color-accent-soft: #8b7bff;
+  --color-cyan: #4be1ff;
+
+  --color-text: #e8eaf2;
+  --color-text-muted: #8f95ab;
+  --color-hairline: rgba(232, 234, 242, 0.12);
+
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/*
+  Lenis owns the scroll now.
+
+  `scroll-behavior: smooth` is deliberately gone: it fights Lenis for control
+  of the scroll position and the two smoothing curves beat against each other.
+  Anchor navigation is handled by lenis.scrollTo in SmoothScroll.tsx instead.
+
+  These are Lenis' required base styles, inlined rather than imported from
+  lenis/dist/lenis.css so they land after Tailwind's reset in the cascade.
+*/
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--color-void);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+
+/* Keyboard focus stays visible everywhere — never removed, only restyled.
+   (quick-reference §1: "Removing focus rings" is a listed anti-pattern.) */
+:focus-visible {
+  outline: 2px solid var(--color-cyan);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
