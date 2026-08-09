@@ -68,5 +68,12 @@ export const fluidBackgroundConfig: FluidConfig = {
   RANDOM_COLORS: false,
   SPLAT_HUE: HUE_ACCENT,
 
-  DITHERING_TEXTURE_URL: '/fluid/LDR_LLL1_0.png',
+  /*
+    This is a raw fetch() inside webglFluid.js, not a next/image src or an
+    <img> — Next only rewrites asset URLs for the mechanisms it controls, so a
+    hardcoded root-absolute path would 404 once the site is served from a
+    subpath (GitHub Pages: /PrototipoPortafolio2/...). The basePath has to be
+    prefixed by hand here.
+  */
+  DITHERING_TEXTURE_URL: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/fluid/LDR_LLL1_0.png`,
 };
