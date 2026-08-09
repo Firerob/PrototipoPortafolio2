@@ -28,8 +28,8 @@ export default function WorksSection() {
 
   return (
     <section
-      id="archive"
-      aria-labelledby="archive-heading"
+      id="index"
+      aria-labelledby="index-heading"
       className="scroll-mt-24 border-t border-hairline px-5 py-20 sm:px-8 sm:py-28"
     >
       <div className="mx-auto max-w-[1600px]">
@@ -37,7 +37,7 @@ export default function WorksSection() {
           {/* The filterable grid is the accessible, no-WebGL counterpart to the
               3D carousel above: same body of work, reachable by tab and
               readable with motion disabled. */}
-          <SectionHeading id="archive-heading" index="02" label="Complete" title="Archive" />
+          <SectionHeading id="index-heading" index="03" label="Filterable" title="Index" />
 
           {/* Radio group, not buttons: the filters are one mutually exclusive
               choice, and this gives keyboard users arrow-key traversal. */}

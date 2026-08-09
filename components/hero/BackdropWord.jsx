@@ -1,6 +1,9 @@
 'use client';
 
+import { useRef } from 'react';
+import { useFrame } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
+import { archiveScroll, CAMERA_RANGE, phaseOf, smootherstep } from '@/lib/archiveScroll';
 
 /*
   The giant word sits INSIDE the canvas, not behind it as HTML.
@@ -26,8 +29,24 @@ export default function BackdropWord({
   */
   font,
 }) {
+  const ref = useRef(null);
+
+  /*
+    Fade out on the archive dive.
+
+    The word is a pale tint chosen to sit faintly on a near-black background.
+    Once the wave flips the page to light it inverts into a large dark smear
+    across the middle of the corridor, so it leaves with the rest of the hero.
+  */
+  useFrame(() => {
+    if (!ref.current) return;
+    const dive = smootherstep(phaseOf(archiveScroll.progress, CAMERA_RANGE));
+    ref.current.fillOpacity = 0.075 * (1 - dive);
+  });
+
   return (
     <Text
+      ref={ref}
       font={font}
       position={[0, 0.15, -4]}
       fontSize={3.4}

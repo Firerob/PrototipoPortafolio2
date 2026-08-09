@@ -5,9 +5,9 @@
     "semantic_hash": "93c6bc5e463160b5357f279270a6b009"
   },
   "app/page.jsx": {
-    "mtime": 1786250271.9632087,
-    "ast_hash": "ab8ae803ff8e7544ac20dcada2982e47",
-    "semantic_hash": "ab8ae803ff8e7544ac20dcada2982e47"
+    "mtime": 1786259378.3624642,
+    "ast_hash": "f5fb18abc8ed8efb27493f50efaa004a",
+    "semantic_hash": ""
   },
   "components/background/FluidBackground.tsx": {
     "mtime": 1786251293.650676,
@@ -15,9 +15,9 @@
     "semantic_hash": "e4d41fccb2d2ff8bc706ad9d398c0bca"
   },
   "components/hero/BackdropWord.jsx": {
-    "mtime": 1786240190.3881238,
-    "ast_hash": "967569de6481058b78c7328715944292",
-    "semantic_hash": "967569de6481058b78c7328715944292"
+    "mtime": 1786260389.7977931,
+    "ast_hash": "dcd95f5306446dafb50e9b83d8ad7f59",
+    "semantic_hash": ""
   },
   "components/hero/CurvedGrid.jsx": {
     "mtime": 1786240153.5445483,
@@ -40,9 +40,9 @@
     "semantic_hash": "c17a9b0bd0572047e91acdab016ccfc8"
   },
   "components/hero/SpotGlow.jsx": {
-    "mtime": 1786240210.9574974,
-    "ast_hash": "b36a3aa1eae9aed5b5ae822d0837679e",
-    "semantic_hash": "b36a3aa1eae9aed5b5ae822d0837679e"
+    "mtime": 1786259970.1094427,
+    "ast_hash": "fb300caca508b2a0be32a34a18642279",
+    "semantic_hash": ""
   },
   "components/hud/Navbar.jsx": {
     "mtime": 1786241276.9654894,
@@ -90,9 +90,9 @@
     "semantic_hash": "c02604829375073d26270aea16411bde"
   },
   "components/sections/WorksSection.jsx": {
-    "mtime": 1786242354.0582788,
-    "ast_hash": "7fe6ada616104318647d615efe07d8a8",
-    "semantic_hash": "7fe6ada616104318647d615efe07d8a8"
+    "mtime": 1786259359.6824324,
+    "ast_hash": "f88dda6a741c3a6d715f2e1397837efa",
+    "semantic_hash": ""
   },
   "components/three/BackdropCanvas.tsx": {
     "mtime": 1786247963.8344686,
@@ -105,13 +105,13 @@
     "semantic_hash": ""
   },
   "components/three/HeroScene.tsx": {
-    "mtime": 1786250151.315624,
-    "ast_hash": "3e2dcac44ce8c9e8740392acd52c6cbf",
-    "semantic_hash": "3e2dcac44ce8c9e8740392acd52c6cbf"
+    "mtime": 1786259292.1935222,
+    "ast_hash": "b02e1c30223047139e1de89fb49ed945",
+    "semantic_hash": ""
   },
   "components/three/OrbitCards.tsx": {
-    "mtime": 1786256006.2946403,
-    "ast_hash": "544a9d4118115a0986e7f3d3942bcb4c",
+    "mtime": 1786259703.7798955,
+    "ast_hash": "6c9a3cebe73f322379d9837b75d3ec48",
     "semantic_hash": ""
   },
   "components/three/PointerProvider.tsx": {
@@ -228,5 +228,30 @@
     "mtime": 1786246386.8390498,
     "ast_hash": "65b063168317bdd54a8c18e0ff0096bc",
     "semantic_hash": "65b063168317bdd54a8c18e0ff0096bc"
+  },
+  "components/archive/ArchiveGallery.tsx": {
+    "mtime": 1786260297.732205,
+    "ast_hash": "ff9d95688633a11bb36dd95129e5e6fe",
+    "semantic_hash": ""
+  },
+  "components/archive/ArchivePlane.tsx": {
+    "mtime": 1786260389.7977931,
+    "ast_hash": "88fb599cbe7bbc6cd1765a3909c17670",
+    "semantic_hash": ""
+  },
+  "components/archive/ArchiveSection.tsx": {
+    "mtime": 1786259378.3624642,
+    "ast_hash": "613a05a838b6d0063a3b20379396fb72",
+    "semantic_hash": ""
+  },
+  "components/archive/WaveTransition.tsx": {
+    "mtime": 1786259575.6988306,
+    "ast_hash": "a524ce526f847c4c318eb7ec98092749",
+    "semantic_hash": ""
+  },
+  "lib/archiveScroll.ts": {
+    "mtime": 1786259140.765894,
+    "ast_hash": "b781562be727faebd8397cbfea520d0c",
+    "semantic_hash": ""
   }
 }

@@ -2,6 +2,7 @@ import HeroCanvas from '@/components/three/HeroCanvas';
 import { PointerProvider } from '@/components/three/PointerProvider';
 import HeroSection from '@/components/hero/HeroSection';
 import ProjectsOrbit from '@/components/projects/ProjectsOrbit';
+import ArchiveSection from '@/components/archive/ArchiveSection';
 import WorksSection from '@/components/sections/WorksSection';
 import NewsSection from '@/components/sections/NewsSection';
 import AboutSection from '@/components/sections/AboutSection';
@@ -32,13 +33,17 @@ export default function Page() {
         Skip to works
       </a>
 
-      <HeroCanvas word={owner.heroWord} startTrigger="#top" endTrigger="#works" />
+      <HeroCanvas word={owner.heroWord} startTrigger="#top" endTrigger="#archive" />
 
       <HeroSection word={owner.heroWord} brand={owner.mark} />
 
       {/* Transparent: the cards are meshes orbiting the prism inside the
           fixed canvas, so nothing may sit between this section and it. */}
       <ProjectsOrbit />
+
+      {/* Still transparent: the wave carries the theme change and the tilted
+          video corridor is rendered by the shared canvas behind it. */}
+      <ArchiveSection />
 
       {/* From here down the stage is fully covered. bg-void/95 still lets the
           fluid layer read faintly underneath. */}

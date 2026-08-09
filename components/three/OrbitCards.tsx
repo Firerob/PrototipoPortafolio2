@@ -5,6 +5,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { MathUtils, Vector3, type Group, type ShaderMaterial } from 'three';
 import type { Project } from '@/types/project';
 import { assemblyFraction, orbitPhase, setWorksCount, worksScroll } from '@/lib/worksScroll';
+import { archiveScroll } from '@/lib/archiveScroll';
 import {
   makeOrbitCardUniforms,
   orbitCardFragment,
@@ -110,6 +111,16 @@ export default function OrbitCards({ projects, reducedMotion = false }: OrbitCar
     const rotation = count > 1 ? (phase * (count - 1) * Math.PI * 2) / count : 0;
     const assembly = assemblyFraction(count);
 
+    /*
+      Clear the ring out as the archive dive starts.
+
+      The camera flies from z=6 to z=0.55, straight through where this ring
+      sits — without this the orbit cards stayed on screen and collided with
+      the archive corridor, which read as leftover debris rather than a
+      transition. Fully gone by the time the dive is a third done.
+    */
+    const exit = Math.min(1, archiveScroll.progress / 0.12);
+
     for (let i = 0; i < count; i += 1) {
       const group = groups.current[i];
       const material = materials.current[i];
@@ -165,7 +176,8 @@ export default function OrbitCards({ projects, reducedMotion = false }: OrbitCar
 
       if (material) {
         const u = material.uniforms;
-        u.uArrival.value = reducedMotion ? 1 : eased;
+        // uArrival doubles as the fade-out channel on the way out.
+        u.uArrival.value = (reducedMotion ? 1 : eased) * (1 - exit);
         // cos(angle) is +1 at the front of the ring and -1 at the back, which
         // is exactly the "how much is this card facing me" term the shader
         // wants for dimming and grid softness.
@@ -174,8 +186,8 @@ export default function OrbitCards({ projects, reducedMotion = false }: OrbitCar
       }
 
       // Cards that have not started arriving cost nothing: no draw call, no
-      // shader invocation.
-      group.visible = reducedMotion || arrival > 0.001;
+      // shader invocation. Same for cards the archive dive has dismissed.
+      group.visible = (reducedMotion || arrival > 0.001) && exit < 0.999;
     }
   });
 

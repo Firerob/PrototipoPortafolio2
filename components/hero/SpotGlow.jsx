@@ -1,7 +1,9 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
+import { useFrame } from '@react-three/fiber';
 import { AdditiveBlending, Color } from 'three';
+import { archiveScroll, CAMERA_RANGE, phaseOf, smootherstep } from '@/lib/archiveScroll';
 
 /*
   The violet bloom behind the prism.
@@ -49,10 +51,28 @@ export default function SpotGlow({
     [color, intensity],
   );
 
+  const material = useRef(null);
+
+  /*
+    Fade out as the camera dives into the archive.
+
+    This quad has depthTest disabled so it always paints over the scene — fine
+    when it is a soft bloom sitting behind a distant prism, fatal once the
+    camera is inside: at scale 11 it became a full-screen additive violet veil
+    that washed out the entire archive corridor. Fading it with the dive is
+    what lets the tilted planes read at all.
+  */
+  useFrame(() => {
+    if (!material.current) return;
+    const dive = smootherstep(phaseOf(archiveScroll.progress, CAMERA_RANGE));
+    material.current.uniforms.uIntensity.value = intensity * (1 - dive);
+  });
+
   return (
-    <mesh position={position} scale={scale} renderOrder={-3}>
+    <mesh position={position} scale={scale} renderOrder={-3} visible={true}>
       <planeGeometry args={[1, 1]} />
       <shaderMaterial
+        ref={material}
         uniforms={uniforms}
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}

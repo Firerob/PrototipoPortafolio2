@@ -11,6 +11,13 @@ import SpotGlow from '@/components/hero/SpotGlow';
 import OrbitCards from './OrbitCards';
 import { projects } from '@/content/projects';
 import { usePointerVector } from './PointerProvider';
+import ArchiveGallery from '@/components/archive/ArchiveGallery';
+import {
+  archiveScroll,
+  CAMERA_RANGE,
+  phaseOf,
+  smootherstep,
+} from '@/lib/archiveScroll';
 
 /*
   Frame-rate independent lerp factor.
@@ -22,20 +29,46 @@ import { usePointerVector } from './PointerProvider';
 */
 const smoothing = (lambda: number, dt: number) => 1 - Math.pow(lambda, dt);
 
-/** Camera parallax. Moving the camera keeps the grid's vanishing point fixed,
- *  so the floor reads as a real space the viewer leans around inside. */
+/** Camera parallax plus the archive fly-through.
+ *
+ *  Both live in ONE rig on purpose. Two components writing camera.position in
+ *  the same frame is the classic way to get a stuttering camera: whichever
+ *  useFrame runs last wins, and the order is not guaranteed. Here the archive
+ *  dive computes the base position and the pointer parallax is layered on top
+ *  as a shrinking offset, so there is a single authority.
+ */
 function CameraRig({ reducedMotion }: { reducedMotion: boolean }) {
   const { camera } = useThree();
   const pointer = usePointerVector();
 
   useFrame((_, delta) => {
-    if (reducedMotion) return;
     const dt = Math.min(delta, 1 / 30);
     const t = smoothing(0.02, dt);
 
-    camera.position.x = MathUtils.lerp(camera.position.x, pointer.x * 0.42, t);
-    camera.position.y = MathUtils.lerp(camera.position.y, 0.35 + pointer.y * 0.26, t);
-    camera.lookAt(0, 0.05, 0);
+    const dive = smootherstep(phaseOf(archiveScroll.progress, CAMERA_RANGE));
+
+    /*
+      Fly through the prism.
+
+      z travels 6 → 0.55, which crosses the prism's own radius, so the camera
+      genuinely passes through the glass rather than stopping in front of it.
+      The target y drifts up slightly so the corridor beyond opens below the
+      eyeline instead of arriving dead flat.
+    */
+    const baseZ = MathUtils.lerp(6, 0.55, dive);
+    const baseY = MathUtils.lerp(0.35, 0.1, dive);
+
+    // Parallax fades out as the dive proceeds: keeping full cursor sway while
+    // flying through a tunnel reads as a wobble, not as depth.
+    const sway = reducedMotion ? 0 : 1 - dive * 0.85;
+
+    camera.position.x = MathUtils.lerp(camera.position.x, pointer.x * 0.42 * sway, t);
+    camera.position.y = MathUtils.lerp(camera.position.y, baseY + pointer.y * 0.26 * sway, t);
+    camera.position.z = MathUtils.lerp(camera.position.z, baseZ, t);
+
+    // Look further down the corridor as the dive advances so the tilted planes
+    // are framed head-on rather than glimpsed off the edge.
+    camera.lookAt(0, 0.05, MathUtils.lerp(0, -6, dive));
   });
 
   return null;
@@ -179,6 +212,13 @@ export default function HeroScene({ word, reducedMotion = false, font }: HeroSce
         At scroll 0 every card is still off-screen, so the hero loads clean.
       */}
       <OrbitCards projects={projects} reducedMotion={reducedMotion} />
+
+      {/*
+        The archive corridor shares this canvas and therefore this depth
+        buffer, so the prism's transmission material actually refracts the
+        nearest planes while the camera is passing through it.
+      */}
+      <ArchiveGallery reducedMotion={reducedMotion} />
 
       <CameraRig reducedMotion={reducedMotion} />
     </>

@@ -114,12 +114,155 @@
       "label": "Page()",
       "file_type": "code",
       "source_file": "app/page.jsx",
-      "source_location": "L23",
+      "source_location": "L24",
       "_origin": "ast",
       "id": "app_page_page",
       "community": 0,
       "community_name": "Page & Content Sections",
       "norm_label": "page()"
+    },
+    {
+      "label": "ArchiveGallery.tsx",
+      "file_type": "code",
+      "source_file": "components/archive/ArchiveGallery.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_archive_archivegallery",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "archivegallery.tsx"
+    },
+    {
+      "label": "ArchiveGalleryProps",
+      "file_type": "code",
+      "source_file": "components/archive/ArchiveGallery.tsx",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "components_archive_archivegallery_archivegalleryprops",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "archivegalleryprops"
+    },
+    {
+      "label": "ArchiveGallery()",
+      "file_type": "code",
+      "source_file": "components/archive/ArchiveGallery.tsx",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "components_archive_archivegallery_archivegallery",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "archivegallery()"
+    },
+    {
+      "label": "ArchivePlane.tsx",
+      "file_type": "code",
+      "source_file": "components/archive/ArchivePlane.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_archive_archiveplane",
+      "community": 17,
+      "community_name": "ArchivePlane.tsx",
+      "norm_label": "archiveplane.tsx"
+    },
+    {
+      "label": "PlaneLayout",
+      "file_type": "code",
+      "source_file": "components/archive/ArchivePlane.tsx",
+      "source_location": "L98",
+      "_origin": "ast",
+      "id": "components_archive_archiveplane_planelayout",
+      "community": 17,
+      "community_name": "ArchivePlane.tsx",
+      "norm_label": "planelayout"
+    },
+    {
+      "label": "PlaneBody()",
+      "file_type": "code",
+      "source_file": "components/archive/ArchivePlane.tsx",
+      "source_location": "L110",
+      "_origin": "ast",
+      "id": "components_archive_archiveplane_planebody",
+      "community": 17,
+      "community_name": "ArchivePlane.tsx",
+      "norm_label": "planebody()"
+    },
+    {
+      "label": "VideoPlane()",
+      "file_type": "code",
+      "source_file": "components/archive/ArchivePlane.tsx",
+      "source_location": "L186",
+      "_origin": "ast",
+      "id": "components_archive_archiveplane_videoplane",
+      "community": 17,
+      "community_name": "ArchivePlane.tsx",
+      "norm_label": "videoplane()"
+    },
+    {
+      "label": "ArchivePlane()",
+      "file_type": "code",
+      "source_file": "components/archive/ArchivePlane.tsx",
+      "source_location": "L197",
+      "_origin": "ast",
+      "id": "components_archive_archiveplane_archiveplane",
+      "community": 17,
+      "community_name": "ArchivePlane.tsx",
+      "norm_label": "archiveplane()"
+    },
+    {
+      "label": "ArchiveSection.tsx",
+      "file_type": "code",
+      "source_file": "components/archive/ArchiveSection.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_archive_archivesection",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "archivesection.tsx"
+    },
+    {
+      "label": "ArchiveSection()",
+      "file_type": "code",
+      "source_file": "components/archive/ArchiveSection.tsx",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "components_archive_archivesection_archivesection",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "archivesection()"
+    },
+    {
+      "label": "WaveTransition.tsx",
+      "file_type": "code",
+      "source_file": "components/archive/WaveTransition.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_archive_wavetransition",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "wavetransition.tsx"
+    },
+    {
+      "label": "wavePath()",
+      "file_type": "code",
+      "source_file": "components/archive/WaveTransition.tsx",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "components_archive_wavetransition_wavepath",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "wavepath()"
+    },
+    {
+      "label": "WaveTransition()",
+      "file_type": "code",
+      "source_file": "components/archive/WaveTransition.tsx",
+      "source_location": "L78",
+      "_origin": "ast",
+      "id": "components_archive_wavetransition_wavetransition",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "wavetransition()"
     },
     {
       "label": "FluidBackground.tsx",
@@ -169,7 +312,7 @@
       "label": "BackdropWord()",
       "file_type": "code",
       "source_file": "components/hero/BackdropWord.jsx",
-      "source_location": "L18",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "components_hero_backdropword_backdropword",
       "community": 1,
@@ -205,8 +348,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_hero_herosection",
-      "community": 9,
-      "community_name": "Orientation Gizmo HUD",
+      "community": 0,
+      "community_name": "Page & Content Sections",
       "norm_label": "herosection.jsx"
     },
     {
@@ -216,8 +359,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "components_hero_herosection_herosection",
-      "community": 9,
-      "community_name": "Orientation Gizmo HUD",
+      "community": 0,
+      "community_name": "Page & Content Sections",
       "norm_label": "herosection()"
     },
     {
@@ -227,8 +370,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_hero_prism",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 9,
+      "community_name": "Orientation Gizmo HUD",
       "norm_label": "prism.jsx"
     },
     {
@@ -238,8 +381,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "components_hero_prism_targetquat",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 9,
+      "community_name": "Orientation Gizmo HUD",
       "norm_label": "targetquat"
     },
     {
@@ -249,8 +392,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "components_hero_prism_scratcheuler",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 9,
+      "community_name": "Orientation Gizmo HUD",
       "norm_label": "scratcheuler"
     },
     {
@@ -260,8 +403,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "components_hero_prism_prism",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 9,
+      "community_name": "Orientation Gizmo HUD",
       "norm_label": "prism()"
     },
     {
@@ -271,8 +414,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_hero_scrollcue",
-      "community": 9,
-      "community_name": "Orientation Gizmo HUD",
+      "community": 0,
+      "community_name": "Page & Content Sections",
       "norm_label": "scrollcue.tsx"
     },
     {
@@ -282,8 +425,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "components_hero_scrollcue_scrollcue",
-      "community": 9,
-      "community_name": "Orientation Gizmo HUD",
+      "community": 0,
+      "community_name": "Page & Content Sections",
       "norm_label": "scrollcue()"
     },
     {
@@ -301,7 +444,7 @@
       "label": "SpotGlow()",
       "file_type": "code",
       "source_file": "components/hero/SpotGlow.jsx",
-      "source_location": "L38",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "components_hero_spotglow_spotglow",
       "community": 1,
@@ -315,8 +458,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_hud_navbar",
-      "community": 9,
-      "community_name": "Orientation Gizmo HUD",
+      "community": 0,
+      "community_name": "Page & Content Sections",
       "norm_label": "navbar.jsx"
     },
     {
@@ -326,8 +469,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "components_hud_navbar_containervariants",
-      "community": 9,
-      "community_name": "Orientation Gizmo HUD",
+      "community": 0,
+      "community_name": "Page & Content Sections",
       "norm_label": "containervariants()"
     },
     {
@@ -337,8 +480,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "components_hud_navbar_itemvariantsfor",
-      "community": 9,
-      "community_name": "Orientation Gizmo HUD",
+      "community": 0,
+      "community_name": "Page & Content Sections",
       "norm_label": "itemvariantsfor()"
     },
     {
@@ -348,8 +491,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "components_hud_navbar_navbar",
-      "community": 9,
-      "community_name": "Orientation Gizmo HUD",
+      "community": 0,
+      "community_name": "Page & Content Sections",
       "norm_label": "navbar()"
     },
     {
@@ -697,7 +840,7 @@
       "label": "smoothing()",
       "file_type": "code",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L23",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "components_three_heroscene_smoothing",
       "community": 1,
@@ -708,7 +851,7 @@
       "label": "CameraRig()",
       "file_type": "code",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L27",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "components_three_heroscene_camerarig",
       "community": 1,
@@ -719,7 +862,7 @@
       "label": "LightRig()",
       "file_type": "code",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L52",
+      "source_location": "L85",
       "_origin": "ast",
       "id": "components_three_heroscene_lightrig",
       "community": 1,
@@ -730,7 +873,7 @@
       "label": "BackdropLayer()",
       "file_type": "code",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L103",
+      "source_location": "L136",
       "_origin": "ast",
       "id": "components_three_heroscene_backdroplayer",
       "community": 1,
@@ -741,7 +884,7 @@
       "label": "StudioEnvironment()",
       "file_type": "code",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L137",
+      "source_location": "L170",
       "_origin": "ast",
       "id": "components_three_heroscene_studioenvironment",
       "community": 1,
@@ -752,7 +895,7 @@
       "label": "HeroSceneProps",
       "file_type": "code",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L149",
+      "source_location": "L182",
       "_origin": "ast",
       "id": "components_three_heroscene_herosceneprops",
       "community": 1,
@@ -763,7 +906,7 @@
       "label": "HeroScene()",
       "file_type": "code",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L156",
+      "source_location": "L189",
       "_origin": "ast",
       "id": "components_three_heroscene_heroscene",
       "community": 1,
@@ -785,7 +928,7 @@
       "label": "ENTRY",
       "file_type": "code",
       "source_file": "components/three/OrbitCards.tsx",
-      "source_location": "L28",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "components_three_orbitcards_entry",
       "community": 2,
@@ -796,7 +939,7 @@
       "label": "slot",
       "file_type": "code",
       "source_file": "components/three/OrbitCards.tsx",
-      "source_location": "L38",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "components_three_orbitcards_slot",
       "community": 2,
@@ -807,18 +950,18 @@
       "label": "OrbitCardsProps",
       "file_type": "code",
       "source_file": "components/three/OrbitCards.tsx",
-      "source_location": "L40",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "components_three_orbitcards_orbitcardsprops",
-      "community": 2,
-      "community_name": "Project Card Orbit",
+      "community": 17,
+      "community_name": "ArchivePlane.tsx",
       "norm_label": "orbitcardsprops"
     },
     {
       "label": "OrbitCards()",
       "file_type": "code",
       "source_file": "components/three/OrbitCards.tsx",
-      "source_location": "L57",
+      "source_location": "L58",
       "_origin": "ast",
       "id": "components_three_orbitcards_orbitcards",
       "community": 2,
@@ -832,8 +975,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_three_pointerprovider",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 9,
+      "community_name": "Orientation Gizmo HUD",
       "norm_label": "pointerprovider.tsx"
     },
     {
@@ -843,8 +986,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "components_three_pointerprovider_pointerapi",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 9,
+      "community_name": "Orientation Gizmo HUD",
       "norm_label": "pointerapi"
     },
     {
@@ -854,8 +997,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "components_three_pointerprovider_pointercontext",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 9,
+      "community_name": "Orientation Gizmo HUD",
       "norm_label": "pointercontext"
     },
     {
@@ -865,8 +1008,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "components_three_pointerprovider_pointerprovider",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 9,
+      "community_name": "Orientation Gizmo HUD",
       "norm_label": "pointerprovider()"
     },
     {
@@ -964,8 +1107,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "content_projects",
-      "community": 2,
-      "community_name": "Project Card Orbit",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
       "norm_label": "projects.ts"
     },
     {
@@ -975,8 +1118,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "content_projects_projects",
-      "community": 2,
-      "community_name": "Project Card Orbit",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
       "norm_label": "projects"
     },
     {
@@ -1110,6 +1253,149 @@
       "community": 12,
       "community_name": "JS Path Aliases",
       "norm_label": "paths"
+    },
+    {
+      "label": "archiveScroll.ts",
+      "file_type": "code",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "lib_archivescroll",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "archivescroll.ts"
+    },
+    {
+      "label": "ArchiveScrollState",
+      "file_type": "code",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "lib_archivescroll_archivescrollstate",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "archivescrollstate"
+    },
+    {
+      "label": "archiveScroll",
+      "file_type": "code",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "lib_archivescroll_archivescroll",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "archivescroll"
+    },
+    {
+      "label": "WAVE_RANGE",
+      "file_type": "code",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L37",
+      "_origin": "ast",
+      "id": "lib_archivescroll_wave_range",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "wave_range"
+    },
+    {
+      "label": "CAMERA_RANGE",
+      "file_type": "code",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L38",
+      "_origin": "ast",
+      "id": "lib_archivescroll_camera_range",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "camera_range"
+    },
+    {
+      "label": "GALLERY_RANGE",
+      "file_type": "code",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "lib_archivescroll_gallery_range",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "gallery_range"
+    },
+    {
+      "label": "phaseOf()",
+      "file_type": "code",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L42",
+      "_origin": "ast",
+      "id": "lib_archivescroll_phaseof",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "phaseof()"
+    },
+    {
+      "label": "smootherstep()",
+      "file_type": "code",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L48",
+      "_origin": "ast",
+      "id": "lib_archivescroll_smootherstep",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "smootherstep()"
+    },
+    {
+      "label": "ThemeListener",
+      "file_type": "code",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L53",
+      "_origin": "ast",
+      "id": "lib_archivescroll_themelistener",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "themelistener"
+    },
+    {
+      "label": "listeners",
+      "file_type": "code",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L54",
+      "_origin": "ast",
+      "id": "lib_archivescroll_listeners",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "listeners"
+    },
+    {
+      "label": "setArchiveProgress()",
+      "file_type": "code",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L56",
+      "_origin": "ast",
+      "id": "lib_archivescroll_setarchiveprogress",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "setarchiveprogress()"
+    },
+    {
+      "label": "subscribeTheme()",
+      "file_type": "code",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L70",
+      "_origin": "ast",
+      "id": "lib_archivescroll_subscribetheme",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "subscribetheme()"
+    },
+    {
+      "label": "resetArchiveScroll()",
+      "file_type": "code",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L77",
+      "_origin": "ast",
+      "id": "lib_archivescroll_resetarchivescroll",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
+      "norm_label": "resetarchivescroll()"
     },
     {
       "label": "adapt_fluid.py",
@@ -1261,8 +1547,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_framestate_d",
-      "community": 2,
-      "community_name": "Project Card Orbit",
+      "community": 17,
+      "community_name": "ArchivePlane.tsx",
       "norm_label": "framestate.d.ts"
     },
     {
@@ -1349,8 +1635,8 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "lib_framestate_damp",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 9,
+      "community_name": "Orientation Gizmo HUD",
       "norm_label": "damp()"
     },
     {
@@ -2460,8 +2746,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "types_project",
-      "community": 2,
-      "community_name": "Project Card Orbit",
+      "community": 17,
+      "community_name": "ArchivePlane.tsx",
       "norm_label": "project.ts"
     },
     {
@@ -2471,8 +2757,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "types_project_project",
-      "community": 2,
-      "community_name": "Project Card Orbit",
+      "community": 17,
+      "community_name": "ArchivePlane.tsx",
       "norm_label": "project"
     },
     {
@@ -2482,8 +2768,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "types_project_quaternionlike",
-      "community": 2,
-      "community_name": "Project Card Orbit",
+      "community": 17,
+      "community_name": "ArchivePlane.tsx",
       "norm_label": "quaternionlike"
     },
     {
@@ -2497,8 +2783,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "deploy to github pages (workflow)",
-      "id": "github_workflows_deploy_workflow",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_workflow"
     },
     {
       "label": "push trigger (branches: main)",
@@ -2511,8 +2797,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "push trigger (branches: main)",
-      "id": "github_workflows_deploy_push_trigger",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_push_trigger"
     },
     {
       "label": "workflow_dispatch trigger",
@@ -2525,8 +2811,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "workflow_dispatch trigger",
-      "id": "github_workflows_deploy_workflow_dispatch_trigger",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_workflow_dispatch_trigger"
     },
     {
       "label": "permissions (contents:read, pages:write, id-token:write)",
@@ -2539,8 +2825,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "permissions (contents:read, pages:write, id-token:write)",
-      "id": "github_workflows_deploy_permissions",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_permissions"
     },
     {
       "label": "concurrency group 'pages'",
@@ -2553,8 +2839,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "concurrency group 'pages'",
-      "id": "github_workflows_deploy_concurrency",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_concurrency"
     },
     {
       "label": "build job",
@@ -2567,8 +2853,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "build job",
-      "id": "github_workflows_deploy_build_job",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_build_job"
     },
     {
       "label": "deploy job",
@@ -2581,8 +2867,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "deploy job",
-      "id": "github_workflows_deploy_deploy_job",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_deploy_job"
     },
     {
       "label": "actions/checkout@v4",
@@ -2595,8 +2881,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "actions/checkout@v4",
-      "id": "github_workflows_deploy_actions_checkout",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_actions_checkout"
     },
     {
       "label": "actions/setup-node@v4 (node 20, npm cache)",
@@ -2609,8 +2895,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "actions/setup-node@v4 (node 20, npm cache)",
-      "id": "github_workflows_deploy_actions_setup_node",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_actions_setup_node"
     },
     {
       "label": "Install dependencies (npm ci)",
@@ -2623,8 +2909,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "install dependencies (npm ci)",
-      "id": "github_workflows_deploy_install_dependencies_step",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_install_dependencies_step"
     },
     {
       "label": "Build static export (npm run build)",
@@ -2637,8 +2923,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "build static export (npm run build)",
-      "id": "github_workflows_deploy_build_static_export_step",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_build_static_export_step"
     },
     {
       "label": "NEXT_PUBLIC_BASE_PATH=/PrototipoPortafolio2",
@@ -2651,8 +2937,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "next_public_base_path=/prototipoportafolio2",
-      "id": "github_workflows_deploy_next_public_base_path_env",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_next_public_base_path_env"
     },
     {
       "label": "actions/configure-pages@v5",
@@ -2665,8 +2951,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "actions/configure-pages@v5",
-      "id": "github_workflows_deploy_actions_configure_pages",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_actions_configure_pages"
     },
     {
       "label": "actions/upload-pages-artifact@v3 (path: ./out)",
@@ -2679,8 +2965,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "actions/upload-pages-artifact@v3 (path: ./out)",
-      "id": "github_workflows_deploy_actions_upload_pages_artifact",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_actions_upload_pages_artifact"
     },
     {
       "label": "actions/deploy-pages@v4",
@@ -2693,8 +2979,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "actions/deploy-pages@v4",
-      "id": "github_workflows_deploy_actions_deploy_pages",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_actions_deploy_pages"
     },
     {
       "label": "github-pages deployment environment",
@@ -2707,8 +2993,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "github-pages deployment environment",
-      "id": "github_workflows_deploy_github_pages_environment",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_github_pages_environment"
     },
     {
       "label": "next.config.mjs (basePath/assetPrefix consumer)",
@@ -2721,8 +3007,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "next.config.mjs (basepath/assetprefix consumer)",
-      "id": "github_workflows_deploy_next_config_mjs",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_next_config_mjs"
     },
     {
       "label": "lib/fluid/fluidConfig.ts (asset URL prefix consumer)",
@@ -2735,8 +3021,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "lib/fluid/fluidconfig.ts (asset url prefix consumer)",
-      "id": "github_workflows_deploy_lib_fluid_fluidconfig_ts",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_lib_fluid_fluidconfig_ts"
     },
     {
       "label": "Manual redeploy without empty commit",
@@ -2749,8 +3035,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "manual redeploy without empty commit",
-      "id": "github_workflows_deploy_manual_redeploy_rationale",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_manual_redeploy_rationale"
     },
     {
       "label": "Serialize deploys to avoid races (queue instead of cancel)",
@@ -2763,8 +3049,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "serialize deploys to avoid races (queue instead of cancel)",
-      "id": "github_workflows_deploy_concurrency_rationale",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_concurrency_rationale"
     },
     {
       "label": "Subpath base path needed because repo is not <owner>.github.io",
@@ -2777,8 +3063,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "subpath base path needed because repo is not <owner>.github.io",
-      "id": "github_workflows_deploy_base_path_rationale",
-      "community_name": "GitHub Pages Deploy Workflow"
+      "community_name": "GitHub Pages Deploy Workflow",
+      "id": "github_workflows_deploy_base_path_rationale"
     },
     {
       "label": "LDR_LLL1_0.png Dithering/Blue-Noise Texture",
@@ -2791,8 +3077,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "ldr_lll1_0.png dithering/blue-noise texture",
-      "id": "public_fluid_ldr_lll1_0_dithering_texture",
-      "community_name": "Dithering Texture Concept"
+      "community_name": "Dithering Texture Concept",
+      "id": "public_fluid_ldr_lll1_0_dithering_texture"
     },
     {
       "label": "Banding Artifact Mitigation in Fluid Rendering",
@@ -2805,8 +3091,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "banding artifact mitigation in fluid rendering",
-      "id": "public_fluid_ldr_lll1_0_banding_mitigation",
-      "community_name": "Dithering Texture Concept"
+      "community_name": "Dithering Texture Concept",
+      "id": "public_fluid_ldr_lll1_0_banding_mitigation"
     },
     {
       "label": "WebGL Fluid Simulation Background (adapted from PavelDoGreat/tkabalin)",
@@ -2819,8 +3105,8 @@
       "contributor": null,
       "community": 14,
       "norm_label": "webgl fluid simulation background (adapted from paveldogreat/tkabalin)",
-      "id": "public_fluid_webgl_fluid_simulation",
-      "community_name": "Dithering Texture Concept"
+      "community_name": "Dithering Texture Concept",
+      "id": "public_fluid_webgl_fluid_simulation"
     }
   ],
   "links": [
@@ -2955,11 +3241,23 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/page.jsx",
-      "source_location": "L23",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_page",
       "target": "app_page_page",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/page.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_page",
+      "target": "components_archive_archivesection",
       "confidence_score": 1.0
     },
     {
@@ -3003,7 +3301,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/page.jsx",
-      "source_location": "L7",
+      "source_location": "L8",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_page",
@@ -3015,7 +3313,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/page.jsx",
-      "source_location": "L7",
+      "source_location": "L8",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_page",
@@ -3027,7 +3325,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/page.jsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_page",
@@ -3039,7 +3337,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/page.jsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_page",
@@ -3051,7 +3349,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/page.jsx",
-      "source_location": "L6",
+      "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_page",
@@ -3063,7 +3361,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/page.jsx",
-      "source_location": "L6",
+      "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_page",
@@ -3075,7 +3373,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/page.jsx",
-      "source_location": "L9",
+      "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_page",
@@ -3087,7 +3385,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/page.jsx",
-      "source_location": "L9",
+      "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_page",
@@ -3099,7 +3397,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/page.jsx",
-      "source_location": "L5",
+      "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_page",
@@ -3111,7 +3409,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/page.jsx",
-      "source_location": "L5",
+      "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_page",
@@ -3171,7 +3469,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/page.jsx",
-      "source_location": "L10",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_page",
@@ -3183,12 +3481,555 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/page.jsx",
-      "source_location": "L10",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_page",
       "target": "content_site_owner",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveGallery.tsx",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivegallery",
+      "target": "components_archive_archivegallery_archivegallery",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveGallery.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivegallery",
+      "target": "components_archive_archivegallery_archivegalleryprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveGallery.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivegallery",
+      "target": "components_archive_archiveplane",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveGallery.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivegallery",
+      "target": "content_projects",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveGallery.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivegallery",
+      "target": "content_projects_projects",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveGallery.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivegallery",
+      "target": "lib_archivescroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveGallery.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivegallery",
+      "target": "lib_archivescroll_archivescroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveGallery.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivegallery",
+      "target": "lib_archivescroll_gallery_range",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveGallery.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivegallery",
+      "target": "lib_archivescroll_phaseof",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveGallery.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivegallery",
+      "target": "lib_archivescroll_smootherstep",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveGallery.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivegallery",
+      "target": "types_project",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveGallery.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivegallery",
+      "target": "types_project_project",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/three/HeroScene.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_three_heroscene",
+      "target": "components_archive_archivegallery",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "components/archive/ArchiveGallery.tsx",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivegallery_archivegallery",
+      "target": "lib_archivescroll_phaseof"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "components/archive/ArchiveGallery.tsx",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivegallery_archivegallery",
+      "target": "lib_archivescroll_smootherstep"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/three/HeroScene.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_three_heroscene",
+      "target": "components_archive_archivegallery_archivegallery",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchivePlane.tsx",
+      "source_location": "L197",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archiveplane",
+      "target": "components_archive_archiveplane_archiveplane",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchivePlane.tsx",
+      "source_location": "L110",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archiveplane",
+      "target": "components_archive_archiveplane_planebody",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchivePlane.tsx",
+      "source_location": "L98",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archiveplane",
+      "target": "components_archive_archiveplane_planelayout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchivePlane.tsx",
+      "source_location": "L186",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archiveplane",
+      "target": "components_archive_archiveplane_videoplane",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchivePlane.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archiveplane",
+      "target": "types_project",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchivePlane.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archiveplane",
+      "target": "types_project_project",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchivePlane.tsx",
+      "source_location": "L99",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archiveplane_planelayout",
+      "target": "types_project_project",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveSection.tsx",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivesection",
+      "target": "components_archive_archivesection_archivesection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveSection.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivesection",
+      "target": "components_archive_wavetransition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveSection.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivesection",
+      "target": "content_projects",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveSection.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivesection",
+      "target": "content_projects_projects",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveSection.tsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivesection",
+      "target": "hooks_useisomorphiclayouteffect",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveSection.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivesection",
+      "target": "lib_archivescroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveSection.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivesection",
+      "target": "lib_archivescroll_archivescroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveSection.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivesection",
+      "target": "lib_archivescroll_resetarchivescroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveSection.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivesection",
+      "target": "lib_archivescroll_setarchiveprogress",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/ArchiveSection.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivesection",
+      "target": "lib_archivescroll_subscribetheme",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "components/archive/ArchiveSection.tsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivesection_archivesection",
+      "target": "lib_archivescroll_setarchiveprogress"
+    },
+    {
+      "relation": "indirect_call",
+      "context": "argument",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "components/archive/ArchiveSection.tsx",
+      "source_location": "L80",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_archivesection_archivesection",
+      "target": "lib_archivescroll_subscribetheme"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/WaveTransition.tsx",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_wavetransition",
+      "target": "components_archive_wavetransition_wavepath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/WaveTransition.tsx",
+      "source_location": "L78",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_wavetransition",
+      "target": "components_archive_wavetransition_wavetransition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/WaveTransition.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_wavetransition",
+      "target": "hooks_useisomorphiclayouteffect",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/WaveTransition.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_wavetransition",
+      "target": "lib_archivescroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/WaveTransition.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_wavetransition",
+      "target": "lib_archivescroll_archivescroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/WaveTransition.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_wavetransition",
+      "target": "lib_archivescroll_phaseof",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/WaveTransition.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_wavetransition",
+      "target": "lib_archivescroll_smootherstep",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/WaveTransition.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_wavetransition",
+      "target": "lib_archivescroll_wave_range",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "components/archive/WaveTransition.tsx",
+      "source_location": "L96",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_wavetransition_wavetransition",
+      "target": "components_archive_wavetransition_wavepath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "components/archive/WaveTransition.tsx",
+      "source_location": "L90",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_wavetransition_wavetransition",
+      "target": "lib_archivescroll_phaseof"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "components/archive/WaveTransition.tsx",
+      "source_location": "L90",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_archive_wavetransition_wavetransition",
+      "target": "lib_archivescroll_smootherstep"
     },
     {
       "relation": "contains",
@@ -3276,11 +4117,71 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/hero/BackdropWord.jsx",
-      "source_location": "L18",
+      "source_location": "L21",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_hero_backdropword",
       "target": "components_hero_backdropword_backdropword",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/hero/BackdropWord.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_hero_backdropword",
+      "target": "lib_archivescroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/hero/BackdropWord.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_hero_backdropword",
+      "target": "lib_archivescroll_archivescroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/hero/BackdropWord.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_hero_backdropword",
+      "target": "lib_archivescroll_camera_range",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/hero/BackdropWord.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_hero_backdropword",
+      "target": "lib_archivescroll_phaseof",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/hero/BackdropWord.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_hero_backdropword",
+      "target": "lib_archivescroll_smootherstep",
       "confidence_score": 1.0
     },
     {
@@ -3294,6 +4195,30 @@
       "source": "components_three_heroscene",
       "target": "components_hero_backdropword",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "components/hero/BackdropWord.jsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_hero_backdropword_backdropword",
+      "target": "lib_archivescroll_phaseof"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "components/hero/BackdropWord.jsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_hero_backdropword_backdropword",
+      "target": "lib_archivescroll_smootherstep"
     },
     {
       "relation": "imports",
@@ -3629,11 +4554,71 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/hero/SpotGlow.jsx",
-      "source_location": "L38",
+      "source_location": "L40",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_hero_spotglow",
       "target": "components_hero_spotglow_spotglow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/hero/SpotGlow.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_hero_spotglow",
+      "target": "lib_archivescroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/hero/SpotGlow.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_hero_spotglow",
+      "target": "lib_archivescroll_archivescroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/hero/SpotGlow.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_hero_spotglow",
+      "target": "lib_archivescroll_camera_range",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/hero/SpotGlow.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_hero_spotglow",
+      "target": "lib_archivescroll_phaseof",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/hero/SpotGlow.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_hero_spotglow",
+      "target": "lib_archivescroll_smootherstep",
       "confidence_score": 1.0
     },
     {
@@ -3647,6 +4632,30 @@
       "source": "components_three_heroscene",
       "target": "components_hero_spotglow",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "components/hero/SpotGlow.jsx",
+      "source_location": "L67",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_hero_spotglow_spotglow",
+      "target": "lib_archivescroll_phaseof"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "components/hero/SpotGlow.jsx",
+      "source_location": "L67",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_hero_spotglow_spotglow",
+      "target": "lib_archivescroll_smootherstep"
     },
     {
       "relation": "imports",
@@ -4506,18 +5515,6 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/three/BackdropCanvas.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_three_backdropcanvas",
-      "target": "components_three_heroscene_heroscene",
-      "confidence_score": 1.0
-    },
-    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/three/HeroCanvas.tsx",
@@ -4590,7 +5587,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L103",
+      "source_location": "L136",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_heroscene",
@@ -4601,7 +5598,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L27",
+      "source_location": "L40",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_heroscene",
@@ -4612,7 +5609,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L156",
+      "source_location": "L189",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_heroscene",
@@ -4623,7 +5620,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L149",
+      "source_location": "L182",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_heroscene",
@@ -4634,7 +5631,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L52",
+      "source_location": "L85",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_heroscene",
@@ -4645,7 +5642,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L23",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_heroscene",
@@ -4656,7 +5653,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L137",
+      "source_location": "L170",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_heroscene",
@@ -4724,11 +5721,71 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/three/HeroScene.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_three_heroscene",
+      "target": "lib_archivescroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/three/HeroScene.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_three_heroscene",
+      "target": "lib_archivescroll_archivescroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/three/HeroScene.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_three_heroscene",
+      "target": "lib_archivescroll_camera_range",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/three/HeroScene.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_three_heroscene",
+      "target": "lib_archivescroll_phaseof",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/three/HeroScene.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_three_heroscene",
+      "target": "lib_archivescroll_smootherstep",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L112",
+      "source_location": "L145",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_heroscene_backdroplayer",
@@ -4740,7 +5797,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L34",
+      "source_location": "L46",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_heroscene_camerarig",
@@ -4752,7 +5809,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L61",
+      "source_location": "L94",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_heroscene_lightrig",
@@ -4764,7 +5821,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L29",
+      "source_location": "L42",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_heroscene_camerarig",
@@ -4776,11 +5833,11 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L55",
+      "source_location": "L48",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "components_three_heroscene_lightrig",
-      "target": "components_three_pointerprovider_usepointervector",
+      "source": "components_three_heroscene_camerarig",
+      "target": "lib_archivescroll_phaseof",
       "confidence_score": 1.0
     },
     {
@@ -4788,18 +5845,42 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/three/HeroScene.tsx",
-      "source_location": "L105",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_three_heroscene_camerarig",
+      "target": "lib_archivescroll_smootherstep",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "components/three/HeroScene.tsx",
+      "source_location": "L88",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_three_heroscene_lightrig",
+      "target": "components_three_pointerprovider_usepointervector"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "components/three/HeroScene.tsx",
+      "source_location": "L138",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_heroscene_backdroplayer",
-      "target": "components_three_pointerprovider_usepointervector",
-      "confidence_score": 1.0
+      "target": "components_three_pointerprovider_usepointervector"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/three/OrbitCards.tsx",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_orbitcards",
@@ -4810,7 +5891,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/three/OrbitCards.tsx",
-      "source_location": "L57",
+      "source_location": "L58",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_orbitcards",
@@ -4821,7 +5902,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/three/OrbitCards.tsx",
-      "source_location": "L40",
+      "source_location": "L41",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_orbitcards",
@@ -4832,7 +5913,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/three/OrbitCards.tsx",
-      "source_location": "L38",
+      "source_location": "L39",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_orbitcards",
@@ -4844,7 +5925,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/three/OrbitCards.tsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_orbitcards",
@@ -4856,11 +5937,35 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/three/OrbitCards.tsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_orbitcards",
       "target": "components_three_orbitcardshader_makeorbitcarduniforms",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/three/OrbitCards.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_three_orbitcards",
+      "target": "lib_archivescroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/three/OrbitCards.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_three_orbitcards",
+      "target": "lib_archivescroll_archivescroll",
       "confidence_score": 1.0
     },
     {
@@ -4952,7 +6057,7 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "components/three/OrbitCards.tsx",
-      "source_location": "L41",
+      "source_location": "L42",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_orbitcards_orbitcardsprops",
@@ -4965,7 +6070,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "components/three/OrbitCards.tsx",
-      "source_location": "L64",
+      "source_location": "L65",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_orbitcards_orbitcards",
@@ -4977,7 +6082,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "components/three/OrbitCards.tsx",
-      "source_location": "L111",
+      "source_location": "L112",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_orbitcards_orbitcards",
@@ -4989,7 +6094,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "components/three/OrbitCards.tsx",
-      "source_location": "L109",
+      "source_location": "L110",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_orbitcards_orbitcards",
@@ -5001,7 +6106,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "components/three/OrbitCards.tsx",
-      "source_location": "L69",
+      "source_location": "L70",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_three_orbitcards_orbitcards",
@@ -5251,6 +6356,150 @@
       "_origin": "ast",
       "source": "jsconfig_compileroptions",
       "target": "jsconfig_compileroptions_paths",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_archivescroll",
+      "target": "lib_archivescroll_archivescroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_archivescroll",
+      "target": "lib_archivescroll_archivescrollstate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_archivescroll",
+      "target": "lib_archivescroll_camera_range",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_archivescroll",
+      "target": "lib_archivescroll_gallery_range",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L54",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_archivescroll",
+      "target": "lib_archivescroll_listeners",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L42",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_archivescroll",
+      "target": "lib_archivescroll_phaseof",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L77",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_archivescroll",
+      "target": "lib_archivescroll_resetarchivescroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_archivescroll",
+      "target": "lib_archivescroll_setarchiveprogress",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_archivescroll",
+      "target": "lib_archivescroll_smootherstep",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L70",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_archivescroll",
+      "target": "lib_archivescroll_subscribetheme",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L53",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_archivescroll",
+      "target": "lib_archivescroll_themelistener",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_archivescroll",
+      "target": "lib_archivescroll_wave_range",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/archiveScroll.ts",
+      "source_location": "L64",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_archivescroll_setarchiveprogress",
+      "target": "lib_archivescroll_phaseof",
       "confidence_score": 1.0
     },
     {
@@ -6915,5 +8164,5 @@
       "source_file": ".github/workflows/deploy.yml"
     }
   ],
-  "built_at_commit": "1f6b4f1107e5b253de18f606358225f0a68151e7"
+  "built_at_commit": "40d3467f4a6ca3f3e579a48dce26e55f6dc64c67"
 }
