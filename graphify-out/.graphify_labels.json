@@ -17,5 +17,7 @@
   "15": "Next.js Config",
   "16": "PostCSS Config",
   "17": "ArchivePlane.tsx",
-  "18": "BackdropCanvas.tsx"
+  "18": "HeroScene.tsx",
+  "19": "AboutSection.tsx",
+  "20": "SectionHeading.jsx"
 }

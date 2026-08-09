@@ -1,16 +1,16 @@
 # Graph Report - PROTOTIPO PORTAFOLIO2  (2026-08-09)
 
 ## Corpus Check
-- 49 files · ~25,549 words
+- 62 files · ~33,731 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 274 nodes · 437 edges · 19 communities (15 shown, 4 thin omitted)
+- 326 nodes · 495 edges · 21 communities (17 shown, 4 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 10 edges (avg confidence: 0.69)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `466bd717`
+- Built from commit: `77d166a0`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -33,7 +33,9 @@
 - Next.js Config
 - PostCSS Config
 - ArchivePlane.tsx
-- BackdropCanvas.tsx
+- HeroScene.tsx
+- AboutSection.tsx
+- SectionHeading.jsx
 
 ## God Nodes (most connected - your core abstractions)
 1. `compilerOptions` - 17 edges
@@ -48,16 +50,16 @@
 10. `projects` - 6 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `OrbitCardsProps` --references--> `Project`  [EXTRACTED]
-  components/three/OrbitCards.tsx → types/project.ts
 - `PlaneLayout` --references--> `Project`  [EXTRACTED]
   components/archive/ArchivePlane.tsx → types/project.ts
 - `ArchiveSection()` --indirect_call--> `subscribeTheme()`  [INFERRED]
   components/archive/ArchiveSection.tsx → lib/archiveScroll.ts
 - `ProjectRowProps` --references--> `Project`  [EXTRACTED]
   components/index/ProjectRow.tsx → types/project.ts
-- `ProjectsOrbit()` --indirect_call--> `subscribeActiveIndex()`  [INFERRED]
-  components/projects/ProjectsOrbit.tsx → lib/worksScroll.ts
+- `NewsCardProps` --references--> `NewsItem`  [EXTRACTED]
+  components/news/NewsCard.tsx → types/news.ts
+- `NewsModalProps` --references--> `NewsItem`  [EXTRACTED]
+  components/news/NewsModal.tsx → types/news.ts
 
 ## Import Cycles
 - None detected.
@@ -66,19 +68,19 @@
 - **GitHub Pages Static-Export Deployment Pipeline** — github_workflows_deploy_build_job, github_workflows_deploy_actions_upload_pages_artifact, github_workflows_deploy_deploy_job, github_workflows_deploy_actions_deploy_pages [EXTRACTED 1.00]
 - **OIDC-based Pages Deployment Authorization** — github_workflows_deploy_permissions, github_workflows_deploy_actions_deploy_pages, github_workflows_deploy_github_pages_environment [INFERRED 0.85]
 
-## Communities (19 total, 4 thin omitted)
+## Communities (21 total, 4 thin omitted)
 
 ### Community 0 - "Page & Content Sections"
-Cohesion: 0.12
-Nodes (23): HeroSection(), ScrollCue(), containerVariants(), itemVariantsFor(), Navbar(), AboutSection(), ContactSection(), formatter (+15 more)
+Cohesion: 0.07
+Nodes (25): ContactFormProps, Errors, Phase, ContactSection(), CopyEmailProps, CopyState, LiveClock(), LiveClockProps (+17 more)
 
 ### Community 1 - "Hero 3D Scene"
-Cohesion: 0.15
-Nodes (24): ArchiveGallery(), ArchiveSection(), wavePath(), WaveTransition(), BackdropWord(), CurvedGrid(), SpotGlow(), BackdropLayer() (+16 more)
+Cohesion: 0.19
+Nodes (19): ArchiveGallery(), ArchiveGalleryProps, ArchiveSection(), wavePath(), WaveTransition(), BackdropWord(), SpotGlow(), archiveScroll (+11 more)
 
 ### Community 2 - "Project Card Orbit"
-Cohesion: 0.17
-Nodes (19): dateFormatter, ProjectsOrbit(), ENTRY, OrbitCards(), OrbitCardsProps, slot, makeOrbitCardUniforms(), OrbitCardUniforms (+11 more)
+Cohesion: 0.18
+Nodes (18): dateFormatter, ProjectsOrbit(), ENTRY, OrbitCards(), slot, makeOrbitCardUniforms(), OrbitCardUniforms, assemblyFraction() (+10 more)
 
 ### Community 3 - "Dev Dependencies"
 Cohesion: 0.08
@@ -93,20 +95,20 @@ Cohesion: 0.10
 Nodes (21): actions/checkout@v4, actions/configure-pages@v5, actions/deploy-pages@v4, actions/setup-node@v4 (node 20, npm cache), actions/upload-pages-artifact@v3 (path: ./out), Subpath base path needed because repo is not <owner>.github.io, build job, Build static export (npm run build) (+13 more)
 
 ### Community 6 - "TypeScript Compiler Config"
-Cohesion: 0.10
-Nodes (20): dom, dom.iterable, ES2022, compilerOptions, allowJs, checkJs, esModuleInterop, incremental (+12 more)
+Cohesion: 0.06
+Nodes (31): .claude, dom, dom.iterable, ES2022, **/*.js, **/*.jsx, .next/dev/types/**/*.ts, next-env.d.ts (+23 more)
 
 ### Community 7 - "Layout, Fluid BG & Scroll"
 Cohesion: 0.17
 Nodes (9): metadata, plexMono, plexSans, viewport, FluidBackground(), FluidBackgroundProps, SmoothScroll(), fluidBackgroundConfig (+1 more)
 
 ### Community 8 - "TS Include/Exclude Paths"
-Cohesion: 0.17
-Nodes (11): .claude, **/*.js, **/*.jsx, .next/dev/types/**/*.ts, next-env.d.ts, .next/types/**/*.ts, node_modules, **/*.ts (+3 more)
+Cohesion: 0.16
+Nodes (12): dateFormatter, NewsCard(), NewsCardProps, stamp(), NewsFiltersProps, dateFormatter, NewsModalProps, news (+4 more)
 
 ### Community 9 - "Orientation Gizmo HUD"
-Cohesion: 0.21
-Nodes (13): Prism(), scratchEuler, targetQuat, AXES, basisFromQuaternion(), OrientationGizmo(), bindPointer(), damp() (+5 more)
+Cohesion: 0.31
+Nodes (9): AXES, basisFromQuaternion(), OrientationGizmo(), bindPointer(), handleLeave(), handleMove(), orientation, pointer (+1 more)
 
 ### Community 11 - "Playwright Capture Script"
 Cohesion: 0.40
@@ -125,28 +127,36 @@ Cohesion: 1.00
 Nodes (3): Banding Artifact Mitigation in Fluid Rendering, LDR_LLL1_0.png Dithering/Blue-Noise Texture, WebGL Fluid Simulation Background (adapted from PavelDoGreat/tkabalin)
 
 ### Community 17 - "ArchivePlane.tsx"
-Cohesion: 0.15
-Nodes (9): ArchiveGalleryProps, PlaneLayout, ProjectRowProps, ORIGIN, ProjectsIndex(), projects, GALLERY_RANGE, Project (+1 more)
+Cohesion: 0.18
+Nodes (7): PlaneLayout, ProjectRowProps, ORIGIN, OrbitCardsProps, projects, Project, QuaternionLike
+
+### Community 18 - "HeroScene.tsx"
+Cohesion: 0.14
+Nodes (15): CurvedGrid(), Prism(), scratchEuler, targetQuat, BackdropCanvasProps, BackdropLayer(), CameraRig(), HeroSceneProps (+7 more)
+
+### Community 19 - "AboutSection.tsx"
+Cohesion: 0.13
+Nodes (9): AboutSectionProps, ProfileCard3DProps, ScrambleText(), ScrambleTextProps, Stat, StatCounterProps, TechItem, TechStackProps (+1 more)
 
 ## Knowledge Gaps
-- **98 isolated node(s):** `plexSans`, `plexMono`, `metadata`, `viewport`, `ArchiveGalleryProps` (+93 more)
+- **113 isolated node(s):** `plexSans`, `plexMono`, `metadata`, `viewport`, `AboutSectionProps` (+108 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `owner` connect `Page & Content Sections` to `Layout, Fluid BG & Scroll`?**
-  _High betweenness centrality (0.027) - this node is a cross-community bridge._
+- **Why does `owner` connect `Page & Content Sections` to `AboutSection.tsx`, `Layout, Fluid BG & Scroll`?**
+  _High betweenness centrality (0.033) - this node is a cross-community bridge._
 - **Why does `dependencies` connect `Runtime Dependencies` to `Dev Dependencies`?**
-  _High betweenness centrality (0.019) - this node is a cross-community bridge._
+  _High betweenness centrality (0.013) - this node is a cross-community bridge._
 - **What connects `plexSans`, `plexMono`, `metadata` to the rest of the system?**
-  _98 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _113 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Page & Content Sections` be split into smaller, more focused modules?**
-  _Cohesion score 0.11561561561561562 - nodes in this community are weakly interconnected._
-- **Should `Hero 3D Scene` be split into smaller, more focused modules?**
-  _Cohesion score 0.14772727272727273 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07308970099667775 - nodes in this community are weakly interconnected._
 - **Should `Dev Dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.07692307692307693 - nodes in this community are weakly interconnected._
 - **Should `Runtime Dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.09523809523809523 - nodes in this community are weakly interconnected._
+- **Should `GitHub Pages Deploy Workflow` be split into smaller, more focused modules?**
+  _Cohesion score 0.10476190476190476 - nodes in this community are weakly interconnected._

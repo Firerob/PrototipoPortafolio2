@@ -80,3 +80,29 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/*
+  Biometric scanner sweep for the profile card.
+
+  A keyframed transform rather than an animated `top`/`background-position`:
+  translateY runs on the compositor, so the sweep costs nothing on the main
+  thread even while the card is also being tilted by pointer springs.
+*/
+@keyframes about-scan {
+  0%   { transform: translateY(-110%); opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { transform: translateY(110%); opacity: 0; }
+}
+
+.about-scanline {
+  animation: about-scan 3.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+/* The global reduced-motion rule collapses every animation to 0.01ms, which
+   would leave this line frozen mid-frame and visible. Hide it outright. */
+@media (prefers-reduced-motion: reduce) {
+  .about-scanline {
+    display: none;
+  }
+}

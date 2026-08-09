@@ -122,14 +122,201 @@
       "norm_label": "page()"
     },
     {
+      "label": "AboutSection.tsx",
+      "file_type": "code",
+      "source_file": "components/about/AboutSection.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_about_aboutsection",
+      "community": 19,
+      "community_name": "AboutSection.tsx",
+      "norm_label": "aboutsection.tsx"
+    },
+    {
+      "label": "AboutSectionProps",
+      "file_type": "code",
+      "source_file": "components/about/AboutSection.tsx",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "components_about_aboutsection_aboutsectionprops",
+      "community": 19,
+      "community_name": "AboutSection.tsx",
+      "norm_label": "aboutsectionprops"
+    },
+    {
+      "label": "AboutSection()",
+      "file_type": "code",
+      "source_file": "components/about/AboutSection.tsx",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "components_about_aboutsection_aboutsection",
+      "community": 19,
+      "community_name": "AboutSection.tsx",
+      "norm_label": "aboutsection()"
+    },
+    {
+      "label": "ProfileCard3D.tsx",
+      "file_type": "code",
+      "source_file": "components/about/ProfileCard3D.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_about_profilecard3d",
+      "community": 19,
+      "community_name": "AboutSection.tsx",
+      "norm_label": "profilecard3d.tsx"
+    },
+    {
+      "label": "ProfileCard3DProps",
+      "file_type": "code",
+      "source_file": "components/about/ProfileCard3D.tsx",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "components_about_profilecard3d_profilecard3dprops",
+      "community": 19,
+      "community_name": "AboutSection.tsx",
+      "norm_label": "profilecard3dprops"
+    },
+    {
+      "label": "ProfileCard3D()",
+      "file_type": "code",
+      "source_file": "components/about/ProfileCard3D.tsx",
+      "source_location": "L34",
+      "_origin": "ast",
+      "id": "components_about_profilecard3d_profilecard3d",
+      "community": 19,
+      "community_name": "AboutSection.tsx",
+      "norm_label": "profilecard3d()"
+    },
+    {
+      "label": "ScrambleText.tsx",
+      "file_type": "code",
+      "source_file": "components/about/ScrambleText.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_about_scrambletext",
+      "community": 19,
+      "community_name": "AboutSection.tsx",
+      "norm_label": "scrambletext.tsx"
+    },
+    {
+      "label": "ScrambleTextProps",
+      "file_type": "code",
+      "source_file": "components/about/ScrambleText.tsx",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "components_about_scrambletext_scrambletextprops",
+      "community": 19,
+      "community_name": "AboutSection.tsx",
+      "norm_label": "scrambletextprops"
+    },
+    {
+      "label": "ScrambleText()",
+      "file_type": "code",
+      "source_file": "components/about/ScrambleText.tsx",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "components_about_scrambletext_scrambletext",
+      "community": 19,
+      "community_name": "AboutSection.tsx",
+      "norm_label": "scrambletext()"
+    },
+    {
+      "label": "StatCounter.tsx",
+      "file_type": "code",
+      "source_file": "components/about/StatCounter.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_about_statcounter",
+      "community": 19,
+      "community_name": "AboutSection.tsx",
+      "norm_label": "statcounter.tsx"
+    },
+    {
+      "label": "Stat",
+      "file_type": "code",
+      "source_file": "components/about/StatCounter.tsx",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "components_about_statcounter_stat",
+      "community": 19,
+      "community_name": "AboutSection.tsx",
+      "norm_label": "stat"
+    },
+    {
+      "label": "StatCounterProps",
+      "file_type": "code",
+      "source_file": "components/about/StatCounter.tsx",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "components_about_statcounter_statcounterprops",
+      "community": 19,
+      "community_name": "AboutSection.tsx",
+      "norm_label": "statcounterprops"
+    },
+    {
+      "label": "StatCounter()",
+      "file_type": "code",
+      "source_file": "components/about/StatCounter.tsx",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "components_about_statcounter_statcounter",
+      "community": 19,
+      "community_name": "AboutSection.tsx",
+      "norm_label": "statcounter()"
+    },
+    {
+      "label": "TechStack.tsx",
+      "file_type": "code",
+      "source_file": "components/about/TechStack.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_about_techstack",
+      "community": 19,
+      "community_name": "AboutSection.tsx",
+      "norm_label": "techstack.tsx"
+    },
+    {
+      "label": "TechItem",
+      "file_type": "code",
+      "source_file": "components/about/TechStack.tsx",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "components_about_techstack_techitem",
+      "community": 19,
+      "community_name": "AboutSection.tsx",
+      "norm_label": "techitem"
+    },
+    {
+      "label": "TechStackProps",
+      "file_type": "code",
+      "source_file": "components/about/TechStack.tsx",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "components_about_techstack_techstackprops",
+      "community": 19,
+      "community_name": "AboutSection.tsx",
+      "norm_label": "techstackprops"
+    },
+    {
+      "label": "TechStack()",
+      "file_type": "code",
+      "source_file": "components/about/TechStack.tsx",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "components_about_techstack_techstack",
+      "community": 19,
+      "community_name": "AboutSection.tsx",
+      "norm_label": "techstack()"
+    },
+    {
       "label": "ArchiveGallery.tsx",
       "file_type": "code",
       "source_file": "components/archive/ArchiveGallery.tsx",
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_archive_archivegallery",
-      "community": 17,
-      "community_name": "ArchivePlane.tsx",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
       "norm_label": "archivegallery.tsx"
     },
     {
@@ -139,8 +326,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "components_archive_archivegallery_archivegalleryprops",
-      "community": 17,
-      "community_name": "ArchivePlane.tsx",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
       "norm_label": "archivegalleryprops"
     },
     {
@@ -298,6 +485,237 @@
       "norm_label": "fluidbackground()"
     },
     {
+      "label": "ContactForm.tsx",
+      "file_type": "code",
+      "source_file": "components/contact/ContactForm.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_contact_contactform",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "contactform.tsx"
+    },
+    {
+      "label": "Phase",
+      "file_type": "code",
+      "source_file": "components/contact/ContactForm.tsx",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "components_contact_contactform_phase",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "phase"
+    },
+    {
+      "label": "ContactFormProps",
+      "file_type": "code",
+      "source_file": "components/contact/ContactForm.tsx",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "components_contact_contactform_contactformprops",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "contactformprops"
+    },
+    {
+      "label": "Errors",
+      "file_type": "code",
+      "source_file": "components/contact/ContactForm.tsx",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "components_contact_contactform_errors",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "errors"
+    },
+    {
+      "label": "ContactForm()",
+      "file_type": "code",
+      "source_file": "components/contact/ContactForm.tsx",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "components_contact_contactform_contactform",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "contactform()"
+    },
+    {
+      "label": "RFC-5322",
+      "file_type": "concept",
+      "source_file": "components/contact/ContactForm.tsx",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "docref_rfc_5322",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "rfc-5322"
+    },
+    {
+      "label": "ContactSection.tsx",
+      "file_type": "code",
+      "source_file": "components/contact/ContactSection.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_contact_contactsection",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "contactsection.tsx"
+    },
+    {
+      "label": "ContactSection()",
+      "file_type": "code",
+      "source_file": "components/contact/ContactSection.tsx",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "components_contact_contactsection_contactsection",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "contactsection()"
+    },
+    {
+      "label": "CopyEmail.tsx",
+      "file_type": "code",
+      "source_file": "components/contact/CopyEmail.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_contact_copyemail",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "copyemail.tsx"
+    },
+    {
+      "label": "CopyState",
+      "file_type": "code",
+      "source_file": "components/contact/CopyEmail.tsx",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "components_contact_copyemail_copystate",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "copystate"
+    },
+    {
+      "label": "CopyEmailProps",
+      "file_type": "code",
+      "source_file": "components/contact/CopyEmail.tsx",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "components_contact_copyemail_copyemailprops",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "copyemailprops"
+    },
+    {
+      "label": "CopyEmail()",
+      "file_type": "code",
+      "source_file": "components/contact/CopyEmail.tsx",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "components_contact_copyemail_copyemail",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "copyemail()"
+    },
+    {
+      "label": "LiveClock.tsx",
+      "file_type": "code",
+      "source_file": "components/contact/LiveClock.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_contact_liveclock",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "liveclock.tsx"
+    },
+    {
+      "label": "LiveClockProps",
+      "file_type": "code",
+      "source_file": "components/contact/LiveClock.tsx",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "components_contact_liveclock_liveclockprops",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "liveclockprops"
+    },
+    {
+      "label": "offsetLabel()",
+      "file_type": "code",
+      "source_file": "components/contact/LiveClock.tsx",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "components_contact_liveclock_offsetlabel",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "offsetlabel()"
+    },
+    {
+      "label": "LiveClock()",
+      "file_type": "code",
+      "source_file": "components/contact/LiveClock.tsx",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "components_contact_liveclock_liveclock",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "liveclock()"
+    },
+    {
+      "label": "SocialMatrix.tsx",
+      "file_type": "code",
+      "source_file": "components/contact/SocialMatrix.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_contact_socialmatrix",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "socialmatrix.tsx"
+    },
+    {
+      "label": "Social",
+      "file_type": "code",
+      "source_file": "components/contact/SocialMatrix.tsx",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "components_contact_socialmatrix_social",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "social"
+    },
+    {
+      "label": "SocialMatrixProps",
+      "file_type": "code",
+      "source_file": "components/contact/SocialMatrix.tsx",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "components_contact_socialmatrix_socialmatrixprops",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "socialmatrixprops"
+    },
+    {
+      "label": "SocialCard()",
+      "file_type": "code",
+      "source_file": "components/contact/SocialMatrix.tsx",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "components_contact_socialmatrix_socialcard",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "socialcard()"
+    },
+    {
+      "label": "SocialMatrix()",
+      "file_type": "code",
+      "source_file": "components/contact/SocialMatrix.tsx",
+      "source_location": "L106",
+      "_origin": "ast",
+      "id": "components_contact_socialmatrix_socialmatrix",
+      "community": 0,
+      "community_name": "Page & Content Sections",
+      "norm_label": "socialmatrix()"
+    },
+    {
       "label": "BackdropWord.jsx",
       "file_type": "code",
       "source_file": "components/hero/BackdropWord.jsx",
@@ -326,8 +744,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_hero_curvedgrid",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "curvedgrid.jsx"
     },
     {
@@ -337,8 +755,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "components_hero_curvedgrid_curvedgrid",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "curvedgrid()"
     },
     {
@@ -370,8 +788,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_hero_prism",
-      "community": 9,
-      "community_name": "Orientation Gizmo HUD",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "prism.jsx"
     },
     {
@@ -381,8 +799,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "components_hero_prism_targetquat",
-      "community": 9,
-      "community_name": "Orientation Gizmo HUD",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "targetquat"
     },
     {
@@ -392,8 +810,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "components_hero_prism_scratcheuler",
-      "community": 9,
-      "community_name": "Orientation Gizmo HUD",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "scratcheuler"
     },
     {
@@ -403,8 +821,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "components_hero_prism_prism",
-      "community": 9,
-      "community_name": "Orientation Gizmo HUD",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "prism()"
     },
     {
@@ -601,9 +1019,174 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "components_index_projectsindex_projectsindex",
-      "community": 17,
-      "community_name": "ArchivePlane.tsx",
+      "community": 0,
+      "community_name": "Page & Content Sections",
       "norm_label": "projectsindex()"
+    },
+    {
+      "label": "NewsCard.tsx",
+      "file_type": "code",
+      "source_file": "components/news/NewsCard.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_news_newscard",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "newscard.tsx"
+    },
+    {
+      "label": "dateFormatter",
+      "file_type": "code",
+      "source_file": "components/news/NewsCard.tsx",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "components_news_newscard_dateformatter",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "dateformatter"
+    },
+    {
+      "label": "stamp()",
+      "file_type": "code",
+      "source_file": "components/news/NewsCard.tsx",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "components_news_newscard_stamp",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "stamp()"
+    },
+    {
+      "label": "NewsCardProps",
+      "file_type": "code",
+      "source_file": "components/news/NewsCard.tsx",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "components_news_newscard_newscardprops",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "newscardprops"
+    },
+    {
+      "label": "Corner()",
+      "file_type": "code",
+      "source_file": "components/news/NewsCard.tsx",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "components_news_newscard_corner",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "corner()"
+    },
+    {
+      "label": "NewsCard()",
+      "file_type": "code",
+      "source_file": "components/news/NewsCard.tsx",
+      "source_location": "L38",
+      "_origin": "ast",
+      "id": "components_news_newscard_newscard",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "newscard()"
+    },
+    {
+      "label": "NewsFilters.tsx",
+      "file_type": "code",
+      "source_file": "components/news/NewsFilters.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_news_newsfilters",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "newsfilters.tsx"
+    },
+    {
+      "label": "NewsFiltersProps",
+      "file_type": "code",
+      "source_file": "components/news/NewsFilters.tsx",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "components_news_newsfilters_newsfiltersprops",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "newsfiltersprops"
+    },
+    {
+      "label": "NewsFilters()",
+      "file_type": "code",
+      "source_file": "components/news/NewsFilters.tsx",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "components_news_newsfilters_newsfilters",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "newsfilters()"
+    },
+    {
+      "label": "NewsModal.tsx",
+      "file_type": "code",
+      "source_file": "components/news/NewsModal.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_news_newsmodal",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "newsmodal.tsx"
+    },
+    {
+      "label": "dateFormatter",
+      "file_type": "code",
+      "source_file": "components/news/NewsModal.tsx",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "components_news_newsmodal_dateformatter",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "dateformatter"
+    },
+    {
+      "label": "NewsModalProps",
+      "file_type": "code",
+      "source_file": "components/news/NewsModal.tsx",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "components_news_newsmodal_newsmodalprops",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "newsmodalprops"
+    },
+    {
+      "label": "NewsModal()",
+      "file_type": "code",
+      "source_file": "components/news/NewsModal.tsx",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "components_news_newsmodal_newsmodal",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "newsmodal()"
+    },
+    {
+      "label": "NewsSection.tsx",
+      "file_type": "code",
+      "source_file": "components/news/NewsSection.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_news_newssection",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "newssection.tsx"
+    },
+    {
+      "label": "NewsSection()",
+      "file_type": "code",
+      "source_file": "components/news/NewsSection.tsx",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "components_news_newssection_newssection",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "newssection()"
     },
     {
       "label": "ProjectsOrbit.tsx",
@@ -672,83 +1255,6 @@
       "norm_label": "smoothscroll()"
     },
     {
-      "label": "AboutSection.jsx",
-      "file_type": "code",
-      "source_file": "components/sections/AboutSection.jsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "components_sections_aboutsection",
-      "community": 0,
-      "community_name": "Page & Content Sections",
-      "norm_label": "aboutsection.jsx"
-    },
-    {
-      "label": "AboutSection()",
-      "file_type": "code",
-      "source_file": "components/sections/AboutSection.jsx",
-      "source_location": "L5",
-      "_origin": "ast",
-      "id": "components_sections_aboutsection_aboutsection",
-      "community": 0,
-      "community_name": "Page & Content Sections",
-      "norm_label": "aboutsection()"
-    },
-    {
-      "label": "ContactSection.jsx",
-      "file_type": "code",
-      "source_file": "components/sections/ContactSection.jsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "components_sections_contactsection",
-      "community": 0,
-      "community_name": "Page & Content Sections",
-      "norm_label": "contactsection.jsx"
-    },
-    {
-      "label": "ContactSection()",
-      "file_type": "code",
-      "source_file": "components/sections/ContactSection.jsx",
-      "source_location": "L12",
-      "_origin": "ast",
-      "id": "components_sections_contactsection_contactsection",
-      "community": 0,
-      "community_name": "Page & Content Sections",
-      "norm_label": "contactsection()"
-    },
-    {
-      "label": "NewsSection.jsx",
-      "file_type": "code",
-      "source_file": "components/sections/NewsSection.jsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "components_sections_newssection",
-      "community": 0,
-      "community_name": "Page & Content Sections",
-      "norm_label": "newssection.jsx"
-    },
-    {
-      "label": "formatter",
-      "file_type": "code",
-      "source_file": "components/sections/NewsSection.jsx",
-      "source_location": "L8",
-      "_origin": "ast",
-      "id": "components_sections_newssection_formatter",
-      "community": 0,
-      "community_name": "Page & Content Sections",
-      "norm_label": "formatter"
-    },
-    {
-      "label": "NewsSection()",
-      "file_type": "code",
-      "source_file": "components/sections/NewsSection.jsx",
-      "source_location": "L15",
-      "_origin": "ast",
-      "id": "components_sections_newssection_newssection",
-      "community": 0,
-      "community_name": "Page & Content Sections",
-      "norm_label": "newssection()"
-    },
-    {
       "label": "SiteFooter.jsx",
       "file_type": "code",
       "source_file": "components/sections/SiteFooter.jsx",
@@ -778,7 +1284,7 @@
       "_origin": "ast",
       "id": "components_three_backdropcanvas",
       "community": 18,
-      "community_name": "BackdropCanvas.tsx",
+      "community_name": "HeroScene.tsx",
       "norm_label": "backdropcanvas.tsx"
     },
     {
@@ -789,7 +1295,7 @@
       "_origin": "ast",
       "id": "components_three_backdropcanvas_backdropcanvasprops",
       "community": 18,
-      "community_name": "BackdropCanvas.tsx",
+      "community_name": "HeroScene.tsx",
       "norm_label": "backdropcanvasprops"
     },
     {
@@ -800,7 +1306,7 @@
       "_origin": "ast",
       "id": "components_three_backdropcanvas_backdropcanvas",
       "community": 18,
-      "community_name": "BackdropCanvas.tsx",
+      "community_name": "HeroScene.tsx",
       "norm_label": "backdropcanvas()"
     },
     {
@@ -854,8 +1360,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_three_heroscene",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "heroscene.tsx"
     },
     {
@@ -865,8 +1371,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "components_three_heroscene_smoothing",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "smoothing()"
     },
     {
@@ -876,8 +1382,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "components_three_heroscene_camerarig",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "camerarig()"
     },
     {
@@ -887,8 +1393,8 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "components_three_heroscene_lightrig",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "lightrig()"
     },
     {
@@ -898,8 +1404,8 @@
       "source_location": "L136",
       "_origin": "ast",
       "id": "components_three_heroscene_backdroplayer",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "backdroplayer()"
     },
     {
@@ -909,8 +1415,8 @@
       "source_location": "L170",
       "_origin": "ast",
       "id": "components_three_heroscene_studioenvironment",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "studioenvironment()"
     },
     {
@@ -920,8 +1426,8 @@
       "source_location": "L182",
       "_origin": "ast",
       "id": "components_three_heroscene_herosceneprops",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "herosceneprops"
     },
     {
@@ -931,8 +1437,8 @@
       "source_location": "L189",
       "_origin": "ast",
       "id": "components_three_heroscene_heroscene",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "heroscene()"
     },
     {
@@ -975,8 +1481,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "components_three_orbitcards_orbitcardsprops",
-      "community": 2,
-      "community_name": "Project Card Orbit",
+      "community": 17,
+      "community_name": "ArchivePlane.tsx",
       "norm_label": "orbitcardsprops"
     },
     {
@@ -997,8 +1503,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_three_pointerprovider",
-      "community": 0,
-      "community_name": "Page & Content Sections",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "pointerprovider.tsx"
     },
     {
@@ -1008,8 +1514,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "components_three_pointerprovider_pointerapi",
-      "community": 0,
-      "community_name": "Page & Content Sections",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "pointerapi"
     },
     {
@@ -1019,8 +1525,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "components_three_pointerprovider_pointercontext",
-      "community": 0,
-      "community_name": "Page & Content Sections",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "pointercontext"
     },
     {
@@ -1030,8 +1536,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "components_three_pointerprovider_pointerprovider",
-      "community": 0,
-      "community_name": "Page & Content Sections",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "pointerprovider()"
     },
     {
@@ -1041,8 +1547,8 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "components_three_pointerprovider_usepointervector",
-      "community": 1,
-      "community_name": "Hero 3D Scene",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "usepointervector()"
     },
     {
@@ -1085,8 +1591,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_ui_reveal",
-      "community": 0,
-      "community_name": "Page & Content Sections",
+      "community": 20,
+      "community_name": "SectionHeading.jsx",
       "norm_label": "reveal.jsx"
     },
     {
@@ -1096,8 +1602,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "components_ui_reveal_reveal",
-      "community": 0,
-      "community_name": "Page & Content Sections",
+      "community": 20,
+      "community_name": "SectionHeading.jsx",
       "norm_label": "reveal()"
     },
     {
@@ -1107,8 +1613,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_ui_sectionheading",
-      "community": 0,
-      "community_name": "Page & Content Sections",
+      "community": 20,
+      "community_name": "SectionHeading.jsx",
       "norm_label": "sectionheading.jsx"
     },
     {
@@ -1118,9 +1624,31 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "components_ui_sectionheading_sectionheading",
-      "community": 0,
-      "community_name": "Page & Content Sections",
+      "community": 20,
+      "community_name": "SectionHeading.jsx",
       "norm_label": "sectionheading()"
+    },
+    {
+      "label": "content/news.ts",
+      "file_type": "code",
+      "source_file": "content/news.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "content_news",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "content/news.ts"
+    },
+    {
+      "label": "news",
+      "file_type": "code",
+      "source_file": "content/news.ts",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "content_news_news",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "news"
     },
     {
       "label": "projects.ts",
@@ -1178,32 +1706,21 @@
       "norm_label": "navlinks"
     },
     {
-      "label": "news",
+      "label": "about",
       "file_type": "code",
       "source_file": "content/site.js",
       "source_location": "L29",
       "_origin": "ast",
-      "id": "content_site_news",
-      "community": 0,
-      "community_name": "Page & Content Sections",
-      "norm_label": "news"
-    },
-    {
-      "label": "about",
-      "file_type": "code",
-      "source_file": "content/site.js",
-      "source_location": "L52",
-      "_origin": "ast",
       "id": "content_site_about",
-      "community": 0,
-      "community_name": "Page & Content Sections",
+      "community": 19,
+      "community_name": "AboutSection.tsx",
       "norm_label": "about"
     },
     {
       "label": "contact",
       "file_type": "code",
       "source_file": "content/site.js",
-      "source_location": "L68",
+      "source_location": "L82",
       "_origin": "ast",
       "id": "content_site_contact",
       "community": 0,
@@ -1217,8 +1734,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_useisomorphiclayouteffect",
-      "community": 17,
-      "community_name": "ArchivePlane.tsx",
+      "community": 0,
+      "community_name": "Page & Content Sections",
       "norm_label": "useisomorphiclayouteffect.ts"
     },
     {
@@ -1327,8 +1844,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "lib_archivescroll_gallery_range",
-      "community": 17,
-      "community_name": "ArchivePlane.tsx",
+      "community": 1,
+      "community_name": "Hero 3D Scene",
       "norm_label": "gallery_range"
     },
     {
@@ -1646,8 +2163,8 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "lib_framestate_damp",
-      "community": 9,
-      "community_name": "Orientation Gizmo HUD",
+      "community": 18,
+      "community_name": "HeroScene.tsx",
       "norm_label": "damp()"
     },
     {
@@ -2405,8 +2922,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tsconfig",
-      "community": 8,
-      "community_name": "TS Include/Exclude Paths",
+      "community": 6,
+      "community_name": "TypeScript Compiler Config",
       "norm_label": "tsconfig.json"
     },
     {
@@ -2636,8 +3153,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "tsconfig_include",
-      "community": 8,
-      "community_name": "TS Include/Exclude Paths",
+      "community": 6,
+      "community_name": "TypeScript Compiler Config",
       "norm_label": "include"
     },
     {
@@ -2647,8 +3164,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "ref_next_env_d_ts",
-      "community": 8,
-      "community_name": "TS Include/Exclude Paths",
+      "community": 6,
+      "community_name": "TypeScript Compiler Config",
       "norm_label": "next-env.d.ts"
     },
     {
@@ -2658,8 +3175,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "ref_ts",
-      "community": 8,
-      "community_name": "TS Include/Exclude Paths",
+      "community": 6,
+      "community_name": "TypeScript Compiler Config",
       "norm_label": "**/*.ts"
     },
     {
@@ -2669,8 +3186,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "ref_tsx",
-      "community": 8,
-      "community_name": "TS Include/Exclude Paths",
+      "community": 6,
+      "community_name": "TypeScript Compiler Config",
       "norm_label": "**/*.tsx"
     },
     {
@@ -2680,8 +3197,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "ref_js",
-      "community": 8,
-      "community_name": "TS Include/Exclude Paths",
+      "community": 6,
+      "community_name": "TypeScript Compiler Config",
       "norm_label": "**/*.js"
     },
     {
@@ -2691,8 +3208,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "ref_jsx",
-      "community": 8,
-      "community_name": "TS Include/Exclude Paths",
+      "community": 6,
+      "community_name": "TypeScript Compiler Config",
       "norm_label": "**/*.jsx"
     },
     {
@@ -2702,8 +3219,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "ref_next_types_ts",
-      "community": 8,
-      "community_name": "TS Include/Exclude Paths",
+      "community": 6,
+      "community_name": "TypeScript Compiler Config",
       "norm_label": ".next/types/**/*.ts"
     },
     {
@@ -2713,8 +3230,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "ref_next_dev_types_ts",
-      "community": 8,
-      "community_name": "TS Include/Exclude Paths",
+      "community": 6,
+      "community_name": "TypeScript Compiler Config",
       "norm_label": ".next/dev/types/**/*.ts"
     },
     {
@@ -2724,8 +3241,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "tsconfig_exclude",
-      "community": 8,
-      "community_name": "TS Include/Exclude Paths",
+      "community": 6,
+      "community_name": "TypeScript Compiler Config",
       "norm_label": "exclude"
     },
     {
@@ -2735,8 +3252,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "ref_node_modules",
-      "community": 8,
-      "community_name": "TS Include/Exclude Paths",
+      "community": 6,
+      "community_name": "TypeScript Compiler Config",
       "norm_label": "node_modules"
     },
     {
@@ -2746,9 +3263,64 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "ref_claude",
+      "community": 6,
+      "community_name": "TypeScript Compiler Config",
+      "norm_label": ".claude"
+    },
+    {
+      "label": "types/news.ts",
+      "file_type": "code",
+      "source_file": "types/news.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "types_news",
       "community": 8,
       "community_name": "TS Include/Exclude Paths",
-      "norm_label": ".claude"
+      "norm_label": "types/news.ts"
+    },
+    {
+      "label": "NEWS_CATEGORIES",
+      "file_type": "code",
+      "source_file": "types/news.ts",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "types_news_news_categories",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "news_categories"
+    },
+    {
+      "label": "NewsCategory",
+      "file_type": "code",
+      "source_file": "types/news.ts",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "types_news_newscategory",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "newscategory"
+    },
+    {
+      "label": "NewsItemCategory",
+      "file_type": "code",
+      "source_file": "types/news.ts",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "types_news_newsitemcategory",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "newsitemcategory"
+    },
+    {
+      "label": "NewsItem",
+      "file_type": "code",
+      "source_file": "types/news.ts",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "types_news_newsitem",
+      "community": 8,
+      "community_name": "TS Include/Exclude Paths",
+      "norm_label": "newsitem"
     },
     {
       "label": "project.ts",
@@ -3264,11 +3836,47 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/page.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_page",
+      "target": "components_about_aboutsection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/page.jsx",
       "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_page",
       "target": "components_archive_archivesection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/page.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_page",
+      "target": "components_contact_contactsection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/page.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_page",
+      "target": "components_contact_contactsection_contactsection",
       "confidence_score": 1.0
     },
     {
@@ -3324,83 +3932,23 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/page.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_page",
+      "target": "components_news_newssection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/page.jsx",
       "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_page",
       "target": "components_projects_projectsorbit",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/page.jsx",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_page",
-      "target": "components_sections_aboutsection",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/page.jsx",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_page",
-      "target": "components_sections_aboutsection_aboutsection",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/page.jsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_page",
-      "target": "components_sections_contactsection",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/page.jsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_page",
-      "target": "components_sections_contactsection_contactsection",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/page.jsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_page",
-      "target": "components_sections_newssection",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/page.jsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_page",
-      "target": "components_sections_newssection_newssection",
       "confidence_score": 1.0
     },
     {
@@ -3497,6 +4045,258 @@
       "_origin": "ast",
       "source": "app_page",
       "target": "content_site_owner",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/AboutSection.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_aboutsection",
+      "target": "components_about_aboutsection_aboutsection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/AboutSection.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_aboutsection",
+      "target": "components_about_aboutsection_aboutsectionprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/AboutSection.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_aboutsection",
+      "target": "components_about_profilecard3d",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/AboutSection.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_aboutsection",
+      "target": "components_about_scrambletext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/AboutSection.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_aboutsection",
+      "target": "components_about_scrambletext_scrambletext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/AboutSection.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_aboutsection",
+      "target": "components_about_statcounter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/AboutSection.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_aboutsection",
+      "target": "components_about_statcounter_stat",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/AboutSection.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_aboutsection",
+      "target": "components_about_techstack",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/AboutSection.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_aboutsection",
+      "target": "components_about_techstack_techitem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/AboutSection.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_aboutsection",
+      "target": "content_site",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/AboutSection.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_aboutsection",
+      "target": "content_site_about",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/AboutSection.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_aboutsection",
+      "target": "content_site_owner",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/ProfileCard3D.tsx",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_profilecard3d",
+      "target": "components_about_profilecard3d_profilecard3d",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/ProfileCard3D.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_profilecard3d",
+      "target": "components_about_profilecard3d_profilecard3dprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/ScrambleText.tsx",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_scrambletext",
+      "target": "components_about_scrambletext_scrambletext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/ScrambleText.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_scrambletext",
+      "target": "components_about_scrambletext_scrambletextprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/StatCounter.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_statcounter",
+      "target": "components_about_statcounter_stat",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/StatCounter.tsx",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_statcounter",
+      "target": "components_about_statcounter_statcounter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/StatCounter.tsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_statcounter",
+      "target": "components_about_statcounter_statcounterprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/TechStack.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_techstack",
+      "target": "components_about_techstack_techitem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/TechStack.tsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_techstack",
+      "target": "components_about_techstack_techstack",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/about/TechStack.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_about_techstack",
+      "target": "components_about_techstack_techstackprops",
       "confidence_score": 1.0
     },
     {
@@ -4123,6 +4923,302 @@
       "_origin": "ast",
       "source": "components_background_fluidbackground_fluidbackground",
       "target": "lib_fluid_webglfluid_createfluidsimulation"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/ContactForm.tsx",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_contactform",
+      "target": "components_contact_contactform_contactform",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/ContactForm.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_contactform",
+      "target": "components_contact_contactform_contactformprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/ContactForm.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_contactform",
+      "target": "components_contact_contactform_errors",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/ContactForm.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_contactform",
+      "target": "components_contact_contactform_phase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "cites",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/ContactForm.tsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_contactform",
+      "target": "docref_rfc_5322",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/ContactSection.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_contactsection",
+      "target": "components_contact_contactform",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/ContactSection.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_contactsection",
+      "target": "components_contact_contactsection_contactsection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/ContactSection.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_contactsection",
+      "target": "components_contact_copyemail",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/ContactSection.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_contactsection",
+      "target": "components_contact_liveclock",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/ContactSection.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_contactsection",
+      "target": "components_contact_liveclock_liveclock",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/ContactSection.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_contactsection",
+      "target": "components_contact_socialmatrix",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/ContactSection.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_contactsection",
+      "target": "components_contact_socialmatrix_social",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/ContactSection.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_contactsection",
+      "target": "content_site",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/ContactSection.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_contactsection",
+      "target": "content_site_contact",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/ContactSection.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_contactsection",
+      "target": "content_site_owner",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/CopyEmail.tsx",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_copyemail",
+      "target": "components_contact_copyemail_copyemail",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/CopyEmail.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_copyemail",
+      "target": "components_contact_copyemail_copyemailprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/CopyEmail.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_copyemail",
+      "target": "components_contact_copyemail_copystate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/LiveClock.tsx",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_liveclock",
+      "target": "components_contact_liveclock_liveclock",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/LiveClock.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_liveclock",
+      "target": "components_contact_liveclock_liveclockprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/LiveClock.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_liveclock",
+      "target": "components_contact_liveclock_offsetlabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/LiveClock.tsx",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_liveclock_liveclock",
+      "target": "components_contact_liveclock_offsetlabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/SocialMatrix.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_socialmatrix",
+      "target": "components_contact_socialmatrix_social",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/SocialMatrix.tsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_socialmatrix",
+      "target": "components_contact_socialmatrix_socialcard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/SocialMatrix.tsx",
+      "source_location": "L106",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_socialmatrix",
+      "target": "components_contact_socialmatrix_socialmatrix",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/contact/SocialMatrix.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_contact_socialmatrix",
+      "target": "components_contact_socialmatrix_socialmatrixprops",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -4961,6 +6057,355 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsCard.tsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newscard",
+      "target": "components_news_newscard_corner",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsCard.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newscard",
+      "target": "components_news_newscard_dateformatter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsCard.tsx",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newscard",
+      "target": "components_news_newscard_newscard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsCard.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newscard",
+      "target": "components_news_newscard_newscardprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsCard.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newscard",
+      "target": "components_news_newscard_stamp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newscard",
+      "target": "types_news",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newscard",
+      "target": "types_news_newsitem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsSection.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newssection",
+      "target": "components_news_newscard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsCard.tsx",
+      "source_location": "L120",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newscard_newscard",
+      "target": "components_news_newscard_stamp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsCard.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newscard_newscardprops",
+      "target": "types_news_newsitem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsFilters.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newsfilters",
+      "target": "components_news_newsfilters_newsfilters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsFilters.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newsfilters",
+      "target": "components_news_newsfilters_newsfiltersprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsFilters.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newsfilters",
+      "target": "types_news",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsFilters.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newsfilters",
+      "target": "types_news_news_categories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsFilters.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newsfilters",
+      "target": "types_news_newscategory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsSection.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newssection",
+      "target": "components_news_newsfilters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsFilters.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newsfilters_newsfiltersprops",
+      "target": "types_news_newscategory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsModal.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newsmodal",
+      "target": "components_news_newsmodal_dateformatter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsModal.tsx",
+      "source_location": "L33",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newsmodal",
+      "target": "components_news_newsmodal_newsmodal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsModal.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newsmodal",
+      "target": "components_news_newsmodal_newsmodalprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsModal.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newsmodal",
+      "target": "types_news",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsModal.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newsmodal",
+      "target": "types_news_newsitem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsSection.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newssection",
+      "target": "components_news_newsmodal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsModal.tsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newsmodal_newsmodalprops",
+      "target": "types_news_newsitem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsSection.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newssection",
+      "target": "components_news_newssection_newssection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsSection.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newssection",
+      "target": "content_news",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsSection.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newssection",
+      "target": "content_news_news",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsSection.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newssection",
+      "target": "types_news",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsSection.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newssection",
+      "target": "types_news_news_categories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/news/NewsSection.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_news_newssection",
+      "target": "types_news_newscategory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "components/projects/ProjectsOrbit.tsx",
       "source_location": "L19",
       "weight": 1.0,
@@ -5168,290 +6613,6 @@
       "_origin": "ast",
       "source": "components_providers_smoothscroll",
       "target": "components_providers_smoothscroll_smoothscroll",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/AboutSection.jsx",
-      "source_location": "L5",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_aboutsection",
-      "target": "components_sections_aboutsection_aboutsection",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/AboutSection.jsx",
-      "source_location": "L2",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_aboutsection",
-      "target": "components_ui_reveal",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/AboutSection.jsx",
-      "source_location": "L2",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_aboutsection",
-      "target": "components_ui_reveal_reveal",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/AboutSection.jsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_aboutsection",
-      "target": "components_ui_sectionheading",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/AboutSection.jsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_aboutsection",
-      "target": "components_ui_sectionheading_sectionheading",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/AboutSection.jsx",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_aboutsection",
-      "target": "content_site",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/AboutSection.jsx",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_aboutsection",
-      "target": "content_site_about",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/AboutSection.jsx",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_aboutsection",
-      "target": "content_site_owner",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/ContactSection.jsx",
-      "source_location": "L12",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_contactsection",
-      "target": "components_sections_contactsection_contactsection",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/ContactSection.jsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_contactsection",
-      "target": "components_ui_reveal",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/ContactSection.jsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_contactsection",
-      "target": "components_ui_reveal_reveal",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/ContactSection.jsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_contactsection",
-      "target": "components_ui_sectionheading",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/ContactSection.jsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_contactsection",
-      "target": "components_ui_sectionheading_sectionheading",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/ContactSection.jsx",
-      "source_location": "L2",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_contactsection",
-      "target": "content_site",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/ContactSection.jsx",
-      "source_location": "L2",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_contactsection",
-      "target": "content_site_contact",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/ContactSection.jsx",
-      "source_location": "L2",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_contactsection",
-      "target": "content_site_owner",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/NewsSection.jsx",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_newssection",
-      "target": "components_sections_newssection_formatter",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/NewsSection.jsx",
-      "source_location": "L15",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_newssection",
-      "target": "components_sections_newssection_newssection",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/NewsSection.jsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_newssection",
-      "target": "components_ui_reveal",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/NewsSection.jsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_newssection",
-      "target": "components_ui_reveal_reveal",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/NewsSection.jsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_newssection",
-      "target": "components_ui_sectionheading",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/NewsSection.jsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_newssection",
-      "target": "components_ui_sectionheading_sectionheading",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/NewsSection.jsx",
-      "source_location": "L2",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_newssection",
-      "target": "content_site",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/sections/NewsSection.jsx",
-      "source_location": "L2",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_sections_newssection",
-      "target": "content_site_news",
       "confidence_score": 1.0
     },
     {
@@ -6248,6 +7409,41 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "content/news.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "content_news",
+      "target": "content_news_news",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "content/news.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "content_news",
+      "target": "types_news",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "content/news.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "content_news",
+      "target": "types_news_newsitem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "content/projects.ts",
       "source_location": "L8",
       "weight": 1.0,
@@ -6284,7 +7480,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "content/site.js",
-      "source_location": "L52",
+      "source_location": "L29",
       "weight": 1.0,
       "_origin": "ast",
       "source": "content_site",
@@ -6295,7 +7491,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "content/site.js",
-      "source_location": "L68",
+      "source_location": "L82",
       "weight": 1.0,
       "_origin": "ast",
       "source": "content_site",
@@ -6311,17 +7507,6 @@
       "_origin": "ast",
       "source": "content_site",
       "target": "content_site_navlinks",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "content/site.js",
-      "source_location": "L29",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "content_site",
-      "target": "content_site_news",
       "confidence_score": 1.0
     },
     {
@@ -7875,6 +9060,50 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "types/news.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "types_news",
+      "target": "types_news_news_categories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/news.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "types_news",
+      "target": "types_news_newscategory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/news.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "types_news",
+      "target": "types_news_newsitem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/news.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "types_news",
+      "target": "types_news_newsitemcategory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "types/project.ts",
       "source_location": "L1",
       "weight": 1.0,
@@ -8174,5 +9403,5 @@
       "source_file": ".github/workflows/deploy.yml"
     }
   ],
-  "built_at_commit": "466bd717ae47d97d3c861ea4a6a454a48cadaa16"
+  "built_at_commit": "77d166a0f7c6e618e0f2c4cc2ff6bc8e74b0b3da"
 }

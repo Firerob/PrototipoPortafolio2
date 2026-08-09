@@ -4,9 +4,9 @@ import HeroSection from '@/components/hero/HeroSection';
 import ProjectsOrbit from '@/components/projects/ProjectsOrbit';
 import ArchiveSection from '@/components/archive/ArchiveSection';
 import ProjectsIndex from '@/components/index/ProjectsIndex';
-import NewsSection from '@/components/sections/NewsSection';
-import AboutSection from '@/components/sections/AboutSection';
-import ContactSection from '@/components/sections/ContactSection';
+import NewsSection from '@/components/news/NewsSection';
+import AboutSection from '@/components/about/AboutSection';
+import ContactSection from '@/components/contact/ContactSection';
 import SiteFooter from '@/components/sections/SiteFooter';
 import { owner } from '@/content/site';
 
