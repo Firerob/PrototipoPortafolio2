@@ -26,65 +26,6 @@ export const navLinks = [
   { label: 'Contact', href: '#contact' },
 ];
 
-/*
-  Each project's `tint` is the pair of stops used for its placeholder panel.
-  When real artwork exists, drop a `src` on the project and render next/image
-  inside <WorkCard> — the card already reserves the aspect ratio, so swapping
-  images in causes no layout shift.
-*/
-export const works = [
-  {
-    id: 'w-01',
-    title: 'Refraction Study',
-    category: '3D',
-    year: '2026',
-    blurb: 'Real-time dispersion experiments on procedural glass solids.',
-    tint: ['#6d4bff', '#1b1140'],
-    featured: true,
-  },
-  {
-    id: 'w-02',
-    title: 'Signal Garden',
-    category: 'Motion',
-    year: '2026',
-    blurb: 'Generative title sequence driven by live audio amplitude.',
-    tint: ['#4be1ff', '#08303c'],
-  },
-  {
-    id: 'w-03',
-    title: 'Null Terrain',
-    category: '3D',
-    year: '2025',
-    blurb: 'Height-field landscapes rendered from corrupted elevation data.',
-    tint: ['#ff5ea8', '#3a0f2a'],
-  },
-  {
-    id: 'w-04',
-    title: 'Kernel Bloom',
-    category: 'Shader',
-    year: '2025',
-    blurb: 'A convolution playground exploring bloom without postprocessing.',
-    tint: ['#8b7bff', '#150f38'],
-    featured: true,
-  },
-  {
-    id: 'w-05',
-    title: 'Quiet Machines',
-    category: 'Illustration',
-    year: '2025',
-    blurb: 'Series of eight plates on obsolete industrial hardware.',
-    tint: ['#c9d2ff', '#1a1c2e'],
-  },
-  {
-    id: 'w-06',
-    title: 'Drift Protocol',
-    category: 'Motion',
-    year: '2024',
-    blurb: 'Looping identity system for an independent electronic label.',
-    tint: ['#4be1ff', '#2a1350'],
-  },
-];
-
 export const news = [
   {
     date: '2026-07-22',

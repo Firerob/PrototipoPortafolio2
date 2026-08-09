@@ -3,7 +3,7 @@ import { PointerProvider } from '@/components/three/PointerProvider';
 import HeroSection from '@/components/hero/HeroSection';
 import ProjectsOrbit from '@/components/projects/ProjectsOrbit';
 import ArchiveSection from '@/components/archive/ArchiveSection';
-import WorksSection from '@/components/sections/WorksSection';
+import ProjectsIndex from '@/components/index/ProjectsIndex';
 import NewsSection from '@/components/sections/NewsSection';
 import AboutSection from '@/components/sections/AboutSection';
 import ContactSection from '@/components/sections/ContactSection';
@@ -48,7 +48,7 @@ export default function Page() {
       {/* From here down the stage is fully covered. bg-void/95 still lets the
           fluid layer read faintly underneath. */}
       <main className="relative z-10 bg-void/95">
-        <WorksSection />
+        <ProjectsIndex />
         <NewsSection />
         <AboutSection />
         <ContactSection />

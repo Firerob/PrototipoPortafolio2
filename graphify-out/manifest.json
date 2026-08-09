@@ -5,8 +5,8 @@
     "semantic_hash": "93c6bc5e463160b5357f279270a6b009"
   },
   "app/page.jsx": {
-    "mtime": 1786259378.3624642,
-    "ast_hash": "f5fb18abc8ed8efb27493f50efaa004a",
+    "mtime": 1786261091.1106646,
+    "ast_hash": "81ded6a16d9c2b102861972ca3a403f2",
     "semantic_hash": ""
   },
   "components/background/FluidBackground.tsx": {
@@ -84,16 +84,6 @@
     "ast_hash": "910e189f090bafce62b661bbe0007933",
     "semantic_hash": "910e189f090bafce62b661bbe0007933"
   },
-  "components/sections/WorkCard.jsx": {
-    "mtime": 1786241043.9289153,
-    "ast_hash": "c02604829375073d26270aea16411bde",
-    "semantic_hash": "c02604829375073d26270aea16411bde"
-  },
-  "components/sections/WorksSection.jsx": {
-    "mtime": 1786259359.6824324,
-    "ast_hash": "f88dda6a741c3a6d715f2e1397837efa",
-    "semantic_hash": ""
-  },
   "components/three/BackdropCanvas.tsx": {
     "mtime": 1786247963.8344686,
     "ast_hash": "370852fdc6b96d31d97d8f1a576ddaca",
@@ -140,9 +130,9 @@
     "semantic_hash": "9c77efa7e8999b0a961343c01cf989dd"
   },
   "content/site.js": {
-    "mtime": 1786241009.1006382,
-    "ast_hash": "3c918c319fcdd13cb2fe2d8f249d8ec9",
-    "semantic_hash": "3c918c319fcdd13cb2fe2d8f249d8ec9"
+    "mtime": 1786261111.1262667,
+    "ast_hash": "d4a62c104f3fac2b44e28aac70b1d622",
+    "semantic_hash": ""
   },
   "hooks/useIsomorphicLayoutEffect.ts": {
     "mtime": 1786249529.7922277,
@@ -215,9 +205,9 @@
     "semantic_hash": "71226aedb8672426141d2fc9f6201bbd"
   },
   "types/project.ts": {
-    "mtime": 1786242060.4467258,
-    "ast_hash": "a9a97339c0f0dac5f509c5a556eb850e",
-    "semantic_hash": "a9a97339c0f0dac5f509c5a556eb850e"
+    "mtime": 1786260994.2441,
+    "ast_hash": "b538328b699dd37ffee57398c5e230a4",
+    "semantic_hash": ""
   },
   ".github/workflows/deploy.yml": {
     "mtime": 1786252587.2566051,
@@ -252,6 +242,16 @@
   "lib/archiveScroll.ts": {
     "mtime": 1786259140.765894,
     "ast_hash": "b781562be727faebd8397cbfea520d0c",
+    "semantic_hash": ""
+  },
+  "components/index/ProjectRow.tsx": {
+    "mtime": 1786261624.432809,
+    "ast_hash": "115d3939bdaabd6887a94e26c73de37a",
+    "semantic_hash": ""
+  },
+  "components/index/ProjectsIndex.tsx": {
+    "mtime": 1786261624.4318056,
+    "ast_hash": "1ec6abe9f3c0ee42d8d35d4d98e47e46",
     "semantic_hash": ""
   }
 }
