@@ -1,6 +1,12 @@
 'use client';
 
-import { Suspense, useRef, useState, type ReactNode } from 'react';
+import {
+  Suspense,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type ReactNode,
+} from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { Environment, Lightformer, PerformanceMonitor } from '@react-three/drei';
 import {
@@ -30,6 +36,9 @@ import {
   smootherstep as smootherstepScene,
 } from '@/lib/sceneScroll';
 import GlobalSceneController from './GlobalSceneController';
+import CalibrationEffects from './CalibrationEffects';
+import GenesisWireframe from './GenesisWireframe';
+import { opening, subscribeOpeningPhase } from '@/lib/opening';
 
 /*
   Frame-rate independent lerp factor.
@@ -300,6 +309,20 @@ export default function HeroScene({ word, reducedMotion = false, font }: HeroSce
   // the transmission material's resolution/samples, which dominate GPU cost.
   const [quality, setQuality] = useState<'high' | 'low'>('high');
 
+  /*
+    The composer exists only until the opening finishes.
+
+    useSyncExternalStore rather than useState + useEffect: the phase lives in a
+    module store that GSAP and the DOM overlay both write, and this is the
+    supported way to read one without tearing during a concurrent render.
+    Server snapshot is 'calibrating' so SSR and the first client paint agree.
+  */
+  const phase = useSyncExternalStore(
+    subscribeOpeningPhase,
+    () => opening.phase,
+    () => 'calibrating' as const,
+  );
+
   return (
     <>
       <PerformanceMonitor onDecline={() => setQuality('low')} onIncline={() => setQuality('high')} />
@@ -345,6 +368,19 @@ export default function HeroScene({ word, reducedMotion = false, font }: HeroSce
       <GlobalSceneController reducedMotion={reducedMotion} />
 
       <CameraRig reducedMotion={reducedMotion} />
+
+      {/*
+        Both mount for the whole opening and unmount together at 'live'.
+        CalibrationEffects is mounted from the first phase rather than from the
+        bake so its pass shaders compile during the black screen — see the note
+        in that file about why that is the answer to the FPS question.
+      */}
+      {phase !== 'live' && (
+        <>
+          <GenesisWireframe />
+          <CalibrationEffects />
+        </>
+      )}
     </>
   );
 }

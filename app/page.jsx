@@ -8,6 +8,7 @@ import NewsSection from '@/components/news/NewsSection';
 import AboutSection from '@/components/about/AboutSection';
 import ContactSection from '@/components/contact/ContactSection';
 import SiteFooter from '@/components/sections/SiteFooter';
+import CinematicGenesisOpening from '@/components/hero/CinematicGenesisOpening';
 import IndexArrival from '@/components/transitions/IndexArrival';
 import NewsArrival from '@/components/transitions/NewsArrival';
 import AboutArrival from '@/components/transitions/AboutArrival';
@@ -48,6 +49,11 @@ export default function Page() {
         footer, where nothing is drawing.
       */}
       <HeroCanvas word={owner.heroWord} startTrigger="#top" endTrigger="#contact" />
+
+      {/* The opening: singularity, wireframe ignition, material bake, optic
+          calibration. Unmounts itself once the lens resolves, and is absent
+          entirely under reduced motion. */}
+      <CinematicGenesisOpening />
 
       <HeroSection word={owner.heroWord} brand={owner.mark} />
 
