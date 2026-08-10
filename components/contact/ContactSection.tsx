@@ -28,7 +28,7 @@ export default function ContactSection() {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className="relative scroll-mt-24 overflow-hidden border-t border-hairline px-5 py-20 sm:px-8 sm:py-28"
+      className="relative scroll-mt-24 overflow-hidden px-5 pb-20 pt-10 sm:px-8 sm:pb-28 sm:pt-14"
     >
       {/* Single soft accent wash. The 3D stage is long covered by this point,
           so the glow is what carries the palette down to the page's end. */}

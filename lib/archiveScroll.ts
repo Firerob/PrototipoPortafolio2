@@ -12,11 +12,18 @@ interface ArchiveScrollState {
   progress: number;
   /** Which side of the wave we are on. Drives the DOM theme swap. */
   theme: 'dark' | 'light';
+  /**
+   * 0 while the light room is still on screen, 1 once IndexArrival's mirrored
+   * wave has closed it. Fades the fixed curtain out from underneath the rest
+   * of the page — see WaveTransition.
+   */
+  exit: number;
 }
 
 export const archiveScroll: ArchiveScrollState = {
   progress: 0,
   theme: 'dark',
+  exit: 0,
 };
 
 /*
@@ -67,6 +74,11 @@ export function setArchiveProgress(progress: number): void {
   for (const listener of listeners) listener(next);
 }
 
+/** Written by IndexArrival's ScrollTrigger. Read-only everywhere else. */
+export function setArchiveExit(exit: number): void {
+  archiveScroll.exit = Math.min(1, Math.max(0, exit));
+}
+
 export function subscribeTheme(listener: ThemeListener): () => void {
   listeners.add(listener);
   return () => {
@@ -77,4 +89,5 @@ export function subscribeTheme(listener: ThemeListener): () => void {
 export function resetArchiveScroll(): void {
   archiveScroll.progress = 0;
   archiveScroll.theme = 'dark';
+  archiveScroll.exit = 0;
 }

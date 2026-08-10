@@ -27,6 +27,22 @@ const LIFT_PER_STEP = 5;
 /** Blur applied to a row one full step away from the focus, in px. */
 const BLUR_PER_STEP = 2.6;
 const MAX_BLUR = 7;
+/**
+ * How many rows are mid-entry at once as the list materialises.
+ *
+ * The corridor the arrival section leaves the viewer in has to keep going, so
+ * the rows do not fade in as a block — they resolve out of the vanishing point
+ * one after another. Lower values make them arrive as a queue, higher as a
+ * mass; 2.5 keeps the trailing row's start close enough to the leading one's
+ * finish that the sequence reads as continuous.
+ */
+const ENTRY_LEAD = 2.5;
+/** Scale of a row that has not yet arrived — deep in the same corridor. */
+const ENTRY_SCALE = 0.56;
+/** Extra blur and lift on a row still at that distance. */
+const ENTRY_BLUR = 9;
+const ENTRY_LIFT = 52;
+
 /** Maximum hover tilt, in degrees. */
 const TILT_DEG = 7;
 /** Base of the frame-rate-independent tilt follow. */
@@ -58,6 +74,8 @@ export default function ProjectsIndex() {
   const focus = useRef(0);
   /** Row index the pointer owns, or null when scroll is in charge. */
   const hoverLock = useRef<number | null>(null);
+  /** 0 while the list is still deep in the corridor, 1 once it has arrived. */
+  const entry = useRef(0);
   /** Live tilt target per row, -1..1. Index-aligned with `rows`. */
   const tilt = useRef<{ x: number; y: number }[]>([]);
 
@@ -88,6 +106,11 @@ export default function ProjectsIndex() {
             out of. The same markup just renders as a flat, legible list.
           */
           if (!desktop || reduced) {
+            // Including the entry ramp: a list that materialises out of a
+            // vanishing point is the same depth illusion the rest of this
+            // branch opts out of, and on a phone it would leave the section
+            // blank until scrolled to exactly the right offset.
+            entry.current = 1;
             rows.forEach((row) => {
               row.style.transform = '';
               row.style.filter = '';
@@ -99,11 +122,27 @@ export default function ProjectsIndex() {
           const pointer = { x: 0, y: 0 };
           let lastFrame = performance.now();
 
+          /** smootherstep, local copy — zero velocity at both ends. */
+          const ease = (t: number) => {
+            const x = Math.min(1, Math.max(0, t));
+            return x * x * x * (x * (x * 6 - 15) + 10);
+          };
+
           const apply = () => {
             const f = focus.current;
+            /*
+              The entry ramp is folded into the SAME write as the depth-of-
+              field, not layered on top as a separate GSAP tween. Two writers
+              on one element's transform means the last one each frame wins,
+              and which one that is depends on tween ordering — the rows
+              flickered between the two states. One expression, one write.
+            */
+            const arrival = entry.current * (rows.length + ENTRY_LEAD);
+
             rows.forEach((row, i) => {
               const distance = i - f;
               const abs = Math.abs(distance);
+              const e = ease((arrival - i) / ENTRY_LEAD);
 
               /*
                 Rows behind the focus recede; rows in front come toward the
@@ -111,10 +150,11 @@ export default function ProjectsIndex() {
                 read as a corridor you are moving through rather than a stack
                 that breathes symmetrically.
               */
-              const scale = Math.max(MIN_SCALE, 1 - abs * SCALE_PER_STEP);
-              const lift = -distance * LIFT_PER_STEP;
-              const blur = Math.min(abs * BLUR_PER_STEP, MAX_BLUR);
-              const opacity = Math.max(0.22, 1 - abs * 0.26);
+              const depth = Math.max(MIN_SCALE, 1 - abs * SCALE_PER_STEP);
+              const scale = depth * (ENTRY_SCALE + (1 - ENTRY_SCALE) * e);
+              const lift = -distance * LIFT_PER_STEP + (1 - e) * ENTRY_LIFT;
+              const blur = Math.min(abs * BLUR_PER_STEP, MAX_BLUR) + (1 - e) * ENTRY_BLUR;
+              const opacity = Math.max(0.22, 1 - abs * 0.26) * e;
 
               row.style.transform = `translateY(${lift.toFixed(1)}px) scale(${scale.toFixed(4)})`;
               // Blur only when it will be visible — filter forces a repaint
@@ -125,6 +165,9 @@ export default function ProjectsIndex() {
               // compositor fast path.
               row.style.filter = blur > 0.05 ? `blur(${blur.toFixed(2)}px)` : '';
               row.style.opacity = opacity.toFixed(3);
+              // A row still deep in the corridor is drawn at ~0 opacity but
+              // would otherwise still take clicks over its final position.
+              row.style.pointerEvents = e < 0.05 ? 'none' : '';
             });
 
             /*
@@ -171,6 +214,22 @@ export default function ProjectsIndex() {
             }
             setActive((prev) => (prev === nearest ? prev : nearest));
           };
+
+          /*
+            The list materialising out of the corridor IndexArrival leaves the
+            viewer in. Its window is placed so it begins the moment the arrival
+            stage unsticks — the two are adjacent in the scroll, so the wave
+            clearing and the rows resolving are one continuous move.
+          */
+          ScrollTrigger.create({
+            trigger: section.current,
+            start: 'top 90%',
+            end: 'top 32%',
+            scrub: 0.8,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => (entry.current = self.progress),
+            onRefresh: (self) => (entry.current = self.progress),
+          });
 
           ScrollTrigger.create({
             trigger: section.current,
@@ -236,10 +295,12 @@ export default function ProjectsIndex() {
             listEl?.removeEventListener('pointermove', onMove);
             listEl?.removeEventListener('pointerleave', clearLock);
             listEl?.removeEventListener('focusin', onMove as unknown as EventListener);
+            entry.current = 0;
             rows.forEach((row) => {
               row.style.transform = '';
               row.style.filter = '';
               row.style.opacity = '';
+              row.style.pointerEvents = '';
               row.querySelector<HTMLElement>('[data-plate]')?.removeAttribute('style');
             });
           };
@@ -255,7 +316,7 @@ export default function ProjectsIndex() {
       ref={section}
       id="index"
       aria-labelledby="index-heading"
-      className="relative scroll-mt-24 border-t border-hairline px-5 py-20 sm:px-8 sm:py-28"
+      className="relative scroll-mt-24 px-5 pb-20 pt-10 sm:px-8 sm:pb-28 sm:pt-14"
     >
       <div className="mx-auto max-w-[1600px]">
         <div className="mb-12 flex flex-wrap items-end justify-between gap-6 sm:mb-16">

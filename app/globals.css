@@ -82,6 +82,71 @@ body {
 }
 
 /*
+  Reduced motion: the archive → index crossing is removed outright.
+
+  Collapsed in CSS rather than by branching the JSX on the preference. The
+  server cannot read prefers-reduced-motion, so rendering different markup for
+  it is a guaranteed hydration mismatch — the same reasoning that keeps Reveal
+  and Navbar emitting identical HTML and only changing durations. Here there is
+  no duration to change: 180vh of scrubbed wave IS the animation, so the whole
+  band goes to zero height and the two sections meet directly.
+*/
+@media (prefers-reduced-motion: reduce) {
+  .arrival {
+    height: 0;
+    overflow: hidden;
+  }
+
+  /*
+    The news crossing is NOT collapsed, because unlike the archive one it has
+    a meaningful resting state: its markup renders the locked signal — a flat
+    trace with SIGNAL 100% LOCKED under it — which is a perfectly good static
+    boundary. It only needs to stop being a screen-tall stage.
+  */
+  .news-arrival {
+    height: auto;
+  }
+
+  .news-arrival [data-stage] {
+    position: static;
+    height: auto;
+    padding-block: 2.5rem;
+  }
+
+  /*
+    The about and contact crossings have no meaningful still frame. A figure
+    frozen mid-push against doors that never open, or a dial charging to a
+    burst that never fires, is a broken image rather than a restrained one —
+    and leaving the doors in place without the JS that moves them would paint
+    a screen-tall slab over the section below. Both collapse to their readout
+    row, which still gives these viewers the chapter handoff every other seam
+    on the page gives them.
+  */
+  .about-arrival,
+  .contact-arrival {
+    height: auto;
+  }
+
+  .about-arrival [data-stage],
+  .contact-arrival [data-stage] {
+    position: static;
+    height: auto;
+    padding-block: 2.5rem;
+  }
+
+  .about-arrival [data-scene],
+  .contact-arrival [data-scene] {
+    display: none;
+  }
+
+  .about-arrival [data-readout],
+  .contact-arrival [data-readout] {
+    position: static;
+    transform: none;
+  }
+}
+
+/*
   Biometric scanner sweep for the profile card.
 
   A keyframed transform rather than an animated `top`/`background-position`:

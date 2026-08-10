@@ -50,7 +50,7 @@ export default function NewsSection() {
     <section
       id="news"
       aria-labelledby="news-heading"
-      className="scroll-mt-24 border-t border-hairline px-5 py-20 sm:px-8 sm:py-28"
+      className="scroll-mt-24 px-5 pb-20 pt-10 sm:px-8 sm:pb-28 sm:pt-14"
     >
       <div className="mx-auto max-w-[1600px]">
         <div className="mb-10 flex flex-col gap-8 lg:mb-14 lg:flex-row lg:items-end lg:justify-between">

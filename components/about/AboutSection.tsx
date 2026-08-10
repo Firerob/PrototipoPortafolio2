@@ -36,7 +36,7 @@ export default function AboutSection({ profileSrc }: AboutSectionProps) {
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="scroll-mt-24 border-t border-hairline px-5 py-20 sm:px-8 sm:py-28"
+      className="scroll-mt-24 px-5 pb-20 pt-10 sm:px-8 sm:pb-28 sm:pt-14"
     >
       <div className="mx-auto max-w-[1600px]">
         <motion.div {...line(0)} className="mb-12 sm:mb-16">

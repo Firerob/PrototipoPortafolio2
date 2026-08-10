@@ -2,52 +2,8 @@
 
 import { useRef } from 'react';
 import { archiveScroll, phaseOf, smootherstep, WAVE_RANGE } from '@/lib/archiveScroll';
+import { VW, VH, waveDown } from '@/lib/wave';
 import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicLayoutEffect';
-
-/*
-  Viewport-space units for the SVG. preserveAspectRatio="none" lets it stretch
-  to any window shape, so the wave always spans the full width and the numbers
-  below stay resolution-independent.
-*/
-const VW = 100;
-const VH = 100;
-
-/** How deep the crest dips, in viewBox units. */
-const AMPLITUDE = 9;
-
-/**
- * Builds the curtain path for a given sweep position.
- *
- * The path is a filled region from the top of the screen down to a wavy
- * leading edge. Two cubic segments make an S-curve that reads as liquid; a
- * single quadratic looks like a bulge, and a polygon clip-path (which the
- * brief suggested) can only produce straight chords between its points, so it
- * cannot make a smooth crest at all without dozens of vertices.
- *
- * `t` runs 0 (fully above the screen) → 1 (fully covering it).
- */
-function wavePath(t: number): string {
-  // Travel a little past the ends so the crest is fully off-screen at t=0 and
-  // the trailing flat edge is off-screen at t=1.
-  const y = -AMPLITUDE * 2 + t * (VH + AMPLITUDE * 4);
-
-  // The crest flattens as the curtain settles — a wave that stays equally wavy
-  // at rest looks like a decoration rather than a moving liquid front.
-  const amp = AMPLITUDE * Math.sin(Math.PI * Math.min(1, Math.max(0, t)));
-
-  return [
-    `M 0 ${(-VH).toFixed(2)}`,
-    `L ${VW} ${(-VH).toFixed(2)}`,
-    `L ${VW} ${y.toFixed(3)}`,
-    `C ${(VW * 0.72).toFixed(2)} ${(y + amp).toFixed(3)}`,
-    `  ${(VW * 0.60).toFixed(2)} ${(y - amp).toFixed(3)}`,
-    `  ${(VW * 0.44).toFixed(2)} ${(y + amp * 0.35).toFixed(3)}`,
-    `C ${(VW * 0.28).toFixed(2)} ${(y + amp * 1.15).toFixed(3)}`,
-    `  ${(VW * 0.14).toFixed(2)} ${(y - amp * 0.85).toFixed(3)}`,
-    `  0 ${(y + amp * 0.25).toFixed(3)}`,
-    'Z',
-  ].join(' ');
-}
 
 /**
  * Full-screen wave curtain that carries the dark → light theme change.
@@ -83,22 +39,41 @@ export default function WaveTransition() {
   useIsomorphicLayoutEffect(() => {
     let raf = 0;
     let lastT = -1;
+    let lastAlpha = -1;
 
     const tick = () => {
       raf = requestAnimationFrame(tick);
 
       const t = smootherstep(phaseOf(archiveScroll.progress, WAVE_RANGE));
+
+      /*
+        The light room is not permanent.
+
+        IndexArrival closes it again with the mirrored wave, and once that
+        second front has covered the screen this layer is dead weight sitting
+        behind every remaining section — still compositing a full-viewport
+        gradient under `bg-void/95` on every frame. `exit` is written by that
+        section and fades this one out while it is completely hidden, so the
+        removal is free and invisible.
+      */
+      const alpha = t <= 0.0005 ? 0 : 1 - smootherstep(archiveScroll.exit);
+      if (Math.abs(alpha - lastAlpha) >= 0.002) {
+        lastAlpha = alpha;
+        if (host.current) {
+          host.current.style.opacity = alpha.toFixed(3);
+          // Nothing to composite at all once it is gone.
+          host.current.style.visibility = alpha < 0.002 ? 'hidden' : '';
+        }
+      }
+
       // Skip the string rebuild when nothing moved — most frames during a
       // pause are identical and setAttribute always invalidates.
       if (Math.abs(t - lastT) < 0.0005) return;
       lastT = t;
 
-      const d = wavePath(t);
+      const d = waveDown(t);
       path.current?.setAttribute('d', d);
       glow.current?.setAttribute('d', d);
-
-      // Hidden entirely at rest so it never composites over the hero.
-      if (host.current) host.current.style.opacity = t <= 0.0005 ? '0' : '1';
     };
 
     raf = requestAnimationFrame(tick);
@@ -129,14 +104,14 @@ export default function WaveTransition() {
             lit liquid front rather than a hard cut. */}
         <path
           ref={glow}
-          d={wavePath(0)}
+          d={waveDown(0)}
           fill="none"
           stroke="#6d4bff"
           strokeWidth="0.5"
           style={{ filter: 'blur(1.4px)' }}
           opacity="0.9"
         />
-        <path ref={path} d={wavePath(0)} fill="url(#wave-fill)" />
+        <path ref={path} d={waveDown(0)} fill="url(#wave-fill)" />
       </svg>
     </div>
   );

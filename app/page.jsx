@@ -8,6 +8,11 @@ import NewsSection from '@/components/news/NewsSection';
 import AboutSection from '@/components/about/AboutSection';
 import ContactSection from '@/components/contact/ContactSection';
 import SiteFooter from '@/components/sections/SiteFooter';
+import IndexArrival from '@/components/transitions/IndexArrival';
+import NewsArrival from '@/components/transitions/NewsArrival';
+import AboutArrival from '@/components/transitions/AboutArrival';
+import ContactArrival from '@/components/transitions/ContactArrival';
+import CorridorDepth from '@/components/transitions/CorridorDepth';
 import { owner } from '@/content/site';
 
 /*
@@ -45,13 +50,55 @@ export default function Page() {
           video corridor is rendered by the shared canvas behind it. */}
       <ArchiveSection />
 
-      {/* From here down the stage is fully covered. bg-void/95 still lets the
-          fluid layer read faintly underneath. */}
+      {/* Closes the light archive room with the mirror of the wave that opened
+          it, and hands the corridor over to the index. */}
+      <IndexArrival />
+
+      {/*
+        From here down the stage is fully covered. bg-void/95 still lets the
+        fluid layer read faintly underneath.
+
+        Every section is wrapped in CorridorDepth, and every boundary is a
+        scroll-driven crossing rather than a static border, so the lower half
+        of the page keeps the same spatial language as the 3D half above it.
+
+        Each crossing is built around what the section it opens actually is —
+        a signal acquired for the feed, the page forced apart for the profile,
+        an uplink fired for the transmitter — but they all share one grammar:
+        the same mono chapter handoff, meter and status word. That is what
+        keeps four bespoke set pieces reading as one system.
+
+        The CorridorDepth wrappers must stay the OUTERMOST element around each
+        section: they animate opacity, and a second isolating layer above them
+        would flatten ProjectRow's mix-blend-difference titles.
+      */}
       <main className="relative z-10 bg-void/95">
-        <ProjectsIndex />
-        <NewsSection />
-        <AboutSection />
-        <ContactSection />
+        <CorridorDepth>
+          <ProjectsIndex />
+        </CorridorDepth>
+
+        {/* News is the transmission feed, so its crossing is a signal being
+            acquired out of noise. */}
+        <NewsArrival />
+
+        <CorridorDepth>
+          <NewsSection />
+        </CorridorDepth>
+
+        {/* The page is pried open to get into About. */}
+        <AboutArrival />
+
+        <CorridorDepth>
+          <AboutSection />
+        </CorridorDepth>
+
+        {/* The outbound half of the NewsArrival pair: that one resolves an
+            incoming signal, this one fires one. */}
+        <ContactArrival />
+
+        <CorridorDepth>
+          <ContactSection />
+        </CorridorDepth>
       </main>
 
       <SiteFooter className="relative z-10 bg-void/95" />
