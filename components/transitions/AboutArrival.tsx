@@ -10,550 +10,431 @@ if (typeof window !== 'undefined') gsap.registerPlugin(ScrollTrigger);
 /*
   ── Beat map ────────────────────────────────────────────────────────────────
 
-    rise     0.00 → 0.16   the unit comes up out of the floor at the seam
-    plant    0.16 → 0.30   hands find the seam, stance drops, bolts light
-    strain   0.30 → 0.62   the push. Gap grows to the arms' actual reach.
-    breach   0.62 → 0.88   the doors let go and fly; the unit holds follow-through
-    clear    0.88 → 1.00   figure sinks into the light, About is open
+    drift    0.00 → 0.18   raw sample points adrift; nothing is a face yet
+    sweep    0.18 → 0.50   the scan bar crosses; points lock as it passes them
+    resolve  0.50 → 0.76   the outline draws in behind the locked cloud
+    lock     0.76 → 0.92   registration marks strike, identity confirmed
+    clear    0.92 → 1.00   the portrait blooms out and About is open
 
-  The split between strain and breach is not decoration, it is the fix for a
-  real constraint: the arms reach 212 figure units, which is about a third of
-  a 1440px viewport. Locking the hands to the doors for the WHOLE travel is
-  therefore impossible. So the unit opens the gap as far as it physically can,
-  and at that exact limit the doors break loose and accelerate away on their
-  own. The reach limit becomes the story beat.
+  The read is a biometric acquisition, and that is not a theme picked at
+  random: the profile card immediately below this reads "biometric // ONLINE"
+  and carries its own scanner sweep, so the crossing is now the capture whose
+  result that card displays. About is "05 / Profile" — this is the profile
+  being taken.
+
+  ── Why the scan bar drives the lock, and not time ──────────────────────────
+
+  Every point's lock is a function of where the bar is relative to THAT point's
+  x, not of global progress. So the silhouette assembles left to right in the
+  bar's wake, which is what makes the bar look like the cause rather than like
+  a decoration travelling over an animation that was going to happen anyway.
 */
-const RISE_END = 0.16;
-const PLANT_END = 0.3;
-const STRAIN_END = 0.62;
-const BREACH_END = 0.88;
+const DRIFT_END = 0.18;
+const SWEEP_END = 0.5;
+const RESOLVE_END = 0.76;
+const LOCK_END = 0.92;
 
-/** Figure viewBox. Ground line at 540; everything is authored against it. */
-const FIG_W = 400;
-const FIG_H = 560;
-const MID = FIG_W / 2;
-const GROUND = 540;
+/** Design space the bust is authored in; mapped to the canvas at draw time. */
+const DESIGN_W = 400;
+const DESIGN_H = 520;
 
 /*
-  Bone lengths, in figure units, and they are not arbitrary.
+  Head and shoulders, authored once as a single closed path.
 
-  The first pass had legs of 78 + 76 = 154 trying to cover the 210 units from
-  the hip down to the ground. Every frame the IK clamped to full extension and
-  drew two straight sticks that never touched the floor — the figure looked
-  like it was hovering. Legs now total 212 against a 204-unit drop, so they
-  reach with a little bend to spare and the crouch has somewhere to go.
-
-  Arms total 168 from a shoulder 48 off the centre line, which sets REACH at
-  210 units. That in turn is what decides how far the unit can force the doors
-  before they have to break loose — roughly a third of a 1440px viewport.
+  It is used for two different things and must stay one string for them to
+  agree: sampled along its length for the outline points, and stroked as the
+  outline itself once those points have locked.
 */
-const UPPER_ARM = 86;
-const FOREARM = 82;
-const THIGH = 108;
-const SHIN = 104;
-
-const SHOULDER_SPREAD = 48;
-const HIP_SPREAD = 24;
-/** Rest positions; the stance moves both down as the load comes on. */
-const SHOULDER_Y = 218;
-const HIP_Y = 330;
-/** Horizontal reach of a hand from the figure's centre line, fully extended. */
-const REACH = SHOULDER_SPREAD + UPPER_ARM + FOREARM - 4;
+const BUST_PATH = `
+  M 200 58
+  C 244 58, 272 98, 272 150
+  C 272 194, 254 228, 230 240
+  L 230 268
+  C 304 282, 350 332, 360 410
+  L 360 462
+  L 40 462
+  L 40 410
+  C 50 332, 96 282, 170 268
+  L 170 240
+  C 146 228, 128 194, 128 150
+  C 128 98, 156 58, 200 58
+  Z
+`;
 
 const clamp01 = (t: number) => Math.min(1, Math.max(0, t));
 const phase = (p: number, a: number, b: number) => clamp01((p - a) / (b - a));
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-
 const smoothstep = (t: number) => {
   const x = clamp01(t);
   return x * x * (3 - 2 * x);
 };
 
-/**
- * Two-bone IK, closed form.
- *
- * Returns the joint position for a chain rooted at (sx, sy) whose tip should
- * land on (tx, ty). `bend` picks which of the two mirror solutions to use —
- * arms bend their elbows down and out, legs bend their knees out and forward,
- * which is opposite signs per side.
- *
- * Worth the fifteen lines rather than keyframing arm angles: the whole point
- * of the shot is that the hands are ON the doors, and any hand position the
- * choreography asks for is solvable exactly instead of approximated.
- */
-function solveJoint(
-  sx: number,
-  sy: number,
-  tx: number,
-  ty: number,
-  l1: number,
-  l2: number,
-  bend: 1 | -1,
-): { x: number; y: number } {
-  const dx = tx - sx;
-  const dy = ty - sy;
-  // Clamped so an out-of-reach target degrades to a straight limb pointing at
-  // it, rather than producing NaN from acos of something greater than 1.
-  const d = Math.min(Math.max(Math.hypot(dx, dy), Math.abs(l1 - l2) + 0.01), l1 + l2 - 0.01);
-  const base = Math.atan2(dy, dx);
-  const cos = (d * d + l1 * l1 - l2 * l2) / (2 * d * l1);
-  const angle = base + bend * Math.acos(Math.min(1, Math.max(-1, cos)));
-  return { x: sx + l1 * Math.cos(angle), y: sy + l1 * Math.sin(angle) };
-}
-
-/*
-  Limb specs: [ref key, mass stroke width]. Rendered twice each — see `rims`.
-  Declared at module scope so the two passes cannot drift out of step.
-*/
-const LEGS = [
-  ['thighL', 30],
-  ['shinL', 24],
-  ['thighR', 30],
-  ['shinR', 24],
-] as const satisfies readonly (readonly [string, number])[];
-
-const ARMS = [
-  ['upperL', 28],
-  ['foreL', 23],
-  ['upperR', 28],
-  ['foreR', 23],
-] as const satisfies readonly (readonly [string, number])[];
-
-/** Bolts down the seam. Fractions of the stage height. */
-const BOLTS = [0.13, 0.27, 0.41, 0.55, 0.69, 0.83];
-
-/**
- * One door's surface treatment.
- *
- * `side` is which side of the stage the door sits on, so `edge` is its INNER
- * edge — the one that meets the seam and catches the light.
- */
-function DoorFace({ side }: { side: 'left' | 'right' }) {
-  const edge = side === 'left' ? 'right-0' : 'left-0';
-  const inset = side === 'left' ? 'right-[7px]' : 'left-[7px]';
-  const rail = side === 'left' ? 'right-[18px]' : 'left-[18px]';
-
-  return (
-    <>
-      {/* Ribs. Wide spacing and low contrast — enough to say "panel", not so
-          much that the door competes with the figure in front of it. */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            'repeating-linear-gradient(to bottom, rgba(232,234,242,0.055) 0px, rgba(232,234,242,0.055) 1px, transparent 1px, transparent 64px)',
-        }}
-      />
-      {/* Bevel: the face angles toward the seam, so it is brighter there. */}
-      <div
-        className={`absolute inset-y-0 ${edge} w-32 ${
-          side === 'left'
-            ? 'bg-gradient-to-l from-white/[0.055]'
-            : 'bg-gradient-to-r from-white/[0.055]'
-        } to-transparent`}
-      />
-      <span className={`absolute inset-y-0 ${edge} w-px bg-accent-soft/70`} />
-      <span className={`absolute inset-y-0 ${inset} w-px bg-white/[0.09]`} />
-      {/* Rail of ticks, the mechanical detail that makes it a door and not a
-          rectangle. Rendered once as a repeating gradient, not 22 nodes. */}
-      <div
-        className={`absolute inset-y-0 ${rail} w-[3px]`}
-        style={{
-          backgroundImage:
-            'repeating-linear-gradient(to bottom, rgba(139,123,255,0.5) 0px, rgba(139,123,255,0.5) 6px, transparent 6px, transparent 34px)',
-        }}
-      />
-    </>
-  );
+interface Point {
+  /** Where it belongs on the portrait, in design space. */
+  tx: number;
+  ty: number;
+  /** Where it drifts before the bar reaches it. */
+  sx: number;
+  sy: number;
+  /** Per-point wobble so the drift never looks like one rigid cloud. */
+  speed: number;
+  phase: number;
+  /** Outline points carry the silhouette; interior ones only give it mass. */
+  edge: boolean;
 }
 
 /**
- * The news → about crossing: the screen is pried open.
+ * News → About: a biometric portrait acquisition.
  *
- * A hard-surface figure rises at the centre seam, plants both hands on it and
- * forces the page apart; About is behind it.
+ * Replaces the door-prying figure that used to live here. Everything outside
+ * the scene itself is unchanged on purpose — the band height, the sticky
+ * masked stage, the `data-scene` wrapper the reduced-motion rule hides, and
+ * the readout's chapter-handoff grammar are the same across all four
+ * crossings and are what keep them reading as one system.
  *
- * SVG rather than a third WebGL context. The page runs two — the R3F stage
- * and the fluid sim — and ProjectsIndex is built from DOM rather than adding
- * another for the same reason. A vector silhouette
- * is also simply the better-looking option here: it stays crisp at any
- * resolution, costs no shader compile, and a stylised backlit cutout reads far
- * more convincingly than an untextured procedural mannequin would.
+ * ── Canvas, where the other crossings use SVG ───────────────────────────────
  *
- * The figure is a real rig — shoulders, elbows, hips, knees solved by IK every
- * frame — not a sequence of drawn poses. One `halfGap` value positions the
- * doors AND supplies the hand targets, so the grip cannot drift off the edge
- * it is supposed to be holding.
+ * A deliberate exception, made on element count. The other crossings animate a
+ * handful of shapes; this one animates a couple of hundred points every frame,
+ * and a couple of hundred SVG nodes taking attribute writes at 60fps is the
+ * one shape of work canvas is unambiguously better at. The silhouette is
+ * stroked into the same canvas from a Path2D built out of the same path string
+ * the points were sampled from, so there is still only one source of truth for
+ * the shape, and only one element on the page.
  */
 export default function AboutArrival() {
   const host = useRef<HTMLDivElement>(null);
-  const stage = useRef<HTMLDivElement>(null);
-  const left = useRef<HTMLDivElement>(null);
-  const right = useRef<HTMLDivElement>(null);
-  const interior = useRef<HTMLDivElement>(null);
-  const spill = useRef<HTMLDivElement>(null);
-  const boltWrap = useRef<HTMLDivElement>(null);
-  const svg = useRef<SVGSVGElement>(null);
-  const figure = useRef<SVGGElement>(null);
-  const body = useRef<SVGGElement>(null);
-  const coat = useRef<SVGPolygonElement>(null);
-  const visor = useRef<SVGRectElement>(null);
-  const limbs = useRef<Record<string, SVGLineElement | null>>({});
-  /*
-    Every limb is drawn twice: a wider accent-coloured line underneath and the
-    near-black mass on top, which leaves a lit outline.
-
-    The plates got their rim for free from the polygon `stroke`, but a <line>
-    has only one stroke and it is the mass, so the arms and legs had no edge at
-    all. Against the dark stage they simply vanished — the first capture read
-    as a floating chest with two gauntlets and no arms between them. Backlit
-    silhouettes live or die on the rim.
-  */
-  const rims = useRef<Record<string, SVGLineElement | null>>({});
-  const joints = useRef<Record<string, SVGCircleElement | null>>({});
-  const hands = useRef<Record<string, SVGRectElement | null>>({});
-  const fromLabel = useRef<HTMLSpanElement>(null);
-  const toLabel = useRef<HTMLSpanElement>(null);
+  const canvas = useRef<HTMLCanvasElement>(null);
   const status = useRef<HTMLSpanElement>(null);
 
   useIsomorphicLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
+      const el = host.current;
+      const cnv = canvas.current;
+      if (!el || !cnv) return;
 
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
-        const el = host.current;
-        if (!el) return;
+      /*
+        Bail out entirely under reduced motion.
 
-        const progress = { value: 0 };
-        /*
-          Figure units per CSS pixel. The SVG scales with the viewport, so the
-          conversion between "how far apart the doors are in px" and "where the
-          hand goes in the viewBox" has to be re-measured, not assumed — a hand
-          target computed against a stale width detaches from the door edge on
-          every resize.
-        */
-        let unitsPerPx = 1;
-        let stageWidth = 1440;
+        globals.css already hides [data-scene] and collapses the band to auto
+        height, so the scene is not on screen — but the CSS cannot stop the
+        rAF loop, and without this guard the whole simulation would keep
+        running against a display:none canvas (whose getBoundingClientRect is
+        0x0, so it would not even be measurable). The readout below stays, and
+        the crossing degrades to its chapter handoff, which is the part that
+        actually carries meaning.
+      */
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-        const measure = () => {
-          const rect = svg.current?.getBoundingClientRect();
-          if (rect && rect.width > 0) unitsPerPx = FIG_W / rect.width;
-          stageWidth = stage.current?.clientWidth ?? window.innerWidth;
-        };
-        measure();
+      const c2d = cnv.getContext('2d');
+      if (!c2d) return;
 
-        const trigger = ScrollTrigger.create({
-          trigger: el,
-          start: 'top top',
-          end: 'bottom bottom',
-          invalidateOnRefresh: true,
-          onRefresh: (self) => {
-            measure();
-            progress.value = self.progress;
-          },
-          onUpdate: (self) => (progress.value = self.progress),
+      /*
+        Seeded xorshift, not Math.random.
+
+        Same reasoning as DeepField's field: a remount would otherwise
+        reshuffle every point and the composition would be different on every
+        visit. Seeded means this particular scatter was chosen.
+      */
+      let seed = 0x6d2b79f5;
+      const rand = () => {
+        seed ^= seed << 13;
+        seed ^= seed >>> 17;
+        seed ^= seed << 5;
+        return ((seed >>> 0) % 100000) / 100000;
+      };
+
+      // ── Build the point cloud ────────────────────────────────────────
+      const narrow = window.innerWidth < 768;
+      const EDGE_COUNT = narrow ? 80 : 132;
+      const FILL_COUNT = narrow ? 54 : 92;
+
+      const points: Point[] = [];
+
+      /*
+        Outline points come from measuring the real path rather than from a
+        hand-typed array: getTotalLength/getPointAtLength give an even
+        distribution along the actual curve, and the shape stays editable as
+        one `d` string.
+      */
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const measureSvg = document.createElementNS(svgNS, 'svg');
+      measureSvg.setAttribute('width', '0');
+      measureSvg.setAttribute('height', '0');
+      measureSvg.style.position = 'absolute';
+      measureSvg.style.opacity = '0';
+      measureSvg.style.pointerEvents = 'none';
+      const measurePath = document.createElementNS(svgNS, 'path');
+      measurePath.setAttribute('d', BUST_PATH);
+      measureSvg.appendChild(measurePath);
+      document.body.appendChild(measureSvg);
+
+      const total = measurePath.getTotalLength();
+      for (let i = 0; i < EDGE_COUNT; i++) {
+        const at = measurePath.getPointAtLength((i / EDGE_COUNT) * total);
+        points.push({
+          tx: at.x,
+          ty: at.y,
+          sx: 0,
+          sy: 0,
+          speed: 0.4 + rand() * 0.9,
+          phase: rand() * Math.PI * 2,
+          edge: true,
         });
+      }
+      document.body.removeChild(measureSvg);
 
-        const bolts = Array.from(
-          boltWrap.current?.querySelectorAll<HTMLElement>('[data-bolt]') ?? [],
+      /*
+        Interior points are rejection-sampled against the same path via
+        isPointInPath, so "inside the portrait" is decided by the shape itself
+        — no second silhouette to keep in sync with the first.
+      */
+      const bust = new Path2D(BUST_PATH);
+      let guard = 0;
+      while (points.length < EDGE_COUNT + FILL_COUNT && guard < 6000) {
+        guard++;
+        const x = rand() * DESIGN_W;
+        const y = rand() * DESIGN_H;
+        if (!c2d.isPointInPath(bust, x, y)) continue;
+        points.push({
+          tx: x,
+          ty: y,
+          sx: 0,
+          sy: 0,
+          speed: 0.4 + rand() * 0.9,
+          phase: rand() * Math.PI * 2,
+          edge: false,
+        });
+      }
+
+      // Scatter origins: well outside the bust so points visibly travel in.
+      for (const p of points) {
+        p.sx = lerp(-260, DESIGN_W + 260, rand());
+        p.sy = lerp(-160, DESIGN_H + 160, rand());
+      }
+
+      // ── Canvas sizing ────────────────────────────────────────────────
+      let scale = 1;
+      let offX = 0;
+      let offY = 0;
+      let dpr = 1;
+
+      const measure = () => {
+        const rect = cnv.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        // Capped at 2: past that the fill rate cost is real and the dots are
+        // already sub-pixel crisp.
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        cnv.width = Math.round(rect.width * dpr);
+        cnv.height = Math.round(rect.height * dpr);
+        // Fit the bust to ~62% of the stage height, centred.
+        scale = ((rect.height * 0.62) / DESIGN_H) * dpr;
+        offX = (cnv.width - DESIGN_W * scale) / 2;
+        offY = (cnv.height - DESIGN_H * scale) / 2;
+      };
+
+      measure();
+      window.addEventListener('resize', measure);
+
+      // ── Scroll ───────────────────────────────────────────────────────
+      const progress = { value: 0 };
+
+      const trigger = ScrollTrigger.create({
+        trigger: el,
+        start: 'top top',
+        end: 'bottom bottom',
+        invalidateOnRefresh: true,
+        onRefresh: (self) => {
+          measure();
+          progress.value = self.progress;
+        },
+        onUpdate: (self) => (progress.value = self.progress),
+      });
+
+      let statusWord = '';
+      const setStatus = (word: string) => {
+        if (word === statusWord) return;
+        statusWord = word;
+        if (status.current) status.current.textContent = word;
+      };
+
+      const draw = (p: number, time: number) => {
+        const w = cnv.width;
+        const h = cnv.height;
+        c2d.clearRect(0, 0, w, h);
+
+        const drift = phase(p, 0, DRIFT_END);
+        const sweep = phase(p, DRIFT_END, SWEEP_END);
+        const resolve = phase(p, SWEEP_END, RESOLVE_END);
+        const locked = phase(p, RESOLVE_END, LOCK_END);
+        const clear = phase(p, LOCK_END, 1);
+
+        setStatus(
+          clear > 0.35
+            ? 'CLEARED'
+            : locked > 0.2
+              ? 'IDENTITY LOCKED'
+              : resolve > 0.05
+                ? 'RESOLVING'
+                : sweep > 0.02
+                  ? 'SCANNING'
+                  : 'ACQUIRING',
         );
 
-        let raf = 0;
-        let last = -1;
-        let breached: boolean | null = null;
+        // The bar's position in design space. It runs a little past both edges
+        // so the first and last points get a clean pass rather than starting
+        // or ending already lit.
+        const barX = lerp(-60, DESIGN_W + 60, smoothstep(sweep));
+        const fade = 1 - smoothstep(clear);
 
-        const setLine = (
-          key: string,
-          x1: number,
-          y1: number,
-          x2: number,
-          y2: number,
-        ) => {
-          const a = x1.toFixed(2);
-          const b = y1.toFixed(2);
-          const c = x2.toFixed(2);
-          const d = y2.toFixed(2);
-          for (const node of [limbs.current[key], rims.current[key]]) {
-            if (!node) continue;
-            node.setAttribute('x1', a);
-            node.setAttribute('y1', b);
-            node.setAttribute('x2', c);
-            node.setAttribute('y2', d);
-          }
-        };
-
-        const setJoint = (key: string, x: number, y: number) => {
-          const node = joints.current[key];
-          if (!node) return;
-          node.setAttribute('cx', x.toFixed(2));
-          node.setAttribute('cy', y.toFixed(2));
-        };
-
-        const draw = () => {
-          raf = requestAnimationFrame(draw);
-
-          const p = progress.value;
-          if (Math.abs(p - last) < 0.0004) return;
-          last = p;
-
-          const rise = smoothstep(phase(p, 0, RISE_END));
-          const plant = smoothstep(phase(p, RISE_END, PLANT_END));
-          const strain = phase(p, PLANT_END, STRAIN_END);
-          const breach = phase(p, STRAIN_END, BREACH_END);
-          const clear = smoothstep(phase(p, BREACH_END, 1));
-
-          // ── The opening ─────────────────────────────────────────────────
-          const reachPx = (REACH - 6) / unitsPerPx;
+        // ── Points ───────────────────────────────────────────────────
+        for (const pt of points) {
           /*
-            Strain is eased with a decelerating curve and breach with an
-            accelerating one, which is the whole feel of the beat: the last
-            centimetres of the push are the slowest, and the moment the doors
-            give they are the fastest.
+            Lock is per-point and keyed to the bar: a point is fully assembled
+            once the bar is 46 units past it, and untouched while the bar is
+            still 22 units short. That short overlap is what makes the cloud
+            fold into the face in the bar's wake instead of all at once.
           */
-          const strained = reachPx * (1 - Math.pow(1 - strain, 2.4));
-          const flung = (stageWidth * 0.58 + 60 - reachPx) * Math.pow(breach, 2.1);
-          const halfGap = strained + flung;
+          const lock = smoothstep((barX - pt.tx + 22) / 68);
 
-          if (left.current) left.current.style.transform = `translate3d(${(-halfGap).toFixed(1)}px,0,0)`;
-          if (right.current) right.current.style.transform = `translate3d(${halfGap.toFixed(1)}px,0,0)`;
+          // Idle drift while unlocked, easing to nothing as the point settles.
+          const wobble = (1 - lock) * 14;
+          const wx = Math.sin(time * pt.speed + pt.phase) * wobble;
+          const wy = Math.cos(time * pt.speed * 0.8 + pt.phase) * wobble;
 
-          // Light behind the doors, and the wash it throws onto their faces.
-          const open = clamp01(halfGap / (stageWidth * 0.5));
-          if (interior.current) {
-            interior.current.style.opacity = (0.25 + 0.75 * smoothstep(open * 1.6)).toFixed(3);
-          }
-          if (spill.current) {
-            spill.current.style.opacity = (smoothstep(clamp01(strain * 1.4)) * 0.9).toFixed(3);
-          }
+          const x = lerp(pt.sx, pt.tx, lock) + wx;
+          const y = lerp(pt.sy, pt.ty, lock) + wy;
 
-          // Bolts hold, then let go all at once at the breach.
-          bolts.forEach((bolt, i) => {
-            const gone = smoothstep(clamp01((breach - i * 0.02) * 3));
-            bolt.style.opacity = ((0.25 + plant * 0.75) * (1 - gone)).toFixed(3);
-            bolt.style.transform = `translate3d(0, ${(gone * (i % 2 ? -60 : 70)).toFixed(1)}px, 0) scale(${(1 + gone * 1.8).toFixed(2)})`;
-          });
+          const cx = offX + x * scale;
+          const cy = offY + y * scale;
 
-          // ── The unit ────────────────────────────────────────────────────
-          if (figure.current) {
-            // Rises out of the floor, then sinks into the light at the end.
-            const y = (1 - rise) * 190 + clear * 120;
-            figure.current.setAttribute(
-              'transform',
-              `translate(0 ${y.toFixed(1)})`,
-            );
-            figure.current.setAttribute('opacity', (rise * (1 - clear)).toFixed(3));
-          }
+          // Bright right at the bar, settling to a steady value behind it —
+          // the flash of acquisition, not a uniform fade-up.
+          const atBar = Math.exp(-Math.pow((pt.tx - barX) / 34, 2));
+          const alpha =
+            (lerp(0.16, pt.edge ? 0.9 : 0.5, lock) + atBar * 0.55) *
+            (0.35 + 0.65 * drift) *
+            fade;
 
-          // Stance: drops and widens as it takes the load, recoils on breach.
-          const load = plant * (0.35 + 0.65 * strain);
-          const crouch = load * 42 - breach * 10;
-          const hipY = HIP_Y + crouch;
-          const shoulderY = SHOULDER_Y + crouch * 1.25;
-          const footSpread = lerp(48, 96, load);
-          const leanBack = breach * 10;
+          if (alpha <= 0.004) continue;
 
-          const shoulderL = MID - SHOULDER_SPREAD;
-          const shoulderR = MID + SHOULDER_SPREAD;
+          const size = (pt.edge ? 1.9 : 1.5) * dpr * (1 + atBar * 0.9);
+          c2d.globalAlpha = Math.min(1, alpha);
+          c2d.fillStyle = atBar > 0.35 ? '#ffffff' : pt.edge ? '#4be1ff' : '#8b7bff';
+          c2d.fillRect(cx - size / 2, cy - size / 2, size, size);
+        }
 
+        // ── Outline ──────────────────────────────────────────────────
+        if (resolve > 0) {
+          c2d.save();
+          c2d.translate(offX, offY);
+          c2d.scale(scale, scale);
+          c2d.globalAlpha = smoothstep(resolve) * 0.85 * fade;
+          c2d.strokeStyle = '#4be1ff';
+          c2d.lineWidth = 1.6 / scale;
           /*
-            Hand targets.
-
-            During strain they ARE the door edges, converted into figure units.
-            Past the reach limit they stop tracking and hold the extended pose —
-            the doors have left, and an arm that kept stretching after them
-            would be the tell that none of this is really connected.
+            Dash the whole perimeter and retract the offset, so the outline is
+            drawn rather than faded on. lineDashOffset counts in user units,
+            which is why this is set inside the scaled transform.
           */
-          const handX = Math.min(halfGap * unitsPerPx, REACH - 6);
-          /*
-            Hands sit BELOW the shoulder line, not above it.
+          const perimeter = total;
+          c2d.setLineDash([perimeter, perimeter]);
+          c2d.lineDashOffset = perimeter * (1 - smoothstep(resolve));
+          c2d.stroke(bust);
+          c2d.setLineDash([]);
 
-            At shoulder height minus 14 the elbows had to drop a long way to
-            solve, and the early frames read as a shrug rather than a brace.
-            Pushing from chest height puts the elbow behind and under the hand,
-            which is where it goes when a person actually leans into something.
-          */
-          const handY = shoulderY + 16 - plant * 4 + breach * 8;
-
-          const elbowL = solveJoint(
-            shoulderL,
-            shoulderY,
-            MID - handX,
-            handY,
-            UPPER_ARM,
-            FOREARM,
-            -1,
-          );
-          const elbowR = solveJoint(
-            shoulderR,
-            shoulderY,
-            MID + handX,
-            handY,
-            UPPER_ARM,
-            FOREARM,
-            1,
-          );
-
-          setLine('upperL', shoulderL, shoulderY, elbowL.x, elbowL.y);
-          setLine('foreL', elbowL.x, elbowL.y, MID - handX, handY);
-          setLine('upperR', shoulderR, shoulderY, elbowR.x, elbowR.y);
-          setLine('foreR', elbowR.x, elbowR.y, MID + handX, handY);
-          setJoint('elbowL', elbowL.x, elbowL.y);
-          setJoint('elbowR', elbowR.x, elbowR.y);
-
-          /*
-            Gauntlets sit mostly INSIDE the opening with a few units lapping
-            over the door edge, which is what a grip looks like. Centring them
-            on the hand point instead leaves the plate floating in the gap.
-          */
-          const handL = hands.current.left;
-          if (handL) {
-            handL.setAttribute('x', (MID - handX - 16).toFixed(2));
-            handL.setAttribute('y', (handY - 19).toFixed(2));
+          // Interior wash once it is locked: gives the silhouette a body so it
+          // stops reading as a wire loop with dots inside it.
+          if (locked > 0) {
+            c2d.globalAlpha = smoothstep(locked) * 0.1 * fade;
+            c2d.fillStyle = '#4be1ff';
+            c2d.fill(bust);
           }
-          const handR = hands.current.right;
-          if (handR) {
-            handR.setAttribute('x', (MID + handX - 6).toFixed(2));
-            handR.setAttribute('y', (handY - 19).toFixed(2));
-          }
+          c2d.restore();
+        }
 
-          // Legs. Knees break outward, which is what makes a braced stance
-          // read as bracing rather than as standing with bent legs.
-          const kneeL = solveJoint(
-            MID - HIP_SPREAD,
-            hipY,
-            MID - footSpread,
-            GROUND,
-            THIGH,
-            SHIN,
-            1,
-          );
-          const kneeR = solveJoint(
-            MID + HIP_SPREAD,
-            hipY,
-            MID + footSpread,
-            GROUND,
-            THIGH,
-            SHIN,
-            -1,
-          );
-          setLine('thighL', MID - HIP_SPREAD, hipY, kneeL.x, kneeL.y);
-          setLine('shinL', kneeL.x, kneeL.y, MID - footSpread, GROUND);
-          setLine('thighR', MID + HIP_SPREAD, hipY, kneeR.x, kneeR.y);
-          setLine('shinR', kneeR.x, kneeR.y, MID + footSpread, GROUND);
-          setJoint('kneeL', kneeL.x, kneeL.y);
-          setJoint('kneeR', kneeR.x, kneeR.y);
-          setJoint('footL', MID - footSpread, GROUND);
-          setJoint('footR', MID + footSpread, GROUND);
+        // ── The scan bar ─────────────────────────────────────────────
+        if (sweep > 0 && sweep < 1) {
+          const bx = offX + barX * scale;
+          const top = offY;
+          const height = DESIGN_H * scale;
+          const glow = c2d.createLinearGradient(bx - 26 * dpr, 0, bx + 26 * dpr, 0);
+          glow.addColorStop(0, 'rgba(75,225,255,0)');
+          glow.addColorStop(0.5, 'rgba(75,225,255,0.5)');
+          glow.addColorStop(1, 'rgba(75,225,255,0)');
+          c2d.globalAlpha = fade;
+          c2d.fillStyle = glow;
+          c2d.fillRect(bx - 26 * dpr, top, 52 * dpr, height);
+          c2d.fillStyle = 'rgba(215,245,255,0.9)';
+          c2d.fillRect(bx - 0.75 * dpr, top, 1.5 * dpr, height);
+        }
 
-          // Torso + head ride the stance and tip back on the recoil.
-          if (body.current) {
-            body.current.setAttribute(
-              'transform',
-              `translate(0 ${crouch.toFixed(1)}) rotate(${(-leanBack * 0.25).toFixed(2)} ${MID} ${hipY.toFixed(1)})`,
-            );
-          }
-          /*
-            The cape.
+        // ── Registration marks ───────────────────────────────────────
+        if (locked > 0) {
+          const a = smoothstep(locked);
+          c2d.globalAlpha = a * 0.75 * fade;
+          c2d.strokeStyle = '#8b7bff';
+          c2d.lineWidth = 1 * dpr;
+          const pad = 26 * dpr;
+          const arm = 16 * dpr;
+          const bx0 = offX + 40 * scale - pad;
+          const bx1 = offX + 360 * scale + pad;
+          const by0 = offY + 58 * scale - pad;
+          const by1 = offY + 462 * scale + pad;
+          // Four corner brackets, drawn as one path.
+          c2d.beginPath();
+          c2d.moveTo(bx0, by0 + arm); c2d.lineTo(bx0, by0); c2d.lineTo(bx0 + arm, by0);
+          c2d.moveTo(bx1 - arm, by0); c2d.lineTo(bx1, by0); c2d.lineTo(bx1, by0 + arm);
+          c2d.moveTo(bx1, by1 - arm); c2d.lineTo(bx1, by1); c2d.lineTo(bx1 - arm, by1);
+          c2d.moveTo(bx0 + arm, by1); c2d.lineTo(bx0, by1); c2d.lineTo(bx0, by1 - arm);
+          c2d.stroke();
+        }
 
-            Thigh length and notched at the hem, and drawn BEHIND the legs
-            rather than in front. As a full-length polygon on top it covered
-            both legs completely and the silhouette read as a robed figure in a
-            dress — the single worst thing about the first pass. Behind the
-            legs it does the one job it is there for: widening the mass under
-            load without eating the stance.
-          */
-          if (coat.current) {
-            const hem = lerp(74, 112, load);
-            const top = 214 + crouch;
-            coat.current.setAttribute(
-              'points',
-              [
-                `${MID - 42},${top}`,
-                `${MID + 42},${top}`,
-                `${MID + hem},${GROUND - 128}`,
-                `${MID + hem * 0.55},${GROUND - 96}`,
-                `${MID},${GROUND - 132}`,
-                `${MID - hem * 0.55},${GROUND - 96}`,
-                `${MID - hem},${GROUND - 128}`,
-              ].join(' '),
-            );
-          }
-          if (visor.current) {
-            // Brightens under load, flares at the breach.
-            visor.current.setAttribute(
-              'opacity',
-              (0.45 + load * 0.4 + Math.sin(Math.PI * breach) * 0.15).toFixed(3),
-            );
-          }
+        c2d.globalAlpha = 1;
+      };
 
-          // ── Readout ─────────────────────────────────────────────────────
-          const h = phase(p, 0.12, 0.9);
-          if (fromLabel.current) {
-            fromLabel.current.style.opacity = (1 - smoothstep(h / 0.4)).toFixed(3);
-          }
-          if (toLabel.current) {
-            const inbound = smoothstep(phase(h, 0.45, 1));
-            toLabel.current.style.opacity = inbound.toFixed(3);
-            toLabel.current.style.transform = `translate3d(${((1 - inbound) * 14).toFixed(1)}px,0,0)`;
-          }
-          const nowBreached = p > STRAIN_END;
-          if (status.current && nowBreached !== breached) {
-            breached = nowBreached;
-            status.current.textContent = nowBreached ? 'BREACHED' : 'SEAL // STRAIN';
-            status.current.className = nowBreached
-              ? 'text-cyan transition-colors duration-300'
-              : 'text-accent-soft transition-colors duration-300';
-          }
-        };
+      /*
+        One rAF loop, gated to when the band is anywhere near the viewport.
 
-        /*
-          The loop runs only while the band is near the viewport.
+        Kept from the previous implementation because the reasoning still
+        holds: this is a decorative crossing, and it must not hold a frame
+        budget open while the viewer is three sections away from it.
+      */
+      let raf = 0;
+      let running = false;
+      const t0 = performance.now();
 
-          All four crossings were scheduling a rAF callback every frame for the
-          whole session — including while the viewer was still up in the hero,
-          ten screens away. Each one early-outs cheaply, but four cheap
-          callbacks times sixty frames times the length of a session is
-          main-thread budget spent on nothing (quick-reference §3
-          `main-thread-budget`, and §3 `debounce-throttle` on high-frequency
-          work).
+      const tick = () => {
+        raf = requestAnimationFrame(tick);
+        draw(progress.value, (performance.now() - t0) / 1000);
+      };
 
-          The gate is deliberately WIDER than the sticky window. The stage is
-          already on screen before its own trigger starts and after it ends, so
-          gating on that same range would freeze the scene while it is still
-          visible.
-        */
-        const startLoop = () => {
-          if (!raf) raf = requestAnimationFrame(draw);
-        };
-        const stopLoop = () => {
-          if (raf) cancelAnimationFrame(raf);
-          raf = 0;
-        };
+      const startLoop = () => {
+        if (running) return;
+        running = true;
+        raf = requestAnimationFrame(tick);
+      };
+      const stopLoop = () => {
+        if (!running) return;
+        running = false;
+        cancelAnimationFrame(raf);
+      };
 
-        const gate = ScrollTrigger.create({
-          trigger: el,
-          start: 'top bottom+=50%',
-          end: 'bottom top-=50%',
-          onToggle: (self) => {
-            // Force a redraw on re-entry: last still holds the progress from
-            // before the loop stopped, and the scroll has moved since.
-            last = -1;
-            if (self.isActive) startLoop();
-            else stopLoop();
-          },
-        });
-
-        if (gate.isActive) startLoop();
-        const onResize = () => measure();
-        window.addEventListener('resize', onResize);
-
-        return () => {
-          stopLoop();
-          gate.kill();
-          window.removeEventListener('resize', onResize);
-          trigger.kill();
-        };
+      const gate = ScrollTrigger.create({
+        trigger: el,
+        start: 'top bottom+=50%',
+        end: 'bottom top-=50%',
+        onToggle: (self) => (self.isActive ? startLoop() : stopLoop()),
       });
+
+      if (gate.isActive) startLoop();
+
+      return () => {
+        stopLoop();
+        window.removeEventListener('resize', measure);
+        trigger.kill();
+        gate.kill();
+      };
     }, host);
 
     return () => ctx.revert();
@@ -563,298 +444,40 @@ export default function AboutArrival() {
     <div
       ref={host}
       /*
-        Decorative. The figure and the doors carry no information the About
-        section below does not state in text, and the chapter numbers are
-        duplicated by its eyebrow.
+        Decorative. The acquisition carries no information the About section
+        below does not state in text, and the chapter numbers in the readout
+        are duplicated by its eyebrow.
       */
       aria-hidden="true"
-            /*
-        svh, not vh, and the two must MATCH the sticky child's unit.
-
-        The band was vh while its stage was 100svh. On mobile those are
-        different numbers — vh is the large viewport (URL bar hidden), svh the
-        small one (bar shown) — so the sticky travel, which is band minus
-        stage, silently changed size the moment the browser chrome collapsed
-        mid-scroll. ScrollTrigger re-measures and the whole transition jumps.
-        Both ends on svh means the travel is one stable number.
-
-        Shorter below the md breakpoint: the same choreography plays over less
-        scroll, because a phone screen is tall and narrow, and 120svh of
-        decorative travel on a touch device is a long way to swipe.
+      /*
+        svh, not vh, and it must MATCH the sticky child's unit — on mobile vh
+        is the large viewport and svh the small one, so mixing them makes the
+        sticky travel silently change size the moment the URL bar collapses
+        and ScrollTrigger re-measures mid-scroll.
       */
       className="about-arrival relative h-[150svh] md:h-[220svh]"
     >
       <div
-        ref={stage}
         data-stage
-        /*
-          mask-fade-y is doing real work here, not decoration.
-
-          The doors are bg-ink (#0a0a12), which is LIGHTER than the void the
-          rest of the page sits on, and at the moment the band scrolls into
-          view the stage's top edge is a dead-straight line across the screen
-          with the news section above it — measured at ΔL 21, the "hard box
-          slightly lighter than the canvas" exactly. While the stage is stuck
-          it fills the viewport, so the feathered edges are off-screen and the
-          scene is untouched; the mask only ever shows at the entry and exit,
-          which is the only place the seam existed.
-        */
         className="mask-fade-y [--fade-start:9%] [--fade-end:91%] sticky top-0 h-[100svh] overflow-hidden"
       >
-        {/* Everything that only exists while the doors are moving, grouped so
-            the reduced-motion rule can drop it in one selector. */}
+        {/* Grouped so the reduced-motion rule in globals.css can drop the
+            whole scene with one selector. */}
         <div data-scene className="absolute inset-0">
-        {/* ── Behind the doors ──────────────────────────────────────────── */}
-        <div ref={interior} className="absolute inset-0 opacity-25">
+          {/* The volume the subject is captured in. */}
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 opacity-[0.5]"
             style={{
               backgroundImage: `
-                linear-gradient(to right, rgba(139,123,255,0.10) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(139,123,255,0.10) 1px, transparent 1px)
+                linear-gradient(to right, rgba(139,123,255,0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(139,123,255,0.07) 1px, transparent 1px)
               `,
               backgroundSize: '54px 54px',
             }}
           />
-          {/* The light source the figure is silhouetted against. */}
-          <div className="absolute left-1/2 top-1/2 size-[70vw] max-w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/25 blur-[120px]" />
-          <div className="absolute left-1/2 top-1/2 h-[80svh] w-[22vw] -translate-x-1/2 -translate-y-1/2 bg-cyan/10 blur-[90px]" />
-        </div>
+          <div className="absolute left-1/2 top-1/2 size-[62vw] max-w-[820px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/12 blur-[130px]" />
 
-        {/*
-          The doors.
-
-          Slightly wider than half so their meeting edges overlap by a pixel —
-          at exactly 50% a subpixel viewport width leaves a permanent bright
-          hairline down the middle before anything has opened.
-
-          They are bg-ink rather than bg-void and carry a bevel, ribs and a
-          rail of ticks. The first version painted them the same colour as the
-          page with 4.5%-alpha panel lines, and the result was that nothing
-          read as a door at all — only a bright gap grew in the middle of a
-          black screen. A door has to be visible BEFORE it opens or the opening
-          is not an event.
-        */}
-        <div
-          ref={left}
-          className="absolute inset-y-0 left-0 w-[50.5%] bg-ink will-change-transform"
-        >
-          <DoorFace side="left" />
-        </div>
-        <div
-          ref={right}
-          className="absolute inset-y-0 left-[49.5%] w-[50.5%] bg-ink will-change-transform"
-        >
-          <DoorFace side="right" />
-        </div>
-
-        {/* Light spilling onto the inner faces. Sits above the doors and below
-            the figure, and is masked to the centre so it tracks the opening. */}
-        <div
-          ref={spill}
-          className="pointer-events-none absolute inset-y-0 left-1/2 w-[46vw] -translate-x-1/2 opacity-0"
-          style={{
-            background:
-              'radial-gradient(ellipse at center, rgba(139,123,255,0.45) 0%, rgba(75,225,255,0.18) 45%, transparent 72%)',
-          }}
-        />
-
-        {/* Seam bolts */}
-        <div ref={boltWrap} className="pointer-events-none absolute inset-0">
-          {BOLTS.map((y) => (
-            <span
-              key={y}
-              data-bolt
-              className="absolute left-1/2 -translate-x-1/2 font-mono text-[0.7rem] leading-none text-accent-soft opacity-25"
-              style={{ top: `${y * 100}%` }}
-            >
-              +
-            </span>
-          ))}
-        </div>
-
-        {/* ── The unit ──────────────────────────────────────────────────── */}
-        <svg
-          ref={svg}
-          className="absolute bottom-[6%] left-1/2 h-[72svh] -translate-x-1/2"
-          viewBox={`0 0 ${FIG_W} ${FIG_H}`}
-          focusable="false"
-        >
-          {/*
-            Paint order is the character design here, so it is worth stating:
-            cape, then legs, then torso, then arms. Back to front. The cape was
-            originally inside the body group, which put it in FRONT of the legs
-            and turned the whole figure into a robe.
-          */}
-          <g ref={figure} opacity="0">
-            <polygon
-              ref={coat}
-              points=""
-              fill="#0b0b16"
-              stroke="rgba(139,123,255,0.28)"
-              strokeWidth="1.5"
-            />
-
-            {LEGS.map(([key, width]) => (
-              <line
-                key={`${key}-rim`}
-                ref={(n) => {
-                  rims.current[key] = n;
-                }}
-                stroke="rgba(139,123,255,0.55)"
-                strokeWidth={width + 4}
-                strokeLinecap="round"
-              />
-            ))}
-            {LEGS.map(([key, width]) => (
-              <line
-                key={key}
-                ref={(n) => {
-                  limbs.current[key] = n;
-                }}
-                stroke="#07070d"
-                strokeWidth={width}
-                strokeLinecap="round"
-              />
-            ))}
-            {(['kneeL', 'kneeR', 'footL', 'footR'] as const).map((key) => (
-              <circle
-                key={key}
-                ref={(n) => {
-                  joints.current[key] = n;
-                }}
-                r={key.startsWith('foot') ? 14 : 12}
-                fill="#07070d"
-                stroke="rgba(139,123,255,0.5)"
-                strokeWidth="1.5"
-              />
-            ))}
-
-            <g ref={body}>
-              {/* Pelvis */}
-              <polygon
-                points={`${MID - 34},312 ${MID + 34},312 ${MID + 28},352 ${MID - 28},352`}
-                fill="#07070d"
-                stroke="rgba(139,123,255,0.45)"
-                strokeWidth="1.5"
-              />
-              {/* Chest: broad at the shoulders, tapering to the waist. */}
-              <polygon
-                points={`${MID - 50},206 ${MID + 50},206 ${MID + 36},318 ${MID - 36},318`}
-                fill="#08080f"
-                stroke="rgba(139,123,255,0.55)"
-                strokeWidth="2"
-              />
-              {/* Pauldrons. The mass that makes a silhouette read as armoured
-                  rather than as a stick figure with a box for a chest. */}
-              <polygon
-                points={`${MID - 68},214 ${MID - 52},198 ${MID - 30},202 ${MID - 34},238 ${MID - 62},236`}
-                fill="#0a0a14"
-                stroke="rgba(139,123,255,0.6)"
-                strokeWidth="2"
-              />
-              <polygon
-                points={`${MID + 68},214 ${MID + 52},198 ${MID + 30},202 ${MID + 34},238 ${MID + 62},236`}
-                fill="#0a0a14"
-                stroke="rgba(139,123,255,0.6)"
-                strokeWidth="2"
-              />
-              {/* Core light */}
-              <circle cx={MID} cy={262} r={10} fill="#4be1ff" opacity="0.55" />
-              <circle cx={MID} cy={262} r={19} fill="none" stroke="#4be1ff" strokeWidth="1" opacity="0.35" />
-              {/* Neck, so the helmet is attached to something. */}
-              <rect x={MID - 13} y={186} width={26} height={26} fill="#07070d" />
-              {/* Helmet */}
-              <polygon
-                points={`${MID - 31},196 ${MID - 34},146 ${MID - 18},124 ${MID + 18},124 ${MID + 34},146 ${MID + 31},196`}
-                fill="#07070d"
-                stroke="rgba(139,123,255,0.65)"
-                strokeWidth="2"
-              />
-              {/* Visor */}
-              <rect
-                ref={visor}
-                x={MID - 25}
-                y={150}
-                width={50}
-                height={12}
-                fill="#4be1ff"
-                opacity="0.45"
-              />
-              <rect
-                x={MID - 25}
-                y={150}
-                width={50}
-                height={12}
-                fill="none"
-                stroke="#4be1ff"
-                strokeWidth="1"
-                opacity="0.7"
-              />
-            </g>
-
-            {/* Arms last: they pass in front of the chest. */}
-            {ARMS.map(([key, width]) => (
-              <line
-                key={`${key}-rim`}
-                ref={(n) => {
-                  rims.current[key] = n;
-                }}
-                stroke="rgba(139,123,255,0.6)"
-                strokeWidth={width + 4}
-                strokeLinecap="round"
-              />
-            ))}
-            {ARMS.map(([key, width]) => (
-              <line
-                key={key}
-                ref={(n) => {
-                  limbs.current[key] = n;
-                }}
-                stroke="#07070d"
-                strokeWidth={width}
-                strokeLinecap="round"
-              />
-            ))}
-            {(['elbowL', 'elbowR'] as const).map((key) => (
-              <circle
-                key={key}
-                ref={(n) => {
-                  joints.current[key] = n;
-                }}
-                r={12}
-                fill="#07070d"
-                stroke="rgba(139,123,255,0.5)"
-                strokeWidth="1.5"
-              />
-            ))}
-            {/* Gauntlets, drawn as plates against the door edge they grip. */}
-            <rect
-              ref={(n) => {
-                hands.current.left = n;
-              }}
-              width={22}
-              height={38}
-              rx={3}
-              fill="#08080f"
-              stroke="#4be1ff"
-              strokeWidth="1.5"
-              opacity="0.9"
-            />
-            <rect
-              ref={(n) => {
-                hands.current.right = n;
-              }}
-              width={22}
-              height={38}
-              rx={3}
-              fill="#08080f"
-              stroke="#4be1ff"
-              strokeWidth="1.5"
-              opacity="0.9"
-            />
-          </g>
-        </svg>
+          <canvas ref={canvas} className="absolute inset-0 size-full" />
         </div>
 
         {/* ── Readout, same grammar as every other crossing ─────────────── */}
@@ -862,15 +485,15 @@ export default function AboutArrival() {
           data-readout
           className="absolute inset-x-0 bottom-8 mx-auto flex max-w-[1600px] flex-wrap items-center gap-x-6 gap-y-2 px-5 font-mono text-[0.6rem] uppercase tracking-[0.28em] sm:px-8"
         >
-          <span ref={fromLabel} className="whitespace-nowrap text-text-muted">
+          <span className="whitespace-nowrap text-text-muted">
             <span className="text-text-muted/60">04</span>
             <span className="mx-2 text-text-muted/40">/</span>
             Transmission Feed
           </span>
           <span ref={status} className="text-cyan transition-colors duration-300">
-            BREACHED
+            ACQUIRING
           </span>
-          <span ref={toLabel} className="ml-auto whitespace-nowrap text-text">
+          <span className="ml-auto whitespace-nowrap text-text">
             <span className="text-accent-soft">05</span>
             <span className="mx-2 text-text-muted/40">/</span>
             Profile
