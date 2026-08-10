@@ -6,6 +6,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects } from '@/content/projects';
 import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicLayoutEffect';
 import ProjectRow from './ProjectRow';
+import SceneScrim from '@/components/ui/SceneScrim';
+import ScrollFade from '@/components/ui/ScrollFade';
 
 /*
   Depth is expressed as SCALE, not translateZ.
@@ -318,9 +320,10 @@ export default function ProjectsIndex() {
       aria-labelledby="index-heading"
       className="relative scroll-mt-24 px-5 pb-20 pt-10 sm:px-8 sm:pb-28 sm:pt-14"
     >
+      <SceneScrim />
       <div className="mx-auto max-w-[1600px]">
         <div className="mb-12 flex flex-wrap items-end justify-between gap-6 sm:mb-16">
-          <div>
+          <ScrollFade>
             <div className="flex items-center gap-3 font-mono text-[0.62rem] uppercase tracking-[0.28em] text-text-muted">
               <span aria-hidden="true" className="text-accent-soft">03</span>
               <span className="h-px w-8 bg-hairline" aria-hidden="true" />
@@ -332,7 +335,7 @@ export default function ProjectsIndex() {
             >
               Index
             </h2>
-          </div>
+          </ScrollFade>
 
           {/* Live counter. Text is written imperatively by the rAF loop, so the
               digits update at frame rate without re-rendering the list. */}

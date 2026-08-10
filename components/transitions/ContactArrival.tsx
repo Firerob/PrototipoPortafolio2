@@ -298,7 +298,12 @@ export default function ContactArrival() {
       */
       className="contact-arrival relative h-[140svh] md:h-[170svh]"
     >
-      <div data-stage className="sticky top-0 h-[100svh] overflow-hidden">
+      <div
+        data-stage
+        // Same reasoning as AboutArrival: feathered so the stage never meets the
+        // page as a straight line. Its bloom is bright enough to show a seam.
+        className="mask-fade-y [--fade-start:9%] [--fade-end:91%] sticky top-0 h-[100svh] overflow-hidden"
+      >
         <div data-scene className="absolute inset-0">
           {/* Bloom under the transmitter, in the page's accent. */}
           <div

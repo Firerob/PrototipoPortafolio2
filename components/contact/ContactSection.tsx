@@ -6,6 +6,8 @@ import ContactForm from './ContactForm';
 import CopyEmail from './CopyEmail';
 import LiveClock from './LiveClock';
 import SocialMatrix, { type Social } from './SocialMatrix';
+import SceneScrim from '@/components/ui/SceneScrim';
+import ScrollFade from '@/components/ui/ScrollFade';
 
 export default function ContactSection() {
   const prefersReduced = useReducedMotion();
@@ -30,6 +32,7 @@ export default function ContactSection() {
       aria-labelledby="contact-heading"
       className="relative scroll-mt-24 overflow-hidden px-5 pb-20 pt-10 sm:px-8 sm:pb-28 sm:pt-14"
     >
+      <SceneScrim />
       {/* Single soft accent wash. The 3D stage is long covered by this point,
           so the glow is what carries the palette down to the page's end. */}
       <div
@@ -73,7 +76,7 @@ export default function ContactSection() {
         </motion.div>
 
         {/* ── Heading ────────────────────────────────────────────────────── */}
-        <motion.div {...line(0.06)} className="mt-12 sm:mt-16">
+        <ScrollFade className="mt-12 sm:mt-16">
           <div className="flex items-center gap-3 font-mono text-[0.62rem] uppercase tracking-[0.28em] text-text-muted">
             <span aria-hidden="true" className="text-accent-soft">06</span>
             <span className="h-px w-8 bg-hairline" aria-hidden="true" />
@@ -88,7 +91,7 @@ export default function ContactSection() {
           <p className="mt-5 max-w-[34ch] font-sans text-[clamp(1.1rem,2.4vw,1.6rem)] font-semibold leading-[1.25] tracking-[-0.02em] text-text">
             {contact.lead}
           </p>
-        </motion.div>
+        </ScrollFade>
 
         <div className="mt-12 grid gap-10 lg:grid-cols-12 lg:gap-14">
           <motion.div {...line(0.12)} className="lg:col-span-7">

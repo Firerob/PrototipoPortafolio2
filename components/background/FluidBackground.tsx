@@ -17,7 +17,7 @@ interface FluidBackgroundProps {
  * Thomas Kabalin 2025). See lib/fluid/LICENSE and the adaptation note at the
  * top of lib/fluid/webglFluid.js.
  *
- * This is a third WebGL context on a page that already has two R3F canvases,
+ * This is the second WebGL context on the page; the R3F stage is the other,
  * so it is deliberately the cheapest of the three: half the upstream dye
  * resolution, no bloom, no sunrays, and paused whenever the tab is hidden.
  */

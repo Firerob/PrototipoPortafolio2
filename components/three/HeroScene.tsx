@@ -1,9 +1,15 @@
 'use client';
 
-import { Suspense, useRef, useState } from 'react';
+import { Suspense, useRef, useState, type ReactNode } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { Environment, Lightformer, PerformanceMonitor } from '@react-three/drei';
-import { MathUtils, type Group, type PointLight, type SpotLight } from 'three';
+import {
+  MathUtils,
+  type Group,
+  type PerspectiveCamera,
+  type PointLight,
+  type SpotLight,
+} from 'three';
 import BackdropWord from '@/components/hero/BackdropWord';
 import CurvedGrid from '@/components/hero/CurvedGrid';
 import Prism from '@/components/hero/Prism';
@@ -18,6 +24,12 @@ import {
   phaseOf,
   smootherstep,
 } from '@/lib/archiveScroll';
+import {
+  poseAt,
+  sceneScroll,
+  smootherstep as smootherstepScene,
+} from '@/lib/sceneScroll';
+import GlobalSceneController from './GlobalSceneController';
 
 /*
   Frame-rate independent lerp factor.
@@ -37,6 +49,9 @@ const smoothing = (lambda: number, dt: number) => 1 - Math.pow(lambda, dt);
  *  dive computes the base position and the pointer parallax is layered on top
  *  as a shrinking offset, so there is a single authority.
  */
+/** Hero field of view, matching the <Canvas camera> prop in BackdropCanvas. */
+const HERO_FOV = 38;
+
 function CameraRig({ reducedMotion }: { reducedMotion: boolean }) {
   const { camera } = useThree();
   const pointer = usePointerVector();
@@ -62,13 +77,63 @@ function CameraRig({ reducedMotion }: { reducedMotion: boolean }) {
     // flying through a tunnel reads as a wobble, not as depth.
     const sway = reducedMotion ? 0 : 1 - dive * 0.85;
 
-    camera.position.x = MathUtils.lerp(camera.position.x, pointer.x * 0.42 * sway, t);
-    camera.position.y = MathUtils.lerp(camera.position.y, baseY + pointer.y * 0.26 * sway, t);
-    camera.position.z = MathUtils.lerp(camera.position.z, baseZ, t);
+    /*
+      ── The single camera authority ─────────────────────────────────────────
+
+      Everything that wants to move the camera does it HERE. The hero parallax,
+      the archive dive and now the post-hero world all resolve to one target
+      per frame, and the camera eases toward that one target.
+
+      GlobalSceneController deliberately does not touch camera.position; it
+      publishes a pose through the sceneScroll store and this reads it. Two
+      useFrame callbacks writing the same property is the classic scroll-scene
+      stutter — whichever ran last wins, and React guarantees nothing about
+      that order.
+
+      The blend is on the TARGETS, not on the camera. Blending two already-
+      eased positions would compound the easing and the handover would drag.
+    */
+    const pose = poseAt(sceneScroll.stage);
+    const w = smootherstepScene(sceneScroll.presence);
+
+    // Parallax survives into the post-hero world, at about half strength: it
+    // is what keeps the field feeling like a space the viewer is inside of
+    // rather than a picture behind the text.
+    const postSway = reducedMotion ? 0 : 0.5;
+
+    const wantX = MathUtils.lerp(pointer.x * 0.42 * sway, pose.px + pointer.x * 0.3 * postSway, w);
+    const wantY = MathUtils.lerp(baseY + pointer.y * 0.26 * sway, pose.py + pointer.y * 0.2 * postSway, w);
+    const wantZ = MathUtils.lerp(baseZ, pose.pz, w);
+
+    camera.position.x = MathUtils.lerp(camera.position.x, wantX, t);
+    camera.position.y = MathUtils.lerp(camera.position.y, wantY, t);
+    camera.position.z = MathUtils.lerp(camera.position.z, wantZ, t);
+
+    /*
+      Field of view carries the About push-in.
+
+      Moving the camera nearer and narrowing the lens are different things: the
+      first changes what is occluded, the second compresses depth. The narrow
+      fov at About is what makes it read as a lens push rather than as the
+      camera having simply walked forward.
+
+      updateProjectionMatrix is guarded because it rebuilds the matrix — at
+      rest the fov is static and there is nothing to rebuild.
+    */
+    const wantFov = MathUtils.lerp(HERO_FOV, pose.fov, w);
+    const cam = camera as PerspectiveCamera;
+    if (Math.abs(cam.fov - wantFov) > 0.01) {
+      cam.fov = MathUtils.lerp(cam.fov, wantFov, t);
+      cam.updateProjectionMatrix();
+    }
 
     // Look further down the corridor as the dive advances so the tilted planes
     // are framed head-on rather than glimpsed off the edge.
-    camera.lookAt(0, 0.05, MathUtils.lerp(0, -6, dive));
+    camera.lookAt(
+      MathUtils.lerp(0, pose.tx, w),
+      MathUtils.lerp(0.05, pose.ty, w),
+      MathUtils.lerp(MathUtils.lerp(0, -6, dive), pose.tz, w),
+    );
   });
 
   return null;
@@ -162,6 +227,50 @@ function BackdropLayer({ reducedMotion, word, font }: { reducedMotion: boolean; 
   );
 }
 
+
+/**
+ * The hero's furniture — and its exit.
+ *
+ * The prism, the curved grid, the spot glow and the backdrop word are the
+ * subject of the FIRST screen. Once the canvas stopped parking at the archive
+ * they stayed in frame for the whole page: the grid filled the bottom half of
+ * the index, and the prism sat over the project list as a striped rectangle,
+ * because its transmission material was refracting that same grid. Persistent
+ * 3D backgrounds look like a bug in exactly this way — old furniture nobody
+ * cleared away.
+ *
+ * So the hero world recedes as the post-hero world arrives. Shrinking AND
+ * pushing back, not fading: these objects use four different materials
+ * (transmission, shader, line, text) with no shared opacity to animate, and
+ * distance is the one treatment that works on all of them at once — the fog
+ * that arrives with `presence` finishes the job.
+ *
+ * The handover happens underneath IndexArrival's wave, which is covering the
+ * screen at exactly that scroll position, so none of it is ever seen moving.
+ */
+function HeroWorld({ children }: { children: ReactNode }) {
+  const group = useRef<Group>(null);
+
+  useFrame((_, delta) => {
+    const node = group.current;
+    if (!node) return;
+
+    const dt = Math.min(delta, 1 / 30);
+    const t = smoothing(0.05, dt);
+    const hand = smootherstepScene(sceneScroll.presence);
+
+    // 0.08 rather than something like 0.4: the cutoff below has to land while
+    // the group is small enough that its disappearance is not a pop.
+    const scale = MathUtils.lerp(1, 0.08, hand);
+    node.scale.setScalar(MathUtils.lerp(node.scale.x, scale, t));
+    node.position.z = MathUtils.lerp(node.position.z, -hand * 14, t);
+
+    node.visible = hand < 0.995;
+  });
+
+  return <group ref={group}>{children}</group>;
+}
+
 /**
  * Studio lighting baked into an environment map instead of loading an HDRI.
  * drei's `preset` prop pulls a ~2MB .hdr off a CDN; Lightformers give the same
@@ -196,12 +305,19 @@ export default function HeroScene({ word, reducedMotion = false, font }: HeroSce
       <PerformanceMonitor onDecline={() => setQuality('low')} onIncline={() => setQuality('high')} />
 
       <LightRig reducedMotion={reducedMotion} />
-      <BackdropLayer reducedMotion={reducedMotion} word={word} font={font} />
 
+      {/* Environment stays outside HeroWorld: it lights the post-hero field
+          too, and it is an env map rather than something in the frame. */}
       <Suspense fallback={null}>
         <StudioEnvironment />
-        <Prism reducedMotion={reducedMotion} quality={quality} />
       </Suspense>
+
+      <HeroWorld>
+        <BackdropLayer reducedMotion={reducedMotion} word={word} font={font} />
+        <Suspense fallback={null}>
+          <Prism reducedMotion={reducedMotion} quality={quality} />
+        </Suspense>
+      </HeroWorld>
 
       {/*
         The orbit shares the prism's depth buffer, which is the whole point:
@@ -219,6 +335,14 @@ export default function HeroScene({ word, reducedMotion = false, font }: HeroSce
         nearest planes while the camera is passing through it.
       */}
       <ArchiveGallery reducedMotion={reducedMotion} />
+
+      {/*
+        The world that carries Index → News → About → Contact. Mounted here so
+        it shares this canvas — and therefore this depth buffer and this
+        camera — with the hero. A second canvas would be a second WebGL
+        context, a second camera to keep in sync, and no shared occlusion.
+      */}
+      <GlobalSceneController reducedMotion={reducedMotion} />
 
       <CameraRig reducedMotion={reducedMotion} />
     </>

@@ -7,6 +7,8 @@ import { NEWS_CATEGORIES, type NewsCategory } from '@/types/news';
 import NewsCard from './NewsCard';
 import NewsFilters from './NewsFilters';
 import NewsModal from './NewsModal';
+import SceneScrim from '@/components/ui/SceneScrim';
+import ScrollFade from '@/components/ui/ScrollFade';
 
 /**
  * "Transmission Feed" — the news section.
@@ -50,11 +52,12 @@ export default function NewsSection() {
     <section
       id="news"
       aria-labelledby="news-heading"
-      className="scroll-mt-24 px-5 pb-20 pt-10 sm:px-8 sm:pb-28 sm:pt-14"
+      className="relative scroll-mt-24 px-5 pb-20 pt-10 sm:px-8 sm:pb-28 sm:pt-14"
     >
+      <SceneScrim />
       <div className="mx-auto max-w-[1600px]">
         <div className="mb-10 flex flex-col gap-8 lg:mb-14 lg:flex-row lg:items-end lg:justify-between">
-          <div>
+          <ScrollFade>
             <div className="flex items-center gap-3 font-mono text-[0.62rem] uppercase tracking-[0.28em] text-text-muted">
               <span aria-hidden="true" className="text-accent-soft">04</span>
               <span className="h-px w-8 bg-hairline" aria-hidden="true" />
@@ -66,7 +69,7 @@ export default function NewsSection() {
             >
               News
             </h2>
-          </div>
+          </ScrollFade>
 
           <NewsFilters
             active={category}

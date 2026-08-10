@@ -173,9 +173,9 @@ function DoorFace({ side }: { side: 'left' | 'right' }) {
  * A hard-surface figure rises at the centre seam, plants both hands on it and
  * forces the page apart; About is behind it.
  *
- * SVG rather than a fourth WebGL context. The page already runs three (two R3F
- * canvases plus the fluid sim, which FluidBackground calls out by name), and
- * ProjectsIndex is built from DOM for exactly this reason. A vector silhouette
+ * SVG rather than a third WebGL context. The page runs two — the R3F stage
+ * and the fluid sim — and ProjectsIndex is built from DOM rather than adding
+ * another for the same reason. A vector silhouette
  * is also simply the better-looking option here: it stays crisp at any
  * resolution, costs no shader compile, and a stylised backlit cutout reads far
  * more convincingly than an untextured procedural mannequin would.
@@ -584,7 +584,23 @@ export default function AboutArrival() {
       */
       className="about-arrival relative h-[150svh] md:h-[220svh]"
     >
-      <div ref={stage} data-stage className="sticky top-0 h-[100svh] overflow-hidden">
+      <div
+        ref={stage}
+        data-stage
+        /*
+          mask-fade-y is doing real work here, not decoration.
+
+          The doors are bg-ink (#0a0a12), which is LIGHTER than the void the
+          rest of the page sits on, and at the moment the band scrolls into
+          view the stage's top edge is a dead-straight line across the screen
+          with the news section above it — measured at ΔL 21, the "hard box
+          slightly lighter than the canvas" exactly. While the stage is stuck
+          it fills the viewport, so the feathered edges are off-screen and the
+          scene is untouched; the mask only ever shows at the entry and exit,
+          which is the only place the seam existed.
+        */
+        className="mask-fade-y [--fade-start:9%] [--fade-end:91%] sticky top-0 h-[100svh] overflow-hidden"
+      >
         {/* Everything that only exists while the doors are moving, grouped so
             the reduced-motion rule can drop it in one selector. */}
         <div data-scene className="absolute inset-0">

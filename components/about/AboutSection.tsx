@@ -6,6 +6,8 @@ import ProfileCard3D from './ProfileCard3D';
 import ScrambleText from './ScrambleText';
 import StatCounter, { type Stat } from './StatCounter';
 import TechStack, { type TechItem } from './TechStack';
+import SceneScrim from '@/components/ui/SceneScrim';
+import ScrollFade from '@/components/ui/ScrollFade';
 
 interface AboutSectionProps {
   /** e.g. '/images/profile.jpg'. Omitted renders the designed placeholder. */
@@ -36,10 +38,11 @@ export default function AboutSection({ profileSrc }: AboutSectionProps) {
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="scroll-mt-24 px-5 pb-20 pt-10 sm:px-8 sm:pb-28 sm:pt-14"
+      className="relative scroll-mt-24 px-5 pb-20 pt-10 sm:px-8 sm:pb-28 sm:pt-14"
     >
+      <SceneScrim />
       <div className="mx-auto max-w-[1600px]">
-        <motion.div {...line(0)} className="mb-12 sm:mb-16">
+        <ScrollFade className="mb-12 sm:mb-16">
           <div className="flex items-center gap-3 font-mono text-[0.62rem] uppercase tracking-[0.28em] text-text-muted">
             <span aria-hidden="true" className="text-accent-soft">05</span>
             <span className="h-px w-8 bg-hairline" aria-hidden="true" />
@@ -51,7 +54,7 @@ export default function AboutSection({ profileSrc }: AboutSectionProps) {
           >
             About
           </h2>
-        </motion.div>
+        </ScrollFade>
 
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           {/* ── Profile card ───────────────────────────────────────────── */}

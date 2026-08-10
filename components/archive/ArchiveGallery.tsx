@@ -34,7 +34,22 @@ export default function ArchiveGallery({ reducedMotion = false }: ArchiveGallery
   const travel = useRef(0);
 
   useFrame(() => {
-    const phase = smootherstep(phaseOf(archiveScroll.progress, GALLERY_RANGE));
+    /*
+      The corridor has to LEAVE now.
+
+      It used to hold at full reveal forever, because the gallery phase pins at
+      1 once the archive is behind you and nothing ever took it back down. That
+      was invisible while the canvas parked at #archive. Now that the stage
+      runs the whole page, those video planes hang in the frame behind the
+      index, the news grid and the profile card — the "ghost geometry" that
+      makes a persistent 3D background look like a bug rather than a world.
+
+      `exit` is already written by IndexArrival as it closes the light room, so
+      the corridor withdraws on exactly the beat that replaces it.
+    */
+    const phase =
+      smootherstep(phaseOf(archiveScroll.progress, GALLERY_RANGE)) *
+      (1 - smootherstep(archiveScroll.exit));
     reveal.current = phase;
     // Planes drift toward the camera as the gallery phase advances, so the
     // corridor keeps moving after the camera itself has settled.

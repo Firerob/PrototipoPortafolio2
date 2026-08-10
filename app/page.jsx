@@ -38,7 +38,16 @@ export default function Page() {
         Skip to works
       </a>
 
-      <HeroCanvas word={owner.heroWord} startTrigger="#top" endTrigger="#archive" />
+      {/*
+        The stage now runs the whole page, not just down to the archive.
+
+        endTrigger was "#archive", which parked the renderer the moment the
+        corridor scrolled past — everything below it was a flat void
+        background. It reaches #contact so the post-hero world in
+        GlobalSceneController has a canvas to live in; it still parks for the
+        footer, where nothing is drawing.
+      */}
+      <HeroCanvas word={owner.heroWord} startTrigger="#top" endTrigger="#contact" />
 
       <HeroSection word={owner.heroWord} brand={owner.mark} />
 
@@ -55,8 +64,10 @@ export default function Page() {
       <IndexArrival />
 
       {/*
-        From here down the stage is fully covered. bg-void/95 still lets the
-        fluid layer read faintly underneath.
+        The stage is NOT covered from here down any more. <main> is
+        transparent and each section carries its own SceneScrim, so the 3D
+        world runs behind the whole page and the text still has something to
+        sit on. See SceneScrim for the contrast reasoning.
 
         Every section is wrapped in CorridorDepth, and every boundary is a
         scroll-driven crossing rather than a static border, so the lower half
@@ -72,7 +83,7 @@ export default function Page() {
         section: they animate opacity, and a second isolating layer above them
         would flatten ProjectRow's mix-blend-difference titles.
       */}
-      <main className="relative z-10 bg-void/95">
+      <main className="relative z-10">
         <CorridorDepth>
           <ProjectsIndex />
         </CorridorDepth>
@@ -101,7 +112,7 @@ export default function Page() {
         </CorridorDepth>
       </main>
 
-      <SiteFooter className="relative z-10 bg-void/95" />
+      <SiteFooter className="relative z-10" />
     </PointerProvider>
   );
 }

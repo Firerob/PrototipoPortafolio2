@@ -81,6 +81,38 @@ body {
   }
 }
 
+
+/*
+  Feathered top/bottom edge for anything that would otherwise meet the page as
+  a hard horizontal line.
+
+  A Tailwind v4 @utility rather than an inline style on every caller, because
+  the two properties have to stay in lockstep: Safari still needs the -webkit-
+  prefix, and shipping only the unprefixed one means the mask silently does
+  nothing there and the hard edge comes back on exactly one browser.
+
+  The stops are variables so a caller can tighten or loosen the fade without
+  redeclaring the gradient:
+
+      <div className="mask-fade-y [--fade-start:22%] [--fade-end:78%]" />
+*/
+@utility mask-fade-y {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black var(--fade-start, 12%),
+    black var(--fade-end, 88%),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black var(--fade-start, 12%),
+    black var(--fade-end, 88%),
+    transparent 100%
+  );
+}
+
 /*
   Reduced motion: the archive → index crossing is removed outright.
 

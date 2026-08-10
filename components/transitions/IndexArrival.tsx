@@ -151,12 +151,19 @@ export default function IndexArrival() {
           const c = smootherstep(phase(p, CLEAN_START, CLEAN_END));
           if (plate.current) plate.current.style.opacity = (1 - c).toFixed(3);
           /*
-            The wave settles at 0.95 alpha rather than 1 so the stage ends on
-            exactly the same value as <main>'s `bg-void/95`. At full opacity
-            the boundary between this section and the next was a faint but
-            perfectly straight band wherever the fluid layer was bright.
+            The wave dissolves COMPLETELY at the end.
+
+            It used to settle at 0.95 to match <main>'s old `bg-void/95`. Now
+            that main is transparent and the 3D world runs behind it, a 0.95
+            void plate is the single hardest edge on the page — measured at
+            ΔL 27 out of 255 where the stage meets the index, which is exactly
+            the "container block slightly lighter than the canvas" artifact.
+
+            Once `exit` has taken the light room away this plate is hiding
+            nothing, so it can go, and the post-hero field simply continues
+            behind the index. There is no boundary left to see.
           */
-          wave.current?.setAttribute('fill-opacity', (1 - c * 0.05).toFixed(3));
+          wave.current?.setAttribute('fill-opacity', (1 - c).toFixed(3));
           setArchiveExit(c);
 
           // ── Handoff readout ─────────────────────────────────────────────

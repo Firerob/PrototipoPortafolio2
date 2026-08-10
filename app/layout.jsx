@@ -1,5 +1,6 @@
 import { IBM_Plex_Mono, IBM_Plex_Sans } from 'next/font/google';
 import FluidBackground from '@/components/background/FluidBackground';
+import FilmGrain from '@/components/background/FilmGrain';
 import SmoothScroll from '@/components/providers/SmoothScroll';
 import { owner } from '@/content/site';
 import './globals.css';
@@ -47,6 +48,9 @@ export default function RootLayout({ children }) {
               the fluid layers on top of it rather than being hidden by it. */}
           <FluidBackground />
           {children}
+          {/* Above everything, including the crossings — grain and vignette are a
+              property of the image, not of any one layer. */}
+          <FilmGrain />
         </SmoothScroll>
       </body>
     </html>
