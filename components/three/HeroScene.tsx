@@ -10,6 +10,7 @@ import {
 import { useFrame, useThree } from '@react-three/fiber';
 import { Environment, Lightformer, PerformanceMonitor } from '@react-three/drei';
 import {
+  type AmbientLight,
   MathUtils,
   type Group,
   type PerspectiveCamera,
@@ -38,7 +39,7 @@ import {
 import GlobalSceneController from './GlobalSceneController';
 import CalibrationEffects from './CalibrationEffects';
 import GenesisWireframe from './GenesisWireframe';
-import { opening, subscribeOpeningPhase } from '@/lib/opening';
+import { isWireframePhase, opening, subscribeOpeningPhase } from '@/lib/opening';
 
 /*
   Frame-rate independent lerp factor.
@@ -156,9 +157,16 @@ function CameraRig({ reducedMotion }: { reducedMotion: boolean }) {
  * whole image; moving the light changes how the object is lit, which is the
  * cue that actually reads as depth.
  */
+/** Normal ambient level once the scene is live. */
+const AMBIENT_LIVE = 0.25;
+/** During the wireframe phases the background must read as near-black, so
+ *  only the spark and the shockwave-lit prism are visible. */
+const AMBIENT_OPENING = 0.05;
+
 function LightRig({ reducedMotion }: { reducedMotion: boolean }) {
   const key = useRef<SpotLight>(null);
   const rim = useRef<PointLight>(null);
+  const ambient = useRef<AmbientLight>(null);
   const pointer = usePointerVector();
 
   useFrame((_, delta) => {
@@ -180,11 +188,16 @@ function LightRig({ reducedMotion }: { reducedMotion: boolean }) {
       rim.current.position.x = MathUtils.lerp(rim.current.position.x, 3.5 - px * 2.2, t);
       rim.current.position.y = MathUtils.lerp(rim.current.position.y, -1.6 - py * 0.8, t);
     }
+
+    if (ambient.current) {
+      const want = isWireframePhase(opening.phase) ? AMBIENT_OPENING : AMBIENT_LIVE;
+      ambient.current.intensity = MathUtils.lerp(ambient.current.intensity, want, t);
+    }
   });
 
   return (
     <>
-      <ambientLight intensity={0.25} />
+      <ambientLight ref={ambient} intensity={AMBIENT_LIVE} />
       <spotLight
         ref={key}
         position={[0, 2.4, -3.2]}
@@ -207,7 +220,17 @@ function LightRig({ reducedMotion }: { reducedMotion: boolean }) {
  * near object and the far floor separate as the cursor moves. Equal travel at
  * every depth is what makes most "3D parallax" look like a flat sliding sheet.
  */
-function BackdropLayer({ reducedMotion, word, font }: { reducedMotion: boolean; word: string; font?: string }) {
+function BackdropLayer({
+  reducedMotion,
+  word,
+  font,
+  isMobile,
+}: {
+  reducedMotion: boolean;
+  word: string;
+  font?: string;
+  isMobile: boolean;
+}) {
   const group = useRef<Group>(null);
   const pointer = usePointerVector();
 
@@ -228,7 +251,10 @@ function BackdropLayer({ reducedMotion, word, font }: { reducedMotion: boolean; 
   return (
     <group ref={group}>
       <SpotGlow />
-      <CurvedGrid reducedMotion={reducedMotion} />
+      {/* 48 segments per side on mobile instead of 120: a quarter of the
+          vertex count for a curve that reads at the same fidelity on a
+          smaller, further-viewed screen. */}
+      <CurvedGrid reducedMotion={reducedMotion} segments={isMobile ? 48 : 120} />
       <Suspense fallback={null}>
         <BackdropWord word={word} font={font} />
       </Suspense>
@@ -301,13 +327,24 @@ interface HeroSceneProps {
   word: string;
   reducedMotion?: boolean;
   font?: string;
+  isMobile?: boolean;
 }
 
 /** Scene contents only — the <Canvas> lives in BackdropCanvas. */
-export default function HeroScene({ word, reducedMotion = false, font }: HeroSceneProps) {
-  // Dropped to 'low' by PerformanceMonitor when the frame budget slips; feeds
-  // the transmission material's resolution/samples, which dominate GPU cost.
-  const [quality, setQuality] = useState<'high' | 'low'>('high');
+export default function HeroScene({ word, reducedMotion = false, font, isMobile = false }: HeroSceneProps) {
+  /*
+    Dropped to 'low' by PerformanceMonitor when the frame budget slips, or
+    seeded there from the start on mobile — feeds the transmission material's
+    resolution/samples (see Prism.jsx), which dominate GPU cost by rendering
+    the scene to an FBO every frame.
+
+    Seeding rather than waiting for the first onDecline matters here: without
+    it every mobile visitor pays for a handful of dropped frames at 'high'
+    quality before PerformanceMonitor's own averaging window has enough
+    samples to react — a guaranteed stutter on load instead of an occasional
+    one under real GPU pressure.
+  */
+  const [quality, setQuality] = useState<'high' | 'low'>(isMobile ? 'low' : 'high');
 
   /*
     The composer exists only until the opening finishes.
@@ -323,9 +360,33 @@ export default function HeroScene({ word, reducedMotion = false, font }: HeroSce
     () => 'calibrating' as const,
   );
 
+  // The real scene stays fully hidden (not wireframed — hidden) through the
+  // singularity and ignition. It appears in one frame at the bake, under the
+  // bokeh slam that already exists to hide a material swap; this is the same
+  // trick applied to visibility instead of to a scene-wide override material.
+  const sceneReady = !isWireframePhase(phase);
+
   return (
     <>
-      <PerformanceMonitor onDecline={() => setQuality('low')} onIncline={() => setQuality('high')} />
+      {/*
+        `bounds` returns absolute fps thresholds, not a fraction — drei's own
+        default is `refreshrate > 100 ? [60,100] : [40,60]`, which is tuned
+        for desktop: it wants sustained 60fps before calling anything a
+        decline. A mobile GPU can idle at 45-55fps under normal load, so that
+        default would either sit permanently in 'low' or flap constantly.
+        [24, 48] gives a phone real headroom before either direction fires.
+
+        `ms` (the sampling window `bounds` averages over) is doubled on
+        mobile as the debounce: a single dropped frame from a GC pause or a
+        scroll-triggered layout can't flip quality on its own; the average
+        over a full second has to actually be low.
+      */}
+      <PerformanceMonitor
+        bounds={(refreshrate) => (isMobile ? [24, 48] : refreshrate > 100 ? [60, 100] : [40, 60])}
+        ms={isMobile ? 500 : 250}
+        onDecline={() => setQuality('low')}
+        onIncline={() => setQuality('high')}
+      />
 
       <LightRig reducedMotion={reducedMotion} />
 
@@ -335,37 +396,39 @@ export default function HeroScene({ word, reducedMotion = false, font }: HeroSce
         <StudioEnvironment />
       </Suspense>
 
-      <HeroWorld>
-        <BackdropLayer reducedMotion={reducedMotion} word={word} font={font} />
-        <Suspense fallback={null}>
-          <Prism reducedMotion={reducedMotion} quality={quality} />
-        </Suspense>
-      </HeroWorld>
+      <group visible={sceneReady}>
+        <HeroWorld>
+          <BackdropLayer reducedMotion={reducedMotion} word={word} font={font} isMobile={isMobile} />
+          <Suspense fallback={null}>
+            <Prism reducedMotion={reducedMotion} quality={quality} />
+          </Suspense>
+        </HeroWorld>
 
-      {/*
-        The orbit shares the prism's depth buffer, which is the whole point:
-        cards on the far side of the ring are genuinely occluded by the model
-        instead of being layered over it by a CSS stacking trick. This is only
-        possible because there is one canvas for the entire page.
+        {/*
+          The orbit shares the prism's depth buffer, which is the whole point:
+          cards on the far side of the ring are genuinely occluded by the model
+          instead of being layered over it by a CSS stacking trick. This is only
+          possible because there is one canvas for the entire page.
 
-        At scroll 0 every card is still off-screen, so the hero loads clean.
-      */}
-      <OrbitCards projects={projects} reducedMotion={reducedMotion} />
+          At scroll 0 every card is still off-screen, so the hero loads clean.
+        */}
+        <OrbitCards projects={projects} reducedMotion={reducedMotion} />
 
-      {/*
-        The archive corridor shares this canvas and therefore this depth
-        buffer, so the prism's transmission material actually refracts the
-        nearest planes while the camera is passing through it.
-      */}
-      <ArchiveGallery reducedMotion={reducedMotion} />
+        {/*
+          The archive corridor shares this canvas and therefore this depth
+          buffer, so the prism's transmission material actually refracts the
+          nearest planes while the camera is passing through it.
+        */}
+        <ArchiveGallery reducedMotion={reducedMotion} />
 
-      {/*
-        The world that carries Index → News → About → Contact. Mounted here so
-        it shares this canvas — and therefore this depth buffer and this
-        camera — with the hero. A second canvas would be a second WebGL
-        context, a second camera to keep in sync, and no shared occlusion.
-      */}
-      <GlobalSceneController reducedMotion={reducedMotion} />
+        {/*
+          The world that carries Index → News → About → Contact. Mounted here so
+          it shares this canvas — and therefore this depth buffer and this
+          camera — with the hero. A second canvas would be a second WebGL
+          context, a second camera to keep in sync, and no shared occlusion.
+        */}
+        <GlobalSceneController reducedMotion={reducedMotion} />
+      </group>
 
       <CameraRig reducedMotion={reducedMotion} />
 
@@ -378,7 +441,7 @@ export default function HeroScene({ word, reducedMotion = false, font }: HeroSce
       {phase !== 'live' && (
         <>
           <GenesisWireframe />
-          <CalibrationEffects />
+          <CalibrationEffects lightweight={isMobile} />
         </>
       )}
     </>

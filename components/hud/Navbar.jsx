@@ -34,7 +34,7 @@ const itemVariantsFor = (reduced) => ({
   },
 });
 
-export default function Navbar({ brand, reducedMotion = false }) {
+export default function Navbar({ brand, reducedMotion = false, revealed = true }) {
   const [open, setOpen] = useState(false);
 
   const itemVariants = itemVariantsFor(reducedMotion);
@@ -43,7 +43,10 @@ export default function Navbar({ brand, reducedMotion = false }) {
     <motion.header
       variants={containerVariants(reducedMotion)}
       initial="hidden"
-      animate="show"
+      // Driven by the opening cinematic's phase rather than by mount alone —
+      // see the comment in HeroSection for why this can no longer just be
+      // "show".
+      animate={revealed ? 'show' : 'hidden'}
       className="pointer-events-none absolute inset-x-0 top-0 z-20 px-5 pt-5 sm:px-8 sm:pt-7"
     >
       <nav

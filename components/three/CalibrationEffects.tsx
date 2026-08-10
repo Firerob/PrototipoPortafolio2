@@ -62,7 +62,24 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
  * effect instances are grabbed by ref and their uniforms written directly, so
  * the tween costs one property write per frame and zero reconciliation.
  */
-export default function CalibrationEffects() {
+interface CalibrationEffectsProps {
+  /**
+   * Drops DepthOfField and keeps only ChromaticAberration.
+   *
+   * DepthOfField is the one effect here that is not just a uniform-driven
+   * blend: it reads the depth buffer through a CircleOfConfusion pass and
+   * runs a large-kernel blur at bokehScale 9, which is exactly the kind of
+   * pass a tile-based mobile GPU pays the most for. ChromaticAberration is a
+   * plain per-fragment UV offset — cheap enough to keep everywhere — so it
+   * stays as the "ultra-light" stand-in for the lens-resolving beat.
+   * CinematicGenesisOpening covers the rest of that beat with a CSS
+   * backdrop-filter blur on mobile, which costs the compositor, not the
+   * WebGL frame budget already spent on the scene itself.
+   */
+  lightweight?: boolean;
+}
+
+export default function CalibrationEffects({ lightweight = false }: CalibrationEffectsProps) {
   // The pmndrs wrappers forward refs to the underlying postprocessing Effect
   // instances, which is what exposes the writable uniforms below.
   const dof = useRef<any>(null);
@@ -116,12 +133,14 @@ export default function CalibrationEffects() {
       normals, and the pass is not free.
     */
     <EffectComposer multisampling={0} enableNormalPass={false}>
-      <DepthOfField
-        ref={dof}
-        focusDistance={FOCUS_NEAR}
-        focalLength={0.02}
-        bokehScale={BOKEH_MAX}
-      />
+      {!lightweight && (
+        <DepthOfField
+          ref={dof}
+          focusDistance={FOCUS_NEAR}
+          focalLength={0.02}
+          bokehScale={BOKEH_MAX}
+        />
+      )}
       {/*
         Only ref and offset are passed, and that is forced by a typings bug
         rather than by choice: ChromaticAberrationProps is

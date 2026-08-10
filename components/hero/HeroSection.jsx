@@ -1,10 +1,12 @@
 'use client';
 
 import { motion, useReducedMotion } from 'framer-motion';
+import { useSyncExternalStore } from 'react';
 import Navbar from '@/components/hud/Navbar';
 import OrientationGizmo from '@/components/hud/OrientationGizmo';
 import ScrollCue from './ScrollCue';
 import { owner } from '@/content/site';
+import { opening, subscribeOpeningPhase } from '@/lib/opening';
 
 /*
   The hero owns no canvas any more.
@@ -17,6 +19,30 @@ import { owner } from '@/content/site';
 export default function HeroSection({ word = owner.heroWord, brand = owner.mark, font }) {
   const prefersReduced = useReducedMotion();
   const reducedMotion = prefersReduced === true;
+
+  /*
+    The nav, the name and the gizmo used to fade in on their own mount timer,
+    completely deaf to the opening cinematic running in front of them — the
+    black veil covered them for a moment, but the veil finishes fading before
+    the bake even starts, so this HTML was visible while the scene behind it
+    was still a bare wireframe. Gating on the opening phase instead ties the
+    reveal to the moment the lens actually resolves.
+
+    Server snapshot is 'singularity' (hidden), not 'calibrating': this
+    component IS server-rendered (unlike the canvas, which is ssr:false), so
+    picking a "revealed" snapshot here would ship a flash of visible HUD in
+    the initial HTML, then hide it, then reveal it again once the client
+    catches up.
+  */
+  const phase = useSyncExternalStore(
+    subscribeOpeningPhase,
+    () => opening.phase,
+    () => 'singularity',
+  );
+  // Reduced motion skips the cinematic entirely (opening.phase jumps straight
+  // to 'live'), so the header must not sit hidden waiting for a phase that
+  // will not naturally occur in the usual order.
+  const revealed = reducedMotion || phase === 'calibrating' || phase === 'live';
 
   return (
     <section
@@ -31,20 +57,25 @@ export default function HeroSection({ word = owner.heroWord, brand = owner.mark,
       />
 
       {/* HUD */}
-      <Navbar brand={brand} reducedMotion={reducedMotion} />
+      <Navbar brand={brand} reducedMotion={reducedMotion} revealed={revealed} />
 
-      <div className="pointer-events-none absolute right-5 top-24 z-20 sm:right-8 sm:top-28">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: revealed ? 1 : 0 }}
+        transition={{ duration: reducedMotion ? 0 : 0.4, ease: [0.16, 1, 0.3, 1] }}
+        className="pointer-events-none absolute right-5 top-24 z-20 sm:right-8 sm:top-28"
+      >
         <OrientationGizmo />
-      </div>
+      </motion.div>
 
       <motion.div
         // Same rule as the navbar: identical styles server and client, only
-        // the timing responds to the motion preference.
+        // the timing responds to the motion preference. The delay is gone —
+        // `revealed` flipping true at the calibrating phase IS the delay now.
         initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
+        animate={revealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
         transition={{
           duration: reducedMotion ? 0 : 0.7,
-          delay: reducedMotion ? 0 : 0.35,
           ease: [0.16, 1, 0.3, 1],
         }}
         className="pointer-events-none absolute inset-x-0 bottom-0 z-20 px-5 pb-8 sm:px-8 sm:pb-10"

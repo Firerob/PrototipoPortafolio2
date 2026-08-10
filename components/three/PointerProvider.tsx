@@ -38,6 +38,17 @@ export function PointerProvider({ children }: { children: ReactNode }) {
     const { vector } = api;
 
     const onMove = (event: PointerEvent) => {
+      /*
+        Touch is not cursor intent — it is the scroll gesture. The canvas is
+        pointer-events:none, so a finger dragging to scroll never means "look
+        over there"; feeding it into the parallax makes the scene sway with
+        every scroll on every phone, which is both visually wrong and a
+        touchmove handler doing lerp math on the one input path mobile Safari
+        and Chrome are most protective of. Only mouse and pen intentionally
+        move without scrolling, so only they get to drive the parallax.
+      */
+      if (event.pointerType === 'touch') return;
+
       vector.set(
         (event.clientX / window.innerWidth) * 2 - 1,
         -((event.clientY / window.innerHeight) * 2 - 1),

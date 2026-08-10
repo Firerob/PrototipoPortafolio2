@@ -1,30 +1,35 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { ShaderMaterial, Vector2, Vector3 } from 'three';
+import { DoubleSide, type Mesh, ShaderMaterial, Vector2, Vector3 } from 'three';
 import { isWireframePhase, opening } from '@/lib/opening';
 
 /*
-  ── Why scene.overrideMaterial and not a traverse ───────────────────────────
+  ── Why this no longer touches scene.overrideMaterial ───────────────────────
 
-  The obvious build is `scene.traverse(o => o.material.wireframe = true)`, and
-  it is the wrong tool three times over:
+  The previous build forced every mesh in the scene through one wireframe
+  material: the curved floor grid (120x120 segments), the backdrop word, the
+  orbit cards, the archive corridor planes — everything, all at once. That
+  reads as "raw crossed boxes", not as a sculpture materialising, because none
+  of those meshes are the thing the opening is about.
 
-    - It has to remember and restore every original material, and materials
-      here are shared between meshes, so "restore" is not a simple map.
-    - MeshTransmissionMaterial (the prism) does its own render passes; setting
-      `wireframe` on it produces a mess rather than a wireframe.
-    - It cannot do a radial reveal at all. Wireframe is a boolean per material;
-      the shockwave needs a per-FRAGMENT decision.
+  So the wireframe is now two purpose-built draws instead of a scene-wide
+  override:
 
-  `scene.overrideMaterial` is one assignment that forces every mesh through one
-  material, and one `= null` to undo it with nothing left behind. Because that
-  material is ours, the reveal front can be real: the fragment shader discards
-  everything outside the expanding radius and lights a rim exactly at it.
+    - `hero`: the prism's own geometry, wireframe:true on its own material,
+      revealed by the same radial shockwave front as before.
+    - `floor`: a single quad with an analytic grid drawn in the fragment
+      shader (not real mesh wireframe), coarse and radially faded so it reads
+      as an instrument floor rather than a wall of lines.
+
+  Everything else — the real Prism, CurvedGrid, BackdropWord, SpotGlow, the
+  orbit cards, the archive corridor — stays invisible (HeroScene toggles a
+  group's `visible`) until the bake, exactly like before, just without ever
+  having been forced into a wireframe pass in the first place.
 */
 
-const vertex = /* glsl */ `
+const heroVertex = /* glsl */ `
   varying vec3 vWorld;
 
   void main() {
@@ -34,7 +39,7 @@ const vertex = /* glsl */ `
   }
 `;
 
-const fragment = /* glsl */ `
+const heroFragment = /* glsl */ `
   precision highp float;
 
   uniform vec2  uResolution;
@@ -47,13 +52,6 @@ const fragment = /* glsl */ `
   varying vec3 vWorld;
 
   void main() {
-    /*
-      Screen-space distance from the origin, normalised so 1.0 is the furthest
-      corner. Using gl_FragCoord rather than a world-space radius on purpose:
-      the brief's wave covers the SCREEN, and a world-space sphere expanding
-      through a scene with objects at wildly different depths reaches the
-      corners at times that have nothing to do with what the viewer sees.
-    */
     vec2 uv = gl_FragCoord.xy / uResolution;
     vec2 d = (uv - uCentre) * vec2(uResolution.x / uResolution.y, 1.0);
     float dist = length(d) / length(vec2(uResolution.x / uResolution.y, 1.0));
@@ -61,43 +59,91 @@ const fragment = /* glsl */ `
     float front = uWave;
     if (dist > front) discard;
 
-    // Rim: a thin hot band riding the leading edge, falling off inward. This
-    // is what makes it read as a front travelling THROUGH the geometry rather
-    // than as a circular mask being scaled up over a finished image.
+    // Rim: a thin hot band riding the leading edge, falling off inward — a
+    // front travelling THROUGH the geometry rather than a mask scaling up.
     float rim = smoothstep(front, front - 0.09, dist);
     vec3 colour = mix(uRim, uLine, rim);
 
-    // Lines fade in slightly behind the front so the structure settles rather
-    // than snapping on at full strength.
     float settle = smoothstep(front, front - 0.22, dist);
     gl_FragColor = vec4(colour, uOpacity * (0.35 + 0.65 * settle));
   }
 `;
 
+/*
+  Floor: a shader-drawn grid on a 2-triangle quad, not a dense wireframe mesh.
+
+  `fwidth` keeps the line a constant hairline width in screen space regardless
+  of distance, `uFade` kills it toward the plane's edge so there is no visible
+  boundary, and `uWave` — the same value driving the hero shockwave — reveals
+  it radially outward from the spark so the floor and the sculpture ignite
+  together rather than the floor simply being "on" from frame one.
+*/
+const floorVertex = /* glsl */ `
+  varying vec2 vCoord;
+  varying float vDist;
+
+  void main() {
+    vCoord = position.xy;
+    vDist = length(position.xy);
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
+
+const floorFragment = /* glsl */ `
+  precision highp float;
+
+  uniform vec3  uLine;
+  uniform float uCell;
+  uniform float uFade;
+  uniform float uWave;
+  uniform float uMaxDist;
+  uniform float uOpacity;
+
+  varying vec2  vCoord;
+  varying float vDist;
+
+  float gridMask(vec2 coord, float weight) {
+    vec2 delta = fwidth(coord) * weight;
+    vec2 g = abs(fract(coord - 0.5) - 0.5) / delta;
+    return 1.0 - min(min(g.x, g.y), 1.0);
+  }
+
+  void main() {
+    float radial = vDist / uMaxDist;
+    if (radial > uWave) discard;
+
+    float line = gridMask(vCoord / uCell, 1.0);
+
+    // Squared falloff toward the plane's edge — an instrument floor fading
+    // into dark, not a lit rectangle with a visible seam.
+    float fade = 1.0 - smoothstep(uFade * 0.12, uFade, vDist);
+    fade *= fade;
+
+    float alpha = line * fade * uOpacity;
+    if (alpha < 0.003) discard;
+
+    gl_FragColor = vec4(uLine, alpha);
+  }
+`;
+
+/** World-space half-extent of the floor quad. Kept modest: this floor only
+ *  has to read during a ~2s wireframe phase, not cover the whole scene. */
+const FLOOR_MAX_DIST = 20;
+
 /**
- * Phases 0–1: the whole scene as a neon wireframe, revealed by a radial front.
- *
- * ── How the hand-off to real materials avoids a pop ─────────────────────────
- *
- * There is no cross-fade between an override material and the real ones — the
- * override REPLACES them, so while it is set the real materials are not being
- * rendered at all and there is nothing to fade between.
- *
- * The sequence solves this itself, and it is worth noticing that the brief
- * already ordered it correctly: the override is dropped on the same frame the
- * massive bokeh arrives. A `bokehScale` of 9 across the entire frame is a very
- * effective cover — the switch happens underneath a blur strong enough that no
- * edge in the image is legible. The blur is not a workaround bolted on to hide
- * a seam; it is the reason the seam can exist at all.
+ * Phases 0–1: the prism as a neon wireframe silhouette over an elegant,
+ * radially-faded instrument floor — both revealed by the shockwave front.
  */
 export default function GenesisWireframe() {
-  const { scene, size, viewport } = useThree();
+  const { size, viewport } = useThree();
+  const hero = useRef<Mesh>(null);
+  const floor = useRef<Mesh>(null);
 
-  const material = useMemo(
+  const heroMaterial = useMemo(
     () =>
       new ShaderMaterial({
-        vertexShader: vertex,
-        fragmentShader: fragment,
+        vertexShader: heroVertex,
+        fragmentShader: heroFragment,
         wireframe: true,
         transparent: true,
         depthWrite: false,
@@ -113,42 +159,72 @@ export default function GenesisWireframe() {
     [],
   );
 
-  // Disposed on unmount: a ShaderMaterial holds a compiled program, and this
-  // one is created outside R3F's reconciler so nothing else will free it.
-  useEffect(() => () => material.dispose(), [material]);
+  const floorMaterial = useMemo(
+    () =>
+      new ShaderMaterial({
+        vertexShader: floorVertex,
+        fragmentShader: floorFragment,
+        transparent: true,
+        depthWrite: false,
+        side: DoubleSide,
+        uniforms: {
+          uLine: { value: new Vector3(0.3, 0.85, 1.0) },
+          uCell: { value: 2.2 },
+          uFade: { value: 15 },
+          uWave: { value: 0 },
+          uMaxDist: { value: FLOOR_MAX_DIST },
+          uOpacity: { value: 0.55 },
+        },
+      }),
+    [],
+  );
+
+  // Disposed on unmount: each ShaderMaterial holds a compiled program, and
+  // these are created outside R3F's reconciler so nothing else frees them.
+  useEffect(
+    () => () => {
+      heroMaterial.dispose();
+      floorMaterial.dispose();
+    },
+    [heroMaterial, floorMaterial],
+  );
 
   useFrame(() => {
     const wire = isWireframePhase(opening.phase);
 
-    /*
-      Assigned every frame while active rather than once on phase change.
-      Meshes mount and unmount during the opening — drei's Environment, the
-      Suspense boundaries around the prism and the backdrop word — and a
-      one-shot assignment made at phase entry would miss anything that arrived
-      afterwards, leaving a few objects rendering their real materials in the
-      middle of a wireframe scene.
-    */
-    if (wire) {
-      if (scene.overrideMaterial !== material) scene.overrideMaterial = material;
+    if (hero.current) hero.current.visible = wire;
+    if (floor.current) floor.current.visible = wire;
+    if (!wire) return;
 
-      const u = material.uniforms;
-      u.uResolution.value.set(size.width * viewport.dpr, size.height * viewport.dpr);
-      u.uCentre.value.set(opening.sparkX, 1 - opening.sparkY);
-      u.uWave.value = opening.wave;
-    } else if (scene.overrideMaterial === material) {
-      // Exactly one frame's work to hand the scene back.
-      scene.overrideMaterial = null;
-    }
+    const hu = heroMaterial.uniforms;
+    hu.uResolution.value.set(size.width * viewport.dpr, size.height * viewport.dpr);
+    hu.uCentre.value.set(opening.sparkX, 1 - opening.sparkY);
+    hu.uWave.value = opening.wave;
+
+    floorMaterial.uniforms.uWave.value = opening.wave;
   });
 
-  // Also clear on unmount, in case the component is removed mid-phase — an
-  // override left behind would render the entire site as wireframe forever.
-  useEffect(
-    () => () => {
-      if (scene.overrideMaterial === material) scene.overrideMaterial = null;
-    },
-    [scene, material],
-  );
+  return (
+    <>
+      {/* Same geometry and position as the real Prism (components/hero/Prism.jsx)
+          so the wireframe silhouette lands exactly where the glass object
+          will be once the bake hands over to it. */}
+      <mesh ref={hero} position={[0, 0.05, 0]} material={heroMaterial} visible={false}>
+        <cylinderGeometry args={[1.18, 1.18, 1.18, 3, 1]} />
+      </mesh>
 
-  return null;
+      {/* 2 triangles — the grid pattern is drawn analytically in the fragment
+          shader, so density is a uniform (`uCell`), never a vertex count. */}
+      <mesh
+        ref={floor}
+        rotation={[-Math.PI / 2, 0, 0]}
+        position={[0, -2.1, 0]}
+        material={floorMaterial}
+        renderOrder={-2}
+        visible={false}
+      >
+        <planeGeometry args={[FLOOR_MAX_DIST * 2, FLOOR_MAX_DIST * 2, 1, 1]} />
+      </mesh>
+    </>
+  );
 }

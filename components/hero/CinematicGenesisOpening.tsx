@@ -13,6 +13,7 @@ import {
   type OpeningPhase,
 } from '@/lib/opening';
 import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicLayoutEffect';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 if (typeof window !== 'undefined') gsap.registerPlugin(CustomEase);
 
@@ -26,6 +27,20 @@ if (typeof window !== 'undefined') gsap.registerPlugin(CustomEase);
   politely — there is no snap in it.
 */
 const IGNITE_EASE = 'M0,0 C0.14,0.62 0.2,0.92 0.36,0.98 0.52,1.02 0.72,1 1,1';
+
+/*
+  Mobile stand-in for the WebGL depth-of-field pass.
+
+  CalibrationEffects skips DepthOfField on mobile (it reads the depth buffer
+  through a CircleOfConfusion pass — the single most expensive effect in that
+  composer). The lens-resolving beat still needs to read as a lens resolving,
+  so a `backdrop-filter: blur()` layer above the canvas does the same visual
+  job for the cost of a compositor blur instead of a WebGL blur pass. It is
+  driven by the exact same `opening.defocus` value the WebGL pass would have
+  used, via the `onUpdate` callbacks on the two tweens below — no separate
+  rAF loop needed, GSAP already ticks defocus at display refresh rate.
+*/
+const MOBILE_BLUR_MAX_PX = 22;
 
 /*
   ── Budget ──────────────────────────────────────────────────────────────────
@@ -90,8 +105,10 @@ export default function CinematicGenesisOpening() {
   const host = useRef<HTMLDivElement>(null);
   const veil = useRef<HTMLDivElement>(null);
   const spark = useRef<HTMLDivElement>(null);
+  const blurLayer = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
   const prefersReduced = useReducedMotion();
+  const isMobile = useIsMobile();
 
   const { active, progress } = useProgress();
   const [phase, setPhase] = useState<OpeningPhase>('singularity');
@@ -127,6 +144,20 @@ export default function CinematicGenesisOpening() {
       },
     });
     timeline.current = tl;
+
+    // See MOBILE_BLUR_MAX_PX above: mirrors `defocus` onto a CSS blur layer
+    // in place of the WebGL DepthOfField pass CalibrationEffects skips on
+    // mobile. Undefined (not called) on desktop, where the pass runs.
+    const syncBlur = isMobile
+      ? () => {
+          const node = blurLayer.current;
+          if (!node) return;
+          const px = (opening.defocus * MOBILE_BLUR_MAX_PX).toFixed(1);
+          node.style.backdropFilter = `blur(${px}px)`;
+          // Not in the CSSStyleDeclaration typings; Safari still needs it.
+          node.style.setProperty('-webkit-backdrop-filter', `blur(${px}px)`);
+        }
+      : undefined;
 
     /* ── Phase 0 → 1 · the detonation ──────────────────────────────────── */
     tl.call(() => {
@@ -165,7 +196,7 @@ export default function CinematicGenesisOpening() {
       frame hides it completely. 0.18s to slam in, because a slow blur would
       show the un-blurred pop underneath it.
     */
-    tl.to(opening, { defocus: 1, duration: 0.18, ease: 'power3.out' }, bakeAt);
+    tl.to(opening, { defocus: 1, duration: 0.18, ease: 'power3.out', onUpdate: syncBlur }, bakeAt);
     tl.set(opening, { wave: 1 }, bakeAt);
 
     if (el) {
@@ -200,6 +231,7 @@ export default function CinematicGenesisOpening() {
         pulse: 0,
         duration: T_CALIBRATE,
         ease: CustomEase.create('ignite', IGNITE_EASE),
+        onUpdate: syncBlur,
       },
       focusAt,
     );
@@ -224,7 +256,7 @@ export default function CinematicGenesisOpening() {
       // entrance is what keeps a transition feeling responsive.
       tl.to(el, { opacity: 0, duration: 0.4, ease: 'power2.in' }, focusAt + 0.6);
     }
-  }, []);
+  }, [isMobile]);
 
   /*
     ── Kill the timeline on unmount ──────────────────────────────────────────
@@ -395,6 +427,18 @@ export default function CinematicGenesisOpening() {
         look like a div rather than like an absence of image.
       */}
       <div ref={veil} className="absolute inset-0 bg-black" />
+
+      {/* Mobile-only stand-in for the WebGL DepthOfField pass — see
+          MOBILE_BLUR_MAX_PX. No background of its own: it blurs whatever is
+          compositing behind it (the canvas), so it must stay fully
+          transparent. */}
+      {isMobile && (
+        <div
+          ref={blurLayer}
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+        />
+      )}
 
       {/* The spark. left/top stay at 0 and the position is a transform, so the
           follow never touches layout. */}

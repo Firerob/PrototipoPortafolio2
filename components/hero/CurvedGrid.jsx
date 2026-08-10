@@ -72,7 +72,7 @@ const fragmentShader = /* glsl */ `
   }
 `;
 
-export default function CurvedGrid({ reducedMotion = false }) {
+export default function CurvedGrid({ reducedMotion = false, segments = 120 }) {
   const material = useRef(null);
 
   const uniforms = useMemo(
@@ -95,9 +95,12 @@ export default function CurvedGrid({ reducedMotion = false }) {
 
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2.1, 0]} renderOrder={-2}>
-      {/* 120 segments per side: enough to make the r^2 bend read as a smooth
-          curve rather than faceted steps, still a trivial vertex load. */}
-      <planeGeometry args={[120, 120, 120, 120]} />
+      {/* 120 segments per side on desktop is enough to make the r^2 bend read
+          as a smooth curve rather than faceted steps; mobile halves that
+          more than once (see HeroScene) since the vertex load scales with
+          the square of this number and the curve is viewed from further
+          away on a smaller screen, where the facets are not visible anyway. */}
+      <planeGeometry args={[120, 120, segments, segments]} />
       <shaderMaterial
         ref={material}
         uniforms={uniforms}
