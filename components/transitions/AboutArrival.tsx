@@ -320,7 +320,7 @@ export default function AboutArrival() {
 
           const size = (pt.edge ? 1.9 : 1.5) * dpr * (1 + atBar * 0.9);
           c2d.globalAlpha = Math.min(1, alpha);
-          c2d.fillStyle = atBar > 0.35 ? '#ffffff' : pt.edge ? '#4be1ff' : '#8b7bff';
+          c2d.fillStyle = atBar > 0.35 ? '#ffffff' : pt.edge ? '#aeb6c6' : '#a89882';
           c2d.fillRect(cx - size / 2, cy - size / 2, size, size);
         }
 
@@ -330,7 +330,7 @@ export default function AboutArrival() {
           c2d.translate(offX, offY);
           c2d.scale(scale, scale);
           c2d.globalAlpha = smoothstep(resolve) * 0.85 * fade;
-          c2d.strokeStyle = '#4be1ff';
+          c2d.strokeStyle = '#aeb6c6';
           c2d.lineWidth = 1.6 / scale;
           /*
             Dash the whole perimeter and retract the offset, so the outline is
@@ -347,7 +347,7 @@ export default function AboutArrival() {
           // stops reading as a wire loop with dots inside it.
           if (locked > 0) {
             c2d.globalAlpha = smoothstep(locked) * 0.1 * fade;
-            c2d.fillStyle = '#4be1ff';
+            c2d.fillStyle = '#aeb6c6';
             c2d.fill(bust);
           }
           c2d.restore();
@@ -373,7 +373,7 @@ export default function AboutArrival() {
         if (locked > 0) {
           const a = smoothstep(locked);
           c2d.globalAlpha = a * 0.75 * fade;
-          c2d.strokeStyle = '#8b7bff';
+          c2d.strokeStyle = '#a89882';
           c2d.lineWidth = 1 * dpr;
           const pad = 26 * dpr;
           const arm = 16 * dpr;
@@ -490,7 +490,7 @@ export default function AboutArrival() {
             <span className="mx-2 text-text-muted/40">/</span>
             Transmission Feed
           </span>
-          <span ref={status} className="text-cyan transition-colors duration-300">
+          <span ref={status} className="text-steel transition-colors duration-300">
             ACQUIRING
           </span>
           <span className="ml-auto whitespace-nowrap text-text">

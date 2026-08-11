@@ -53,12 +53,12 @@ export default function ContactSection() {
               <span
                 aria-hidden="true"
                 className={`absolute inline-flex size-full animate-ping rounded-full opacity-70 ${
-                  open ? 'bg-cyan' : 'bg-text-muted'
+                  open ? 'bg-steel' : 'bg-text-muted'
                 }`}
               />
               <span
                 aria-hidden="true"
-                className={`relative inline-flex size-2 rounded-full ${open ? 'bg-cyan' : 'bg-text-muted'}`}
+                className={`relative inline-flex size-2 rounded-full ${open ? 'bg-steel' : 'bg-text-muted'}`}
               />
             </span>
             status:{' '}

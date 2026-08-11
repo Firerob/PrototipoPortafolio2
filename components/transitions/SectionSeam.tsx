@@ -142,13 +142,13 @@ export default function SectionSeam({
             */}
             <span
               data-rule
-              className="absolute inset-0 origin-left bg-gradient-to-r from-accent/40 via-accent-soft to-cyan"
+              className="absolute inset-0 origin-left bg-gradient-to-r from-accent/40 via-accent-soft to-steel"
             />
             {/* The pen drawing the rule. -mt/-ml centre it on a 1px line
                 without a transform that would fight the tween's own x. */}
             <span
               data-spark
-              className="absolute left-0 top-1/2 -ml-[3px] -mt-[3px] size-1.5 rounded-full bg-cyan opacity-0 shadow-[0_0_14px_3px_rgba(75,225,255,0.55)]"
+              className="absolute left-0 top-1/2 -ml-[3px] -mt-[3px] size-1.5 rounded-full bg-steel opacity-0 shadow-[0_0_14px_3px_rgba(75,225,255,0.55)]"
             />
           </span>
 

@@ -422,7 +422,7 @@ export default function CinematicGenesisOpening() {
     <div ref={host} className="fixed inset-0 z-50 select-none">
       {/*
         Pure #000, not the site's --color-void. Phase 0 is specified as black,
-        and void is #050508 — close, but the difference is visible against the
+        and void is #06060a — close, but the difference is visible against the
         spark's falloff, and "almost black" is the thing that makes an opening
         look like a div rather than like an absence of image.
       */}
@@ -463,10 +463,10 @@ export default function CinematicGenesisOpening() {
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-1/2 size-24 -translate-x-1/2 -translate-y-1/2 opacity-0"
       >
-        <span className="absolute left-1/2 top-0 h-5 w-px -translate-x-1/2 bg-cyan/50" />
-        <span className="absolute bottom-0 left-1/2 h-5 w-px -translate-x-1/2 bg-cyan/50" />
-        <span className="absolute left-0 top-1/2 h-px w-5 -translate-y-1/2 bg-cyan/50" />
-        <span className="absolute right-0 top-1/2 h-px w-5 -translate-y-1/2 bg-cyan/50" />
+        <span className="absolute left-1/2 top-0 h-5 w-px -translate-x-1/2 bg-steel/50" />
+        <span className="absolute bottom-0 left-1/2 h-5 w-px -translate-x-1/2 bg-steel/50" />
+        <span className="absolute left-0 top-1/2 h-px w-5 -translate-y-1/2 bg-steel/50" />
+        <span className="absolute right-0 top-1/2 h-px w-5 -translate-y-1/2 bg-steel/50" />
       </span>
 
       <span

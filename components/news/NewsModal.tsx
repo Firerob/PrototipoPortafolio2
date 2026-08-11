@@ -156,7 +156,7 @@ export default function NewsModal({ item, onClose, reducedMotion }: NewsModalPro
                 type="button"
                 onClick={onClose}
                 aria-label="Close reader"
-                className="flex size-11 shrink-0 items-center justify-center border border-white/10 text-text transition-colors duration-200 hover:border-purple-500/50 hover:text-cyan"
+                className="flex size-11 shrink-0 items-center justify-center border border-white/10 text-text transition-colors duration-200 hover:border-purple-500/50 hover:text-steel"
               >
                 <X className="size-4" aria-hidden="true" />
               </button>
@@ -229,7 +229,7 @@ export default function NewsModal({ item, onClose, reducedMotion }: NewsModalPro
               <div className="mt-8 flex items-center gap-3 border-t border-white/10 pt-4">
                 <span aria-hidden="true" className="h-px flex-1 bg-hairline" />
                 <span className="font-mono text-[0.55rem] uppercase tracking-[0.18em] text-text-muted">
-                  status: <span className="text-cyan">{item.status ?? 'PUBLISHED'}</span>
+                  status: <span className="text-steel">{item.status ?? 'PUBLISHED'}</span>
                 </span>
               </div>
             </div>

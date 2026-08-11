@@ -9,16 +9,10 @@ import {
 } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { Environment, Lightformer, PerformanceMonitor } from '@react-three/drei';
-import {
-  type AmbientLight,
-  MathUtils,
-  type Group,
-  type PerspectiveCamera,
-  type PointLight,
-  type SpotLight,
-} from 'three';
+import { MathUtils, type Group, type PerspectiveCamera } from 'three';
 import BackdropWord from '@/components/hero/BackdropWord';
 import CurvedGrid from '@/components/hero/CurvedGrid';
+import EnvelopingGrid from '@/components/hero/EnvelopingGrid';
 import Prism from '@/components/hero/Prism';
 import SpotGlow from '@/components/hero/SpotGlow';
 import OrbitCards from './OrbitCards';
@@ -37,6 +31,7 @@ import {
   smootherstep as smootherstepScene,
 } from '@/lib/sceneScroll';
 import GlobalSceneController from './GlobalSceneController';
+import DynamicLighting from './DynamicLighting';
 import CalibrationEffects from './CalibrationEffects';
 import GenesisWireframe from './GenesisWireframe';
 import { isWireframePhase, opening, subscribeOpeningPhase } from '@/lib/opening';
@@ -150,70 +145,6 @@ function CameraRig({ reducedMotion }: { reducedMotion: boolean }) {
 }
 
 /**
- * Lights that drift with the cursor.
- *
- * Moving the key light rather than only the camera is what makes the prism's
- * specular highlight travel across its faces. Camera-only parallax slides the
- * whole image; moving the light changes how the object is lit, which is the
- * cue that actually reads as depth.
- */
-/** Normal ambient level once the scene is live. */
-const AMBIENT_LIVE = 0.25;
-/** During the wireframe phases the background must read as near-black, so
- *  only the spark and the shockwave-lit prism are visible. */
-const AMBIENT_OPENING = 0.05;
-
-function LightRig({ reducedMotion }: { reducedMotion: boolean }) {
-  const key = useRef<SpotLight>(null);
-  const rim = useRef<PointLight>(null);
-  const ambient = useRef<AmbientLight>(null);
-  const pointer = usePointerVector();
-
-  useFrame((_, delta) => {
-    const dt = Math.min(delta, 1 / 30);
-    // Slower than the camera on purpose: lights trailing the cursor feel like
-    // mass. Matching speeds makes the whole scene look welded together.
-    const t = smoothing(0.05, dt);
-    const px = reducedMotion ? 0 : pointer.x;
-    const py = reducedMotion ? 0 : pointer.y;
-
-    if (key.current) {
-      key.current.position.x = MathUtils.lerp(key.current.position.x, px * 2.6, t);
-      key.current.position.y = MathUtils.lerp(key.current.position.y, 2.4 + py * 1.1, t);
-    }
-
-    if (rim.current) {
-      // Counter-moving rim light: opposes the key so the silhouette stays
-      // separated from the background at every cursor position.
-      rim.current.position.x = MathUtils.lerp(rim.current.position.x, 3.5 - px * 2.2, t);
-      rim.current.position.y = MathUtils.lerp(rim.current.position.y, -1.6 - py * 0.8, t);
-    }
-
-    if (ambient.current) {
-      const want = isWireframePhase(opening.phase) ? AMBIENT_OPENING : AMBIENT_LIVE;
-      ambient.current.intensity = MathUtils.lerp(ambient.current.intensity, want, t);
-    }
-  });
-
-  return (
-    <>
-      <ambientLight ref={ambient} intensity={AMBIENT_LIVE} />
-      <spotLight
-        ref={key}
-        position={[0, 2.4, -3.2]}
-        target-position={[0, 0, 0]}
-        angle={0.72}
-        penumbra={1}
-        intensity={38}
-        distance={18}
-        color="#7c5cff"
-      />
-      <pointLight ref={rim} position={[3.5, -1.6, 2.4]} intensity={12} color="#4be1ff" />
-    </>
-  );
-}
-
-/**
  * Background parallax layer.
  *
  * The grid and the glow shift opposite the camera and further than it, so the
@@ -251,12 +182,24 @@ function BackdropLayer({
   return (
     <group ref={group}>
       <SpotGlow />
+      {/*
+        The enclosure and the floor, in that order. Together they make the
+        prism sit in a room rather than on a plane — the cylinder gives the
+        scene walls, the floor gives it a ground, and both take their colour
+        from the same hue the lights are cycling through.
+
+        Both live inside HeroWorld, so they recede and shrink away with the
+        rest of the hero furniture once the post-hero world takes over. That
+        handover happens underneath IndexArrival's wave, so the cylinder
+        collapsing past the camera is never seen.
+      */}
+      <EnvelopingGrid reducedMotion={reducedMotion} segments={isMobile ? 48 : 96} />
       {/* 48 segments per side on mobile instead of 120: a quarter of the
           vertex count for a curve that reads at the same fidelity on a
           smaller, further-viewed screen. */}
       <CurvedGrid reducedMotion={reducedMotion} segments={isMobile ? 48 : 120} />
       <Suspense fallback={null}>
-        <BackdropWord word={word} font={font} />
+        <BackdropWord word={word} font={font} reducedMotion={reducedMotion} />
       </Suspense>
     </group>
   );
@@ -314,10 +257,10 @@ function HeroWorld({ children }: { children: ReactNode }) {
 function StudioEnvironment() {
   return (
     <Environment resolution={128} frames={1}>
-      <color attach="background" args={['#05050a']} />
-      <Lightformer form="rect" intensity={3.2} color="#6d4bff" position={[0, 1.5, -4]} scale={[8, 6, 1]} />
-      <Lightformer form="rect" intensity={1.8} color="#4be1ff" position={[-4, 0.5, 2]} scale={[4, 6, 1]} rotation-y={Math.PI / 2} />
-      <Lightformer form="rect" intensity={1.4} color="#ff5ea8" position={[4, -0.5, 2]} scale={[4, 6, 1]} rotation-y={-Math.PI / 2} />
+      <color attach="background" args={['#06060a']} />
+      <Lightformer form="rect" intensity={3.2} color="#c9b79c" position={[0, 1.5, -4]} scale={[8, 6, 1]} />
+      <Lightformer form="rect" intensity={1.8} color="#aeb6c6" position={[-4, 0.5, 2]} scale={[4, 6, 1]} rotation-y={Math.PI / 2} />
+      <Lightformer form="rect" intensity={1.4} color="#c9b79c" position={[4, -0.5, 2]} scale={[4, 6, 1]} rotation-y={-Math.PI / 2} />
       <Lightformer form="circle" intensity={2.4} color="#ffffff" position={[0, 5, 1]} scale={5} rotation-x={Math.PI / 2} />
     </Environment>
   );
@@ -388,7 +331,7 @@ export default function HeroScene({ word, reducedMotion = false, font, isMobile 
         onIncline={() => setQuality('high')}
       />
 
-      <LightRig reducedMotion={reducedMotion} />
+      <DynamicLighting reducedMotion={reducedMotion} />
 
       {/* Environment stays outside HeroWorld: it lights the post-hero field
           too, and it is an env map rather than something in the frame. */}

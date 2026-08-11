@@ -215,10 +215,10 @@ export default function ProfileCard3D({
           ))}
 
           {/* Corner brackets */}
-          <span className="absolute left-4 top-4 size-6 border-l border-t border-cyan/50" />
-          <span className="absolute right-4 top-4 size-6 border-r border-t border-cyan/50" />
-          <span className="absolute bottom-4 left-4 size-6 border-b border-l border-cyan/50" />
-          <span className="absolute bottom-4 right-4 size-6 border-b border-r border-cyan/50" />
+          <span className="absolute left-4 top-4 size-6 border-l border-t border-steel/50" />
+          <span className="absolute right-4 top-4 size-6 border-r border-t border-steel/50" />
+          <span className="absolute bottom-4 left-4 size-6 border-b border-l border-steel/50" />
+          <span className="absolute bottom-4 right-4 size-6 border-b border-r border-steel/50" />
 
           {/* Top readout */}
           <span className="absolute left-1/2 top-2 -translate-x-1/2 font-mono text-[0.5rem] uppercase tracking-[0.24em] text-text-muted">
@@ -249,7 +249,7 @@ export default function ProfileCard3D({
           </p>
         </div>
         <p className="flex shrink-0 items-center gap-2 font-mono text-[0.56rem] uppercase tracking-[0.18em] text-text-muted">
-          <span aria-hidden="true" className="size-1.5 rounded-full bg-cyan" />
+          <span aria-hidden="true" className="size-1.5 rounded-full bg-steel" />
           {status}
         </p>
       </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
 import { archiveScroll, CAMERA_RANGE, phaseOf, smootherstep } from '@/lib/archiveScroll';
@@ -16,10 +16,63 @@ import { archiveScroll, CAMERA_RANGE, phaseOf, smootherstep } from '@/lib/archiv
 
   It carries no accessible name of its own: the canvas has an aria-label and
   the real <h1> lives in the DOM overlay, so announcing it here would just
-  duplicate the heading.
+  duplicate the heading. That matters more now the word CHANGES — a rotating
+  string exposed to assistive tech would be an unrequested live region
+  announcing a new value every few seconds.
 */
+
+/** The rotation. Order is the read: what the studio does, then where it does
+ *  it, then how to reach it. */
+const WORDS = ['WORKS', 'FRONTEND', 'SYSTEMS', 'LABS', 'CONTACT'];
+
+/*
+  ⬅️  AJUSTA AQUÍ LA VELOCIDAD
+
+  Seconds each word holds before the next one takes over. The light's own
+  sweep (HUE_CYCLE_SECONDS in lib/palette.ts) is 12s, so at 4s the word turns
+  over exactly three times per colour cycle and the two land on the same beat
+  every time. Any divisor of 12 — 2, 3, 4, 6 — keeps that lock; other values
+  drift against the colour, which is not wrong, just less deliberate.
+*/
+const WORD_SECONDS = 4;
+
+/*
+  How long the cross-fade takes at each end of a word's life.
+
+  This is not only styling. troika regenerates the glyph geometry when `text`
+  changes, and that regeneration is ASYNC — its own docs note a sync "won't
+  complete until next frame at the earliest". A hard cut would therefore show
+  either the old word for an extra frame or a blank one. Swapping while the
+  fill is at zero makes the whole regeneration unobservable, so the fade is
+  what buys the technique its correctness, not just its polish.
+*/
+const FADE_SECONDS = 0.55;
+
+/*
+  Peak fill.
+
+  Was 0.075 — chosen when this was a barely-there tint, and far too faint for
+  a word that is now meant to be read and to be visibly distorted by the glass
+  in front of it. 0.6 is a considered ceiling rather than the 0.8 the brief
+  suggested: the hero's <h1>, the nav and the scroll cue all sit over this
+  area, and body copy on a moving field is exactly the contrast case the
+  vignette in HeroSection exists to protect. Push it toward 0.8 if the word
+  should dominate; the HUD is what pays for it.
+*/
+const PEAK_FILL = 0.6;
+
+/** smootherstep — zero velocity AND acceleration at both ends. A linear ramp
+ *  reads as a dimmer being turned; this reads as a word arriving. */
+const ease = (t) => {
+  const x = Math.min(1, Math.max(0, t));
+  return x * x * x * (x * (x * 6 - 15) + 10);
+};
+
 export default function BackdropWord({
-  word = 'WORKS',
+  /** Kept as the opening word so the site's own heroWord still leads. */
+  word,
+  words = WORDS,
+  reducedMotion = false,
   /*
     Troika fetches its default typeface (Roboto) from the Google CDN on first
     paint. To keep the page self-hosted AND on-brand, drop
@@ -30,18 +83,78 @@ export default function BackdropWord({
   font,
 }) {
   const ref = useRef(null);
+  /** Last index actually written. Guards the swap so `text` and the expensive
+   *  sync() that follows it happen once per word, not once per frame. */
+  const shown = useRef(-1);
 
-  /*
-    Fade out on the archive dive.
+  // `word` leads if given, and is not repeated later in the rotation.
+  const list = useMemo(
+    () => (word ? [word, ...words.filter((w) => w !== word)] : words),
+    [word, words],
+  );
 
-    The word is a pale tint chosen to sit faintly on a near-black background.
-    Once the wave flips the page to light it inverts into a large dark smear
-    across the middle of the corridor, so it leaves with the rest of the hero.
-  */
-  useFrame(() => {
-    if (!ref.current) return;
+  useFrame((state) => {
+    const node = ref.current;
+    if (!node) return;
+
+    const t = state.clock.elapsedTime;
+
+    /*
+      ── EL ÍNDICE ─────────────────────────────────────────────────────────
+
+      floor(t / WORD_SECONDS) advances by exactly one every WORD_SECONDS; the
+      modulo wraps it back to the start of the list. Change WORD_SECONDS above
+      and nothing else needs to move.
+    */
+    const index = reducedMotion ? 0 : Math.floor(t / WORD_SECONDS) % list.length;
+
+    if (index !== shown.current) {
+      shown.current = index;
+      node.text = list[index];
+      /*
+        Explicit sync, rather than leaning on the automatic one troika runs in
+        onBeforeRender. Both work, but the automatic path starts a frame later,
+        and starting the regeneration at the exact moment the fill hits zero is
+        what keeps it inside the fade window rather than trailing out of it.
+      */
+      node.sync();
+    }
+
+    /*
+      ── LA OPACIDAD ───────────────────────────────────────────────────────
+
+      Two ramps, taking whichever is lower: one rising over the first
+      FADE_SECONDS of the word's life, one falling over its last. Their
+      minimum is a plateau at full fill with a smooth shoulder at each end.
+
+      The index above flips exactly when `phase` wraps to 0 — the instant the
+      rising ramp is at zero — so the swap always happens in the dark.
+    */
+    const phase = t % WORD_SECONDS;
+    const fadeIn = ease(phase / FADE_SECONDS);
+    const fadeOut = ease((WORD_SECONDS - phase) / FADE_SECONDS);
+    const cycle = reducedMotion ? 1 : Math.min(fadeIn, fadeOut);
+
+    /*
+      Fade out on the archive dive.
+
+      The word is a pale tint chosen to sit on a near-black background. Once
+      the wave flips the page to light it inverts into a large dark smear
+      across the middle of the corridor, so it leaves with the rest of the
+      hero. Multiplied with the word cycle rather than replacing it, so the
+      two fades compose instead of fighting.
+    */
     const dive = smootherstep(phaseOf(archiveScroll.progress, CAMERA_RANGE));
-    ref.current.fillOpacity = 0.075 * (1 - dive);
+
+    node.fillOpacity = PEAK_FILL * cycle * (1 - dive);
+
+    /*
+      A settle of 0.8% on the way in. Deliberately below the threshold where
+      it reads as a "pop" — at this size it is felt as the word coming to rest
+      rather than seen as a scale animation. Remove this line and the
+      transition is still correct, just flatter.
+    */
+    if (!reducedMotion) node.scale.setScalar(0.992 + 0.008 * fadeIn);
   });
 
   return (
@@ -53,8 +166,8 @@ export default function BackdropWord({
       letterSpacing={-0.045}
       anchorX="center"
       anchorY="middle"
-      color="#c9d2ff"
-      fillOpacity={0.075}
+      color="#ffffff"
+      fillOpacity={0}
       // Behind everything else in the transparent pass; without depthWrite off
       // it punches a hole in the grid glow drawn after it.
       renderOrder={-1}
@@ -62,7 +175,7 @@ export default function BackdropWord({
       material-depthWrite={false}
       material-transparent
     >
-      {word}
+      {list[0]}
     </Text>
   );
 }

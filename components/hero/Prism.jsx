@@ -67,6 +67,7 @@ export default function Prism({ reducedMotion = false, quality = 'high' }) {
       : MathUtils.lerp(1, 0.68, Math.min(worksScroll.progress / 0.4, 1));
     node.scale.setScalar(recede);
 
+
     // Publish for the HUD gizmo. Plain assignment — no setState, no re-render.
     orientation.x = node.quaternion.x;
     orientation.y = node.quaternion.y;
@@ -84,20 +85,26 @@ export default function Prism({ reducedMotion = false, quality = 'high' }) {
         // prism are what actually shows through, so the backdrop is doing
         // double duty as the refraction subject.
         transmission={1}
-        thickness={1.7}
-        ior={1.76}
-        roughness={0.05}
-        chromaticAberration={0.38}
+        thickness={2}
+        ior={1.5}
+        roughness={0.1}
+        chromaticAberration={0.05}
         anisotropicBlur={0.28}
         distortion={0.22}
         distortionScale={0.4}
         temporalDistortion={0.08}
         // Iridescence is what separates "glass" from the oil-slick chrome look.
         iridescence={1}
-        iridescenceIOR={1.62}
-        iridescenceThicknessRange={[100, 900]}
-        color="#dfe6ff"
-        attenuationColor="#7d6bff"
+        iridescenceIOR={1.5}
+        iridescenceThicknessRange={[100, 400]}
+        /*
+          Both deliberately near-white. The glass no longer carries a colour
+          of its own — DynamicLighting's two hue-cycling lights do, and this
+          material's job is to transmit and split them rather than to add a
+          tint that would mute whatever colour arrives.
+        */
+        color="#ffffff"
+        attenuationColor="#f2f4fa"
         attenuationDistance={2.4}
         // Cost dials. MeshTransmissionMaterial re-renders the scene into an FBO
         // every frame, so resolution/samples are the two knobs that decide
@@ -108,7 +115,7 @@ export default function Prism({ reducedMotion = false, quality = 'high' }) {
         toneMapped={false}
       />
       {/* Glowing edge wire — reads as the chrome bevel against the dark grid. */}
-      <Edges scale={1.001} threshold={15} color="#9c8dff" />
+      <Edges scale={1.001} threshold={15} color="#aeb6c6" />
     </mesh>
   );
 }

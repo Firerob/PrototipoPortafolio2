@@ -71,8 +71,8 @@ const RING_MAX_RADIUS = 2.8;
  *  broadcast real depth instead of reading as a flat 2D ripple. */
 const RING_Z_TRAVEL = 1.6;
 
-const SIGNAL = new Color('#4be1ff');
-const STRUCTURE = new Color('#6d4bff');
+const SIGNAL = new Color('#aeb6c6');
+const STRUCTURE = new Color('#c9b79c');
 
 /*
   Peak additive opacity per element.

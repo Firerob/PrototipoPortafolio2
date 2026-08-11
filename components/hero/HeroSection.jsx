@@ -53,7 +53,7 @@ export default function HeroSection({ word = owner.heroWord, brand = owner.mark,
           contrast ratio wherever the grid glow happens to fall. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(5,5,8,0.82)_100%)]"
+        className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgb(var(--bg-dynamic-rgb)/0.82)_100%)]"
       />
 
       {/* HUD */}

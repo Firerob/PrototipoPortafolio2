@@ -90,7 +90,7 @@ function SocialCard({ social, disabled }: { social: Social; disabled: boolean })
           className={`size-3.5 shrink-0 transition-all duration-300 ${
             disabled
               ? 'text-text-muted/40'
-              : 'text-text-muted group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-cyan'
+              : 'text-text-muted group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-steel'
           }`}
           aria-hidden="true"
         />

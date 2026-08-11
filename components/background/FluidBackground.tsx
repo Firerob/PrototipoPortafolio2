@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { useReducedMotion } from 'framer-motion';
 import { createFluidSimulation, type FluidHandle } from '@/lib/fluid/webglFluid';
-import { HUE_ACCENT, HUE_CYAN, fluidBackgroundConfig } from '@/lib/fluid/fluidConfig';
+import { HUE_ACCENT, HUE_STEEL, fluidBackgroundConfig } from '@/lib/fluid/fluidConfig';
 
 interface FluidBackgroundProps {
   /** 0..1. The dye is already dark by construction, so this is fine-tuning. */
@@ -68,7 +68,7 @@ export default function FluidBackground({ opacity = 0.1 }: FluidBackgroundProps)
     const hueTimer = window.setInterval(() => {
       const phase = (Date.now() - started) / 42000;
       const wave = 0.5 - 0.5 * Math.cos(phase * Math.PI * 2);
-      config.SPLAT_HUE = HUE_CYAN + (HUE_ACCENT - HUE_CYAN) * wave;
+      config.SPLAT_HUE = HUE_STEEL + (HUE_ACCENT - HUE_STEEL) * wave;
     }, 250);
 
     // Hidden tab: stop simulating. Browsers throttle rAF but the fluid would

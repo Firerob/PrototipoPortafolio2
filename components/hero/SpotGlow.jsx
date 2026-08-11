@@ -4,6 +4,7 @@ import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { AdditiveBlending, Color } from 'three';
 import { archiveScroll, CAMERA_RANGE, phaseOf, smootherstep } from '@/lib/archiveScroll';
+import { sceneLight } from '@/lib/palette';
 
 /*
   The violet bloom behind the prism.
@@ -38,7 +39,7 @@ const fragmentShader = /* glsl */ `
 `;
 
 export default function SpotGlow({
-  color = '#6d4bff',
+  color = '#c9b79c',
   intensity = 1.15,
   position = [0, 0.2, -5.2],
   scale = 11,
@@ -66,6 +67,16 @@ export default function SpotGlow({
     if (!material.current) return;
     const dive = smootherstep(phaseOf(archiveScroll.progress, CAMERA_RANGE));
     material.current.uniforms.uIntensity.value = intensity * (1 - dive);
+
+    /*
+      The bloom rides the scene light's hue rather than a colour of its own.
+
+      This quad sits directly behind the glass, so any disagreement between
+      the two is visible as a fringe around the silhouette. Saturation is kept
+      well below the prism's 0.42 — it is atmosphere, and a bloom as saturated
+      as the object it backs reads as a coloured gel rather than as light.
+    */
+    material.current.uniforms.uColor.value.setHSL(sceneLight.hue, 0.55, 0.5);
   });
 
   return (

@@ -17,7 +17,7 @@ export default function SiteFooter({ className = '' }) {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'linear-gradient(to bottom, rgba(5,5,8,0) 0%, rgba(5,5,8,0.86) 38%, rgba(5,5,8,0.86) 100%)',
+            'linear-gradient(to bottom, rgb(var(--bg-dynamic-rgb) / 0) 0%, rgb(var(--bg-dynamic-rgb) / 0.86) 38%, rgb(var(--bg-dynamic-rgb) / 0.86) 100%)',
         }}
       />
       <div className="mx-auto flex max-w-[1600px] flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">

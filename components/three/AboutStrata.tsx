@@ -33,7 +33,7 @@ import {
     form          radial rings                vertical stacked strata
     motion        emitted outward, pulsing    scanned upward, twisting
     tempo         urgent, ~5s broadcast       slow, ~9s read
-    palette       cyan signal                 violet/pink, warmer
+    palette       steel + champagne frame     champagne + ice-white head
 
   ── Why vertical, and why the strata are horizontal ─────────────────────────
 
@@ -74,8 +74,14 @@ const ARC = Math.PI * 1.15;
  *  on the page. */
 const SCAN_PERIOD = 9;
 
-const STRATUM = new Color('#6d4bff');
-const READ_HEAD = new Color('#ff5ea8');
+/*
+  The read head must stay clearly distinct from the strata it passes over —
+  that contrast IS the scan. Champagne for the material, ice white for the
+  head: a value contrast rather than a hue contrast, which is what the new
+  palette leaves available now that there is only one accent hue in play.
+*/
+const STRATUM = new Color('#a89882');
+const READ_HEAD = new Color('#e9ecf3');
 
 /*
   Peak additive opacity.

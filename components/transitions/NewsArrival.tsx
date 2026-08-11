@@ -213,7 +213,7 @@ export default function NewsArrival() {
             locked = nowLocked;
             status.current.textContent = nowLocked ? 'LOCKED' : 'ACQUIRING';
             status.current.className = nowLocked
-              ? 'text-cyan transition-colors duration-300'
+              ? 'text-steel transition-colors duration-300'
               : 'text-accent-soft transition-colors duration-300';
           }
         };
@@ -334,9 +334,9 @@ export default function NewsArrival() {
           >
             <defs>
               <linearGradient id="news-trace" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#6d4bff" stopOpacity="0.25" />
-                <stop offset="45%" stopColor="#8b7bff" />
-                <stop offset="100%" stopColor="#4be1ff" />
+                <stop offset="0%" stopColor="#c9b79c" stopOpacity="0.25" />
+                <stop offset="45%" stopColor="#a89882" />
+                <stop offset="100%" stopColor="#aeb6c6" />
               </linearGradient>
             </defs>
 
@@ -349,7 +349,7 @@ export default function NewsArrival() {
               ref={glow}
               points={FLAT}
               fill="none"
-              stroke="#4be1ff"
+              stroke="#aeb6c6"
               strokeWidth="5"
               vectorEffect="non-scaling-stroke"
               opacity="0.16"
@@ -390,7 +390,7 @@ export default function NewsArrival() {
               %
             </span>
 
-            <span ref={status} className="text-cyan transition-colors duration-300">
+            <span ref={status} className="text-steel transition-colors duration-300">
               LOCKED
             </span>
 

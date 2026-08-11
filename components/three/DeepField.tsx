@@ -43,8 +43,8 @@ const RUNG_SPACING = 1.5;
 const RUNG_W = 5.2;
 const RUNG_H = 3.0;
 
-const BLUEPRINT = new Color('#4be1ff');
-const DEEP = new Color('#6d4bff');
+const BLUEPRINT = new Color('#aeb6c6');
+const DEEP = new Color('#c9b79c');
 
 interface Mote {
   base: Vector3;

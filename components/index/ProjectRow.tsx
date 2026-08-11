@@ -43,7 +43,7 @@ export default function ProjectRow({ project, index, total }: ProjectRowProps) {
         >
           <span
             aria-hidden="true"
-            className="font-mono text-[0.7rem] tabular-nums tracking-[0.2em] text-text-muted transition-colors duration-300 group-hover:text-cyan"
+            className="font-mono text-[0.7rem] tabular-nums tracking-[0.2em] text-text-muted transition-colors duration-300 group-hover:text-steel"
           >
             {String(index + 1).padStart(2, '0')}
           </span>
@@ -75,7 +75,7 @@ export default function ProjectRow({ project, index, total }: ProjectRowProps) {
               +0.00 / +0.00
             </span>
             <ArrowUpRight
-              className="size-4 text-text-muted transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-cyan"
+              className="size-4 text-text-muted transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-steel"
               aria-hidden="true"
             />
           </span>

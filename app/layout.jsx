@@ -29,7 +29,7 @@ export const metadata = {
 };
 
 export const viewport = {
-  themeColor: '#050508',
+  themeColor: '#06060a',
   // No maximum-scale / user-scalable=no — disabling zoom is a listed
   // anti-pattern (quick-reference §5 Layout & Responsive).
   width: 'device-width',

@@ -53,11 +53,11 @@ export default function TechStack({ items, label }: TechStackProps) {
                 hover:shadow-[0_0_0_1px_rgba(168,85,247,0.2),0_0_22px_-6px_rgba(109,75,255,0.9)]
               "
             >
-              <span aria-hidden="true" className="text-accent-soft/60 transition-colors duration-300 group-hover:text-cyan">
+              <span aria-hidden="true" className="text-accent-soft/60 transition-colors duration-300 group-hover:text-steel">
                 [
               </span>
               {item.name}
-              <span aria-hidden="true" className="text-accent-soft/60 transition-colors duration-300 group-hover:text-cyan">
+              <span aria-hidden="true" className="text-accent-soft/60 transition-colors duration-300 group-hover:text-steel">
                 ]
               </span>
               <span className="text-[0.52rem] text-text-muted/50 transition-colors duration-300 group-hover:text-accent-soft">

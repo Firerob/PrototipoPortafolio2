@@ -219,7 +219,7 @@ export default function ContactArrival() {
             linked = nowLinked;
             status.current.textContent = nowLinked ? 'LINK ESTABLISHED' : 'UPLINK // CHARGING';
             status.current.className = nowLinked
-              ? 'text-cyan transition-colors duration-300'
+              ? 'text-steel transition-colors duration-300'
               : 'text-accent-soft transition-colors duration-300';
           }
         };
@@ -319,7 +319,7 @@ export default function ContactArrival() {
           >
             {/* Range grid: concentric rings and spokes the wave travels over,
                 so the rings have something to read as distance against. */}
-            <g ref={grid} opacity="0" stroke="#8b7bff" fill="none" strokeWidth="0.15">
+            <g ref={grid} opacity="0" stroke="#a89882" fill="none" strokeWidth="0.15">
               {[22, 38, 58, 82, 110].map((r) => (
                 <circle key={r} cx="0" cy="0" r={r} opacity="0.5" />
               ))}
@@ -350,7 +350,7 @@ export default function ContactArrival() {
                 cy="0"
                 r="5"
                 fill="none"
-                stroke={i % 2 ? '#4be1ff' : '#8b7bff'}
+                stroke={i % 2 ? '#aeb6c6' : '#a89882'}
                 strokeWidth="0.42"
                 opacity="0"
               />
@@ -358,7 +358,7 @@ export default function ContactArrival() {
 
             <g ref={dial} opacity="0">
               {/* Rim */}
-              <circle cx="0" cy="0" r="19" fill="none" stroke="#8b7bff" strokeWidth="0.2" opacity="0.4" />
+              <circle cx="0" cy="0" r="19" fill="none" stroke="#a89882" strokeWidth="0.2" opacity="0.4" />
               {/*
                 Charge arc. rotate(-90) starts it at twelve o'clock; without it
                 the arc begins at three and the dial fills from the side, which
@@ -371,7 +371,7 @@ export default function ContactArrival() {
                 cy="0"
                 r="19"
                 fill="none"
-                stroke="#4be1ff"
+                stroke="#aeb6c6"
                 strokeWidth="0.4"
                 pathLength={1}
                 strokeDasharray="1 1"
@@ -381,7 +381,7 @@ export default function ContactArrival() {
               />
 
               {/* Azimuth ticks */}
-              <g stroke="#8b7bff" strokeWidth="0.18" opacity="0.55">
+              <g stroke="#a89882" strokeWidth="0.18" opacity="0.55">
                 {TICKS.map((i) => {
                   const rad = (i / TICKS.length) * Math.PI * 2;
                   const long = i % 6 === 0;
@@ -404,24 +404,24 @@ export default function ContactArrival() {
               <g ref={sweep}>
                 <defs>
                   <linearGradient id="uplink-sweep" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stopColor="#4be1ff" stopOpacity="0" />
-                    <stop offset="100%" stopColor="#4be1ff" stopOpacity="0.5" />
+                    <stop offset="0%" stopColor="#aeb6c6" stopOpacity="0" />
+                    <stop offset="100%" stopColor="#aeb6c6" stopOpacity="0.5" />
                   </linearGradient>
                 </defs>
                 <path d="M 0 0 L 15.6 -4.6 A 16.3 16.3 0 0 1 15.6 0 Z" fill="url(#uplink-sweep)" />
-                <line x1="0" y1="0" x2="15.6" y2="0" stroke="#4be1ff" strokeWidth="0.28" />
+                <line x1="0" y1="0" x2="15.6" y2="0" stroke="#aeb6c6" strokeWidth="0.28" />
               </g>
 
               {/* Crosshair */}
-              <g stroke="#8b7bff" strokeWidth="0.16" opacity="0.5">
+              <g stroke="#a89882" strokeWidth="0.16" opacity="0.5">
                 <line x1="-25" y1="0" x2="-21" y2="0" />
                 <line x1="21" y1="0" x2="25" y2="0" />
                 <line x1="0" y1="-25" x2="0" y2="-21" />
                 <line x1="0" y1="21" x2="0" y2="25" />
               </g>
 
-              <circle ref={halo} cx="0" cy="0" r="5" fill="#4be1ff" opacity="0" />
-              <circle ref={core} cx="0" cy="0" r="2" fill="#4be1ff" />
+              <circle ref={halo} cx="0" cy="0" r="5" fill="#aeb6c6" opacity="0" />
+              <circle ref={core} cx="0" cy="0" r="2" fill="#aeb6c6" />
             </g>
           </svg>
         </div>
@@ -450,7 +450,7 @@ export default function ContactArrival() {
             %
           </span>
 
-          <span ref={status} className="text-cyan transition-colors duration-300">
+          <span ref={status} className="text-steel transition-colors duration-300">
             LINK ESTABLISHED
           </span>
 

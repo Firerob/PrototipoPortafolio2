@@ -100,7 +100,7 @@ export default function CopyEmail({ email }: CopyEmailProps) {
           </span>
         </span>
 
-        <span className="flex shrink-0 items-center gap-2 font-mono text-[0.56rem] uppercase tracking-[0.18em] text-text-muted transition-colors duration-300 group-hover:text-cyan">
+        <span className="flex shrink-0 items-center gap-2 font-mono text-[0.56rem] uppercase tracking-[0.18em] text-text-muted transition-colors duration-300 group-hover:text-steel">
           <Copy className="size-3.5" aria-hidden="true" />
           <span className="hidden sm:inline">copy</span>
         </span>
@@ -130,7 +130,7 @@ export default function CopyEmail({ email }: CopyEmailProps) {
               backdrop-blur-xl
               ${
                 state === 'copied'
-                  ? 'border-cyan/40 bg-ink/90 text-cyan'
+                  ? 'border-steel/40 bg-ink/90 text-steel'
                   : 'border-red-500/40 bg-ink/90 text-red-300'
               }
             `}

@@ -7,9 +7,9 @@ const CENTRE = 50;
 const RADIUS = 30;
 
 const AXES = [
-  { key: 'x', label: 'X', color: '#ff5ea8' },
-  { key: 'y', label: 'Y', color: '#4be1ff' },
-  { key: 'z', label: 'Z', color: '#8b7bff' },
+  { key: 'x', label: 'X', color: '#c9b79c' },
+  { key: 'y', label: 'Y', color: '#aeb6c6' },
+  { key: 'z', label: 'Z', color: '#a89882' },
 ];
 
 /*

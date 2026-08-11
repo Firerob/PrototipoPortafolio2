@@ -106,7 +106,7 @@ export default function WaveTransition() {
           ref={glow}
           d={waveDown(0)}
           fill="none"
-          stroke="#6d4bff"
+          stroke="#c9b79c"
           strokeWidth="0.5"
           style={{ filter: 'blur(1.4px)' }}
           opacity="0.9"

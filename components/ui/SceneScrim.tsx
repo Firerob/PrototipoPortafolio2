@@ -38,14 +38,14 @@ export default function SceneScrim({ className = '' }: { className?: string }) {
       style={{
         /*
           0.86 is measured, not chosen by eye. Body copy here is #8f95ab on
-          #050508, which is 6.0:1 clean. The brightest thing the field puts
+          #06060a, which is 6.0:1 clean. The brightest thing the field puts
           behind it is an additive mote at roughly 0.30 luminance; at 0.86
           scrim alpha that lifts the effective background to about 0.09, which
           holds the ratio above 4.5:1 at the worst frame rather than the
           average one.
         */
         background:
-          'linear-gradient(to bottom, rgba(5,5,8,0) 0%, rgba(5,5,8,0.86) 9%, rgba(5,5,8,0.86) 91%, rgba(5,5,8,0) 100%)',
+          'linear-gradient(to bottom, rgb(var(--bg-dynamic-rgb) / 0) 0%, rgb(var(--bg-dynamic-rgb) / 0.86) 9%, rgb(var(--bg-dynamic-rgb) / 0.86) 91%, rgb(var(--bg-dynamic-rgb) / 0) 100%)',
       }}
     />
   );

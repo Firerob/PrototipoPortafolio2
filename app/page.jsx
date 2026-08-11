@@ -9,6 +9,7 @@ import AboutSection from '@/components/about/AboutSection';
 import ContactSection from '@/components/contact/ContactSection';
 import SiteFooter from '@/components/sections/SiteFooter';
 import CinematicGenesisOpening from '@/components/hero/CinematicGenesisOpening';
+import ColorMorph from '@/components/ColorMorph';
 import IndexArrival from '@/components/transitions/IndexArrival';
 import NewsArrival from '@/components/transitions/NewsArrival';
 import AboutArrival from '@/components/transitions/AboutArrival';
@@ -48,6 +49,12 @@ export default function Page() {
         GlobalSceneController has a canvas to live in; it still parks for the
         footer, where nothing is drawing.
       */}
+      {/* Drives the palette for BOTH the DOM (CSS custom properties) and the
+          3D scene (the sceneColor store) from one computation per frame, so
+          the canvas and the page can never disagree about what colour the
+          site currently is. Renders nothing. */}
+      <ColorMorph />
+
       <HeroCanvas word={owner.heroWord} startTrigger="#top" endTrigger="#contact" />
 
       {/* The opening: singularity, wireframe ignition, material bake, optic

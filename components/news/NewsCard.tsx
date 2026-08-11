@@ -121,7 +121,7 @@ export default function NewsCard({ item, index, onOpen, reducedMotion }: NewsCar
             SYS.{item.id.replace('-', '_').toUpperCase()} ]
           </span>
           <ArrowUpRight
-            className="size-3.5 shrink-0 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100 group-hover:text-cyan"
+            className="size-3.5 shrink-0 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100 group-hover:text-steel"
             aria-hidden="true"
           />
         </span>
@@ -163,7 +163,7 @@ export default function NewsCard({ item, index, onOpen, reducedMotion }: NewsCar
           <span aria-hidden="true" className="h-px flex-1 bg-hairline" />
           <span className="font-mono text-[0.55rem] uppercase tracking-[0.18em] text-text-muted">
             status:{' '}
-            <span className="text-cyan">{item.status ?? 'PUBLISHED'}</span>
+            <span className="text-steel">{item.status ?? 'PUBLISHED'}</span>
           </span>
         </span>
       </button>

@@ -2,16 +2,20 @@ import type { FluidConfig } from './webglFluid';
 
 /*
   Hues measured from the site's own tokens rather than picked by eye:
-    --color-accent  #6d4bff -> 0.6981
-    --color-cyan    #4be1ff -> 0.5278
+    --color-accent  #c9b79c -> 0.1000  (muted champagne, 22% sat)
+    --color-steel   #aeb6c6 -> 0.6111  (brushed steel, 12% sat)
+  Repointed with the palette refactor; the old pair was #6d4bff -> 0.6981 and
+  #4be1ff -> 0.5278. Saturation is what actually carries the new aesthetic
+  here — the neon pair sat at 70-100%, these at 12-22% — so the fluid now
+  reads as a tinted haze rather than as coloured smoke.
   The simulation only supports one hue at a time (RANDOM_COLORS off), so the
   background component sweeps SPLAT_HUE between these two bounds. Staying
   inside the existing accent pair is what keeps the fluid reading as part of
   the design system instead of a stock rainbow demo — and it sidesteps the
   "AI purple/pink gradients" anti-pattern the style database flags.
 */
-export const HUE_ACCENT = 0.6981;
-export const HUE_CYAN = 0.5278;
+export const HUE_ACCENT = 0.1000;
+export const HUE_STEEL = 0.6111;
 
 export const fluidBackgroundConfig: FluidConfig = {
   // Velocity field resolution. The visual detail comes from DYE_RESOLUTION;
@@ -49,7 +53,7 @@ export const fluidBackgroundConfig: FluidConfig = {
   COLOR_UPDATE_SPEED: 4,
   PAUSED: false,
 
-  BACK_COLOR: { r: 5, g: 5, b: 8 },
+  BACK_COLOR: { r: 6, g: 6, b: 10 },
   TRANSPARENT: true,
 
   // Bloom and sunrays are extra full-screen passes each frame. On a layer

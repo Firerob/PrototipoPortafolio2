@@ -335,7 +335,7 @@ export default function IndexArrival() {
             ref={crest}
             d={waveUp(0)}
             fill="none"
-            stroke="#4be1ff"
+            stroke="#aeb6c6"
             strokeWidth="0.4"
             opacity="0"
             style={{ filter: 'blur(1.2px)' }}

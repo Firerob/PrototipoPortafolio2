@@ -1,27 +1,82 @@
 @import 'tailwindcss';
 
 /*
-  Palette note: the UI-UX-Pro-Max colors.csv has no dark cyberpunk portfolio
-  entry — its "Portfolio/Personal" row is a light monochrome scheme
-  (#FAFAFA bg). These values are therefore a hand-derived dark palette, not a
-  database match. Muted text is held at >=4.5:1 on the void background so the
-  HUD copy stays readable (quick-reference §1 Accessibility).
+  ── Palette: quiet luxury, sober high-tech ──────────────────────────────────
+
+  Replaces the previous neon/cyberpunk scheme (violet #6d4bff, cyan #4be1ff).
+  Authored values live in lib/palette.ts — that file is the source of truth and
+  carries the full provenance note; these tokens are the STATIC fallback, held
+  at the neutral end of the range so the page is correct before ColorMorph's
+  first frame and stays correct if JS never runs at all.
+
+  Still not a database match, and the previous note here said the same thing
+  for the same reason: UI-UX-Pro-Max's colors.csv has no dark row at all — its
+  "Luxury/Premium Brand" and "Portfolio/Personal" entries are light schemes
+  (#FAFAF9 / #FAFAFA). What it does supply is the hue strategy these follow:
+  warm stone neutrals with a single muted-gold accent for luxury, and a
+  one-accent-only structure for portfolio.
+
+  Contrast checked against the LIGHTEST background in the set rather than the
+  darkest, so the worst case passes: text-muted holds 6.5:1 and the accent
+  9.9:1 against a 4.5:1 requirement (quick-reference §1 Accessibility).
 */
 @theme {
-  --color-void: #050508;
-  --color-ink: #0a0a12;
-  --color-surface: #10101c;
+  /*
+    These three point at the live variables rather than at fixed hex, and that
+    indirection is the entire mechanism: Tailwind emits `.text-accent {
+    color: var(--color-accent) }`, so pointing --color-accent at
+    --accent-dynamic makes every one of the ~97 accent/void utilities already
+    in the codebase morph with the scroll without a single class being
+    rewritten. Defining them as static hex here — which is what the first pass
+    did — left the whole page pinned while only <body> changed underneath the
+    section scrims, i.e. visibly static.
 
-  --color-accent: #6d4bff;
-  --color-accent-soft: #8b7bff;
-  --color-cyan: #4be1ff;
+    The :root block below seeds the dynamic vars, so these resolve correctly
+    before ColorMorph's first frame and with JS disabled entirely.
+  */
+  --color-void: var(--bg-dynamic);
+  --color-ink: #0b0b10;
+  --color-surface: #131319;
 
-  --color-text: #e8eaf2;
+  /* Muted champagne — the single accent. */
+  --color-accent: var(--accent-dynamic);
+  --color-accent-soft: var(--accent-soft-dynamic);
+  /*
+    Was --color-cyan (#4be1ff). Renamed rather than silently repointed: a token
+    called "cyan" holding brushed silver is a lie the next person has to debug.
+    ~30 usages were renamed with it.
+  */
+  --color-steel: #aeb6c6;
+
+  --color-text: #e9ecf3;
   --color-text-muted: #8f95ab;
-  --color-hairline: rgba(232, 234, 242, 0.12);
+  --color-hairline: rgba(233, 236, 243, 0.1);
 
   --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+}
+
+/*
+  ── The morphing layer ──────────────────────────────────────────────────────
+
+  ColorMorph writes these three every frame the palette actually changes (it
+  diffs first — see that file for why a per-frame custom-property write is
+  expensive). They are seeded with the static tokens so there is never a frame
+  of unstyled or black-on-black content before the first write lands, and so
+  that with JS disabled the page simply keeps the fallback palette.
+
+  Consume them as `bg-[var(--bg-dynamic)]` / `text-[var(--accent-dynamic)]`.
+*/
+:root {
+  --bg-dynamic: #06060a;
+  --accent-dynamic: #c9b79c;
+  --accent-soft-dynamic: #a89882;
+
+  /* Bare channels, for anything that needs to apply its own alpha —
+     `rgba(var(--x), .86)` is invalid CSS, `rgb(var(--x-rgb) / .86)` is not. */
+  --bg-dynamic-rgb: 6 6 10;
+  --accent-dynamic-rgb: 201 183 156;
+  --accent-soft-dynamic-rgb: 168 152 130;
 }
 
 html,
@@ -57,7 +112,9 @@ html.lenis body {
 }
 
 body {
-  background-color: var(--color-void);
+  /* --bg-dynamic, not the static token: this is what ColorMorph drives, and
+     it is seeded to --color-void so the first paint is already correct. */
+  background-color: var(--bg-dynamic);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   overscroll-behavior: none;
@@ -66,7 +123,7 @@ body {
 /* Keyboard focus stays visible everywhere — never removed, only restyled.
    (quick-reference §1: "Removing focus rings" is a listed anti-pattern.) */
 :focus-visible {
-  outline: 2px solid var(--color-cyan);
+  outline: 2px solid var(--color-steel);
   outline-offset: 3px;
   border-radius: 2px;
 }

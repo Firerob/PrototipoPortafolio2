@@ -292,7 +292,7 @@ export default function ContactForm({ projectTypes, email, endpoint }: ContactFo
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: prefersReduced ? 0 : 0.3 }}
-                className="font-mono text-[0.58rem] uppercase tracking-[0.16em] text-cyan"
+                className="font-mono text-[0.58rem] uppercase tracking-[0.16em] text-steel"
               >
                 [ transmission received ]
               </motion.p>
@@ -305,7 +305,7 @@ export default function ContactForm({ projectTypes, email, endpoint }: ContactFo
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: prefersReduced ? 0 : 0.3 }}
-                className="font-mono text-[0.58rem] uppercase leading-relaxed tracking-[0.16em] text-cyan"
+                className="font-mono text-[0.58rem] uppercase leading-relaxed tracking-[0.16em] text-steel"
               >
                 [ handed to your mail client ] — send it from there to reach {email}
               </motion.p>
