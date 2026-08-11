@@ -343,7 +343,7 @@ export default function HeroScene({ word, reducedMotion = false, font, isMobile 
         <HeroWorld>
           <BackdropLayer reducedMotion={reducedMotion} word={word} font={font} isMobile={isMobile} />
           <Suspense fallback={null}>
-            <Prism reducedMotion={reducedMotion} quality={quality} />
+            <Prism reducedMotion={reducedMotion} quality={quality} isMobile={isMobile} />
           </Suspense>
         </HeroWorld>
 

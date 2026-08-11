@@ -7,6 +7,8 @@ import { Euler, MathUtils, Quaternion } from 'three';
 import { damp, orientation } from '@/lib/frameState';
 import { usePointerVector } from '@/components/three/PointerProvider';
 import { worksScroll } from '@/lib/worksScroll';
+import { sceneScroll, smootherstep } from '@/lib/sceneScroll';
+import { softFitFactor } from '@/lib/responsive3d';
 
 // Allocated once at module scope. Creating a Quaternion inside useFrame would
 // mean ~60 short-lived objects per second per instance and periodic GC hitches.
@@ -19,12 +21,12 @@ const scratchEuler = new Euler();
  * A 3-segment cylinder is an exact triangular prism, which reads as the
  * stylised logo mark while staying a 24-triangle primitive.
  */
-export default function Prism({ reducedMotion = false, quality = 'high' }) {
+export default function Prism({ reducedMotion = false, quality = 'high', isMobile = false }) {
   const mesh = useRef(null);
   const spin = useRef(0);
   const pointer = usePointerVector();
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     const node = mesh.current;
     if (!node) return;
 
@@ -65,8 +67,47 @@ export default function Prism({ reducedMotion = false, quality = 'high' }) {
     const recede = reducedMotion
       ? 1
       : MathUtils.lerp(1, 0.68, Math.min(worksScroll.progress / 0.4, 1));
-    node.scale.setScalar(recede);
 
+    /*
+      ── Responsive fit ────────────────────────────────────────────────────
+
+      Folded into the scale that was already being written here rather than
+      passed as a `scale` prop: this line runs every frame, so a prop would be
+      overwritten before it was ever seen.
+
+      state.viewport is recomputed by R3F on every canvas resize, and an
+      orientation change IS a resize — so reading it here means the prism
+      re-fits itself on rotation with no listener, no breakpoint and no
+      reload. At 2.36 units across it was covering 124% of an iPhone 14's
+      visible width; softFitFactor brings that to roughly 44%.
+    */
+    const fit = softFitFactor(state.viewport.width);
+    node.scale.setScalar(recede * fit);
+
+
+    /*
+      ── Stop the transmission passes once the hero is gone ─────────────────
+
+      This is a real cost, not a micro-optimisation, and it was being paid on
+      every frame of every section below the hero.
+
+      MeshTransmissionMaterial renders the whole scene into its own FBO each
+      frame — literally `gl.render(scene, camera)` a second time — and drei
+      guards that work with `material.visible` (MeshTransmissionMaterial.js,
+      "the buffers cannot be observed while the material is invisible").
+
+      HeroWorld hides this object by setting `visible` on the GROUP above it.
+      That stops the mesh being drawn, but it is a different flag: the
+      material's own `visible` stays true forever, so the extra full-scene
+      render kept running for the entire page while the prism was nowhere on
+      screen. Mirroring HeroWorld's own condition here is what actually turns
+      it off.
+    */
+    const material = node.material;
+    if (material) {
+      const hand = smootherstep(sceneScroll.presence);
+      material.visible = hand < 0.995;
+    }
 
     // Publish for the HUD gizmo. Plain assignment — no setState, no re-render.
     orientation.x = node.quaternion.x;
@@ -106,11 +147,35 @@ export default function Prism({ reducedMotion = false, quality = 'high' }) {
         color="#ffffff"
         attenuationColor="#f2f4fa"
         attenuationDistance={2.4}
-        // Cost dials. MeshTransmissionMaterial re-renders the scene into an FBO
-        // every frame, so resolution/samples are the two knobs that decide
-        // whether this holds 60fps. PerformanceMonitor flips `quality`.
-        resolution={high ? 512 : 192}
-        samples={high ? 6 : 2}
+        /*
+          ── The cost dials ──────────────────────────────────────────────
+
+          `resolution` is the size of the FBO the whole scene is re-rendered
+          into every frame, so its cost is quadratic: 512 is 16x the fill of
+          128. Mobile drops to 128 and one sample, which is the single
+          largest saving available on this object.
+
+          `samples` is how many taps the blur takes. At roughness 0.1 the
+          difference between 6 and 1 is barely legible on a phone screen and
+          costs six texture fetches per fragment.
+        */
+        resolution={isMobile ? 128 : high ? 512 : 256}
+        samples={isMobile ? 1 : high ? 6 : 2}
+        /*
+          On mobile, hand the buffer to three's own transmission pass.
+
+          Verified against drei's source rather than assumed: the extra
+          `gl.render(scene, camera)` is guarded by `!transmissionSampler`
+          (MeshTransmissionMaterial.js), so turning this ON removes that
+          second full-scene render entirely and reuses the one the renderer
+          already does for transmissive materials. USE_SAMPLER only changes
+          which texture the shader reads — the distortion and chromatic
+          aberration maths are untouched, so the look is preserved.
+
+          Desktop keeps the dedicated buffer, where the extra pass is
+          affordable and gives the cleaner refraction.
+        */
+        transmissionSampler={isMobile}
         backside={false}
         toneMapped={false}
       />

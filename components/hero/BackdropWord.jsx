@@ -4,6 +4,7 @@ import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
 import { archiveScroll, CAMERA_RANGE, phaseOf, smootherstep } from '@/lib/archiveScroll';
+import { fitFactor, isNarrowViewport } from '@/lib/responsive3d';
 
 /*
   The giant word sits INSIDE the canvas, not behind it as HTML.
@@ -48,6 +49,10 @@ const WORD_SECONDS = 4;
 */
 const FADE_SECONDS = 0.55;
 
+/** Authored size, for the 16:9 desktop frame. Scaled down proportionally on
+ *  anything narrower — see lib/responsive3d.ts. */
+const FONT_SIZE = 3.4;
+
 /*
   Peak fill.
 
@@ -86,6 +91,8 @@ export default function BackdropWord({
   /** Last index actually written. Guards the swap so `text` and the expensive
    *  sync() that follows it happen once per word, not once per frame. */
   const shown = useRef(-1);
+  /** Last fontSize written, so the troika re-layout only runs on resize. */
+  const sized = useRef(0);
 
   // `word` leads if given, and is not repeated later in the rotation.
   const list = useMemo(
@@ -98,6 +105,45 @@ export default function BackdropWord({
     if (!node) return;
 
     const t = state.clock.elapsedTime;
+
+    /*
+      ── Responsive size ───────────────────────────────────────────────────
+
+      Straight proportional fit, not the softened one the prism uses. This
+      word is authored to bleed past both edges by about 40%, and that bleed
+      IS the composition — keeping it constant is the whole point. At the
+      authored fontSize a phone shows roughly one letter of a five-letter
+      word (measured: 5.3x the visible width).
+
+      Guarded on change because fontSize is a troika layout property: writing
+      it re-runs glyph layout, so setting it every frame would re-layout the
+      text sixty times a second. It only moves on resize, and an orientation
+      change is a resize — which is exactly why this needs no reload and no
+      breakpoint listener.
+    */
+    const size = FONT_SIZE * fitFactor(state.viewport.width);
+    if (Math.abs(size - sized.current) > 0.001) {
+      sized.current = size;
+      node.fontSize = size;
+      node.sync();
+    }
+
+    /*
+      Lift the word on a portrait frame. With the prism scaled down and
+      centred, a phone stacks the two closer than the desktop composition ever
+      does; a small offset keeps the word reading behind the object rather
+      than through it.
+
+      Written every frame, outside the guard above, and deliberately so:
+      `position` is a declared prop on the <Text> below, and R3F re-applies
+      declared props on any re-render. Setting it once inside the resize guard
+      would let a stray re-render silently snap the word back to the desktop
+      offset with nothing to correct it until the next resize. Unlike
+      fontSize, position is not a layout property — no re-sync, no cost.
+    */
+    node.position.y = isNarrowViewport(state.viewport.width, state.viewport.height)
+      ? 0.55
+      : 0.15;
 
     /*
       ── EL ÍNDICE ─────────────────────────────────────────────────────────
@@ -162,7 +208,7 @@ export default function BackdropWord({
       ref={ref}
       font={font}
       position={[0, 0.15, -4]}
-      fontSize={3.4}
+      fontSize={FONT_SIZE}
       letterSpacing={-0.045}
       anchorX="center"
       anchorY="middle"
