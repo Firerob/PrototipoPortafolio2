@@ -2,6 +2,7 @@
 
 import { ArrowUpRight } from 'lucide-react';
 import type { Project } from '@/types/project';
+import { asset } from '@/lib/asset';
 
 interface ProjectRowProps {
   project: Project;
@@ -90,10 +91,27 @@ export default function ProjectRow({ project, index, total }: ProjectRowProps) {
             className="pointer-events-none absolute right-[8%] top-1/2 hidden h-[124%] w-[26%] -translate-y-1/2 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 group-focus-within:opacity-100 lg:block"
           >
             <div className="relative size-full overflow-hidden rounded-[3px] shadow-[0_0_0_1px_rgba(139,123,255,0.45),0_0_34px_-6px_rgba(109,75,255,0.8)]">
-              {project.video ? (
+              {/*
+                Still first, then clip, then the generated panel.
+
+                A still is decoded once and costs nothing after that; a video
+                holds a decoder open and uploads a frame per tick for a panel
+                that only exists while a row is hovered. object-cover so any
+                aspect ratio fills the 26%-wide plate without distorting —
+                portrait phone shots and 16:9 captures both land correctly.
+              */}
+              {project.image ? (
+                <img
+                  className="size-full object-cover"
+                  src={asset(project.image)}
+                  alt={project.alt ?? ''}
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : project.video ? (
                 <video
                   className="size-full object-cover"
-                  src={project.video}
+                  src={asset(project.video)}
                   muted
                   loop
                   playsInline

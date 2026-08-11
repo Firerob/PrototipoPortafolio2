@@ -1,12 +1,25 @@
 'use client';
 
-import { useLayoutEffect, useMemo, useRef } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { MathUtils, Vector3, type Group, type ShaderMaterial } from 'three';
+import {
+  LinearFilter,
+  MathUtils,
+  SRGBColorSpace,
+  TextureLoader,
+  Vector3,
+  VideoTexture,
+  type Group,
+  type ShaderMaterial,
+  type Texture,
+} from 'three';
 import type { Project } from '@/types/project';
 import { assemblyFraction, orbitPhase, setWorksCount, worksScroll } from '@/lib/worksScroll';
 import { archiveScroll } from '@/lib/archiveScroll';
+import { asset } from '@/lib/asset';
 import {
+  CARD_H,
+  CARD_W,
   makeOrbitCardUniforms,
   orbitCardFragment,
   orbitCardVertex,
@@ -27,9 +40,6 @@ import {
 const ORBIT_RADIUS = 2.78;
 /** Where each card starts: off-screen left, so the sweep reads left-to-right. */
 const ENTRY = new Vector3(-13, -1.2, 2.2);
-
-const CARD_W = 0.92;
-const CARD_H = 1.24;
 
 /** Smoothed follow of the raw scroll value — see the useFrame comment. */
 const SCRUB_LAMBDA = 0.0016;
@@ -65,6 +75,102 @@ export default function OrbitCards({ projects, reducedMotion = false }: OrbitCar
     () => projects.map((project) => makeOrbitCardUniforms(project.tint)),
     [projects],
   );
+
+  /*
+    ── Media loading ─────────────────────────────────────────────────────────
+
+    Imperative rather than through drei's suspending useTexture/useVideoTexture
+    hooks, for the same reason ArchivePlane splits its video path out: a
+    suspending hook here would put every card behind the slowest single file,
+    and these are multi-megabyte clips off a phone. Loading into the uniform
+    instead lets the whole ring render immediately on its generated panels and
+    swap each card over the moment its own file arrives — `uHasMap` is what
+    makes that switch, so a card is never blank and never stretched.
+
+    Videos are only decoded while the works section is anywhere near the
+    viewport; see the play/pause in useFrame below. An <video> left playing is
+    a decoder running for the whole page.
+  */
+  const videos = useRef<HTMLVideoElement[]>([]);
+  /*
+    Loaded media parks HERE, not straight into the uniform objects.
+
+    `uniformSets` is what gets handed to <shaderMaterial uniforms={...}>, but
+    the object the material ends up holding is not guaranteed to be that same
+    reference, and the rest of this file already reads through
+    `material.uniforms` from the ref rather than through uniformSets — so
+    writing a texture into uniformSets could land on an object nothing renders
+    from. Staging it here and letting the frame loop copy it across uses the
+    one handle that is definitely the live material, and also sidesteps the
+    ordering problem that the material ref may not exist yet when an async
+    load resolves.
+  */
+  const media = useRef<({ texture: Texture; aspect: number } | null)[]>([]);
+
+  useEffect(() => {
+    const disposables: Texture[] = [];
+    let cancelled = false;
+    const loader = new TextureLoader();
+    videos.current = [];
+    media.current = [];
+
+    projects.forEach((project, i) => {
+      const apply = (texture: Texture, aspect: number) => {
+        if (cancelled) {
+          texture.dispose();
+          return;
+        }
+        texture.colorSpace = SRGBColorSpace;
+        // Linear rather than mipmapped: these are viewed at roughly one
+        // texel per pixel on the front card and only shrink toward the back
+        // of the ring, so mipmaps cost memory and generation time for a
+        // sharpness gain nobody sees.
+        texture.minFilter = LinearFilter;
+        texture.magFilter = LinearFilter;
+        texture.generateMipmaps = false;
+        media.current[i] = { texture, aspect };
+        disposables.push(texture);
+      };
+
+      if (project.image) {
+        loader.load(asset(project.image), (texture) => {
+          const { width, height } = texture.image as { width: number; height: number };
+          apply(texture, width / Math.max(height, 1));
+        });
+        return;
+      }
+
+      if (project.video) {
+        const el = document.createElement('video');
+        Object.assign(el, {
+          src: asset(project.video),
+          muted: true,
+          loop: true,
+          playsInline: true,
+          crossOrigin: 'anonymous',
+          preload: 'metadata',
+        });
+        el.addEventListener(
+          'loadedmetadata',
+          () => apply(new VideoTexture(el), el.videoWidth / Math.max(el.videoHeight, 1)),
+          { once: true },
+        );
+        videos.current[i] = el;
+      }
+    });
+
+    return () => {
+      cancelled = true;
+      media.current = [];
+      disposables.forEach((texture) => texture.dispose());
+      videos.current.forEach((el) => {
+        el?.pause();
+        el?.removeAttribute('src');
+        el?.load();
+      });
+      videos.current = [];
+    };
+  }, [projects, uniformSets]);
 
   useLayoutEffect(() => {
     setWorksCount(projects.length);
@@ -176,6 +282,19 @@ export default function OrbitCards({ projects, reducedMotion = false }: OrbitCar
 
       if (material) {
         const u = material.uniforms;
+
+        /*
+          Hand the staged media over the first time this card is drawn after
+          its file resolved. Guarded on uHasMap so it is one assignment per
+          card for the life of the page, not an assignment every frame.
+        */
+        const loaded = media.current[i];
+        if (loaded && u.uHasMap.value === 0) {
+          u.uMap.value = loaded.texture;
+          u.uMapAspect.value = loaded.aspect;
+          u.uHasMap.value = 1;
+        }
+
         // uArrival doubles as the fade-out channel on the way out.
         u.uArrival.value = (reducedMotion ? 1 : eased) * (1 - exit);
         // cos(angle) is +1 at the front of the ring and -1 at the back, which
@@ -188,6 +307,27 @@ export default function OrbitCards({ projects, reducedMotion = false }: OrbitCar
       // Cards that have not started arriving cost nothing: no draw call, no
       // shader invocation. Same for cards the archive dive has dismissed.
       group.visible = (reducedMotion || arrival > 0.001) && exit < 0.999;
+
+      /*
+        Decode only while the card is actually on the ring.
+
+        A <video> that is playing runs a decoder and uploads a frame to the
+        GPU on every tick whether or not anything samples it, so leaving all
+        of them running would cost the whole page — the same trap the prism's
+        transmission buffer was falling into. Tying playback to the
+        visibility just computed means at most the cards in play are decoding,
+        and scrolling past the section stops them.
+      */
+      const video = videos.current[i];
+      if (video) {
+        if (group.visible && !reducedMotion) {
+          // play() rejects if the element is not ready yet; there is nothing
+          // to do about that and an unhandled rejection would spam the console.
+          if (video.paused) void video.play().catch(() => {});
+        } else if (!video.paused) {
+          video.pause();
+        }
+      }
     }
   });
 
