@@ -10,7 +10,8 @@ import SceneScrim from '@/components/ui/SceneScrim';
 import ScrollFade from '@/components/ui/ScrollFade';
 
 interface AboutSectionProps {
-  /** e.g. '/images/profile.jpg'. Omitted renders the designed placeholder. */
+  /** Path under /public, e.g. '/about/profile.jpg'. Omitted renders the
+   *  designed placeholder. See ProfileCard3D for the base-path rule. */
   profileSrc?: string;
 }
 

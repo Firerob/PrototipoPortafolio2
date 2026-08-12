@@ -1,14 +1,18 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from 'framer-motion';
+import { asset } from '@/lib/asset';
 
 /** Maximum tilt in degrees at the corners of the card. */
 const TILT = 9;
 
 interface ProfileCard3DProps {
-  /** e.g. '/images/profile.jpg'. Omitted renders the designed placeholder. */
+  /**
+   * Path under /public, e.g. '/about/profile.jpg'. The deployment base path is
+   * applied here via lib/asset — do NOT hand-write it. Omitted renders the
+   * designed placeholder.
+   */
   profileSrc?: string;
   name: string;
   role: string;
@@ -136,13 +140,26 @@ export default function ProfileCard3D({
           }}
         >
           {profileSrc ? (
-            <Image
-              src={profileSrc}
+            /*
+              Plain <img>, not next/image, and the src goes through asset().
+
+              `output: 'export'` forces images: { unoptimized: true }, and an
+              unoptimized next/image emits the src verbatim — it does NOT get
+              the basePath treatment routes and /_next/* chunks do, so the
+              portrait would 404 on GitHub Pages while working locally. Same
+              trap lib/asset.ts documents for the works media, same fix. With
+              no optimizer to lose, next/image was buying nothing here anyway.
+
+              Object position is nudged left of centre: the frame is a 4:5
+              portrait and the source is landscape, so cover crops horizontally
+              — 40% lands the face in the middle of the plate.
+            */
+            <img
+              src={asset(profileSrc)}
               alt={`${name}, ${role}`}
-              fill
-              sizes="(min-width: 1024px) 32vw, 90vw"
-              className="object-cover"
-              priority={false}
+              className="size-full object-cover object-[40%_center]"
+              loading="lazy"
+              decoding="async"
             />
           ) : (
             /*

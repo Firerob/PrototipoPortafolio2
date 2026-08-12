@@ -113,7 +113,7 @@ export default function Page() {
         <AboutArrival />
 
         <CorridorDepth>
-          <AboutSection />
+          <AboutSection profileSrc="/about/profile.jpg" />
         </CorridorDepth>
 
         {/* The outbound half of the NewsArrival pair: that one resolves an
