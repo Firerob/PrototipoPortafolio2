@@ -8,6 +8,8 @@ interface ProjectRowProps {
   project: Project;
   index: number;
   total: number;
+  /** Opens the detail modal for this project. */
+  onOpen: (id: string) => void;
 }
 
 /**
@@ -24,7 +26,7 @@ interface ProjectRowProps {
  * listener on the element that IS hit sidesteps the whole problem and is less
  * code besides.
  */
-export default function ProjectRow({ project, index, total }: ProjectRowProps) {
+export default function ProjectRow({ project, index, total, onOpen }: ProjectRowProps) {
   const [from, to] = project.tint;
 
   return (
@@ -33,12 +35,33 @@ export default function ProjectRow({ project, index, total }: ProjectRowProps) {
       data-row={index}
       className="group relative scroll-mt-24 origin-center will-change-transform"
     >
-      <a
-        href={`#${project.id}`}
-        className="block py-6 focus-visible:outline-offset-8 sm:py-8"
-        aria-label={`${project.title}, project ${index + 1} of ${total}`}
+      {/*
+        A button, not a link.
+
+        This used to be `<a href="#p-01">` pointing at the row's own <li> — a
+        self-referential jump that navigated nowhere while still writing a hash
+        into the URL. What it does now is open a dialog, and that is a button's
+        job: it gets Space as well as Enter, and it announces the dialog it
+        controls instead of a destination it never had.
+      */}
+      <button
+        type="button"
+        onClick={() => onOpen(project.id)}
+        aria-haspopup="dialog"
+        className="block w-full py-6 text-left focus-visible:outline-offset-8 sm:py-8"
+        aria-label={`${project.title}, project ${index + 1} of ${total}. Open details`}
       >
-        <div
+        {/*
+          Spans, not divs, from here down.
+
+          A <button>'s content model is phrasing content only, so the <div>s
+          this markup carried while it was an <a> (whose model is transparent,
+          and therefore flow content inside an <li>) are no longer valid here.
+          The Tailwind display utilities already in place — grid, block,
+          hidden/lg:block — do the rest, and absolutely positioned spans are
+          blockified by CSS anyway.
+        */}
+        <span
           data-plate
           className="relative grid grid-cols-[auto_1fr] items-center gap-5 transition-transform duration-500 ease-out will-change-transform sm:grid-cols-[auto_1fr_auto] sm:gap-8"
         >
@@ -86,11 +109,11 @@ export default function ProjectRow({ project, index, total }: ProjectRowProps) {
             title — which is what gives the difference blend something to
             invert against — without ever stealing the row's hover or click.
           */}
-          <div
+          <span
             aria-hidden="true"
             className="pointer-events-none absolute right-[8%] top-1/2 hidden h-[124%] w-[26%] -translate-y-1/2 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 group-focus-within:opacity-100 lg:block"
           >
-            <div className="relative size-full overflow-hidden rounded-[3px] shadow-[0_0_0_1px_rgba(139,123,255,0.45),0_0_34px_-6px_rgba(109,75,255,0.8)]">
+            <span className="relative block size-full overflow-hidden rounded-[3px] shadow-[0_0_0_1px_rgba(139,123,255,0.45),0_0_34px_-6px_rgba(109,75,255,0.8)]">
               {/*
                 Still first, then clip, then the generated panel.
 
@@ -119,14 +142,14 @@ export default function ProjectRow({ project, index, total }: ProjectRowProps) {
                   preload="none"
                 />
               ) : (
-                <div
-                  className="size-full"
+                <span
+                  className="block size-full"
                   style={{ background: `linear-gradient(145deg, ${from} 0%, ${to} 80%)` }}
                 />
               )}
 
               {/* Blueprint crosses as one cheap repeating background layer. */}
-              <div
+              <span
                 className="absolute inset-0 opacity-70"
                 style={{
                   backgroundImage:
@@ -134,11 +157,11 @@ export default function ProjectRow({ project, index, total }: ProjectRowProps) {
                   backgroundSize: '26px 26px',
                 }}
               />
-              <div className="absolute inset-0 bg-[linear-gradient(115deg,transparent_35%,rgba(255,255,255,0.16)_50%,transparent_65%)]" />
-            </div>
-          </div>
-        </div>
-      </a>
+              <span className="absolute inset-0 bg-[linear-gradient(115deg,transparent_35%,rgba(255,255,255,0.16)_50%,transparent_65%)]" />
+            </span>
+          </span>
+        </span>
+      </button>
 
       {/* Hairline that lights on hover. A border on the row itself would shift
           layout whenever its width changed. */}

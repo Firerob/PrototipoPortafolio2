@@ -27,6 +27,36 @@ export interface Project {
   /** Alt text for `image`. Required whenever an image is set — the panel is
    *  decorative today, but a real screenshot of the work is content. */
   alt?: string;
+
+  /*
+    ── Detail view ───────────────────────────────────────────────────────────
+    Everything below feeds the modal opened by clicking a row in the Deep
+    Index. All of it is optional and the modal renders only the parts that
+    exist, so a project can ship with nothing here and still open cleanly.
+  */
+
+  /**
+   * Full-resolution file for the zoom/fullscreen layer, e.g.
+   * '/work/full/blur.jpg'. Falls back to `image` when absent, so this is only
+   * worth setting when the card-sized file is too small to hold up
+   * full-screen. Same base-path rule as `image` — no hand-written prefix.
+   */
+  full?: string;
+  /** Long-form description. One string per paragraph. */
+  body?: string[];
+  /**
+   * Spec sheet, rendered in order as a definition list: client, year, tools,
+   * role, anything else. Free-form on purpose — projects do not share a fixed
+   * set of facts, and a fixed shape would force empty rows.
+   *
+   * These are checkable public claims. Do not put a client's name here unless
+   * the work was really for them.
+   */
+  credits?: { label: string; value: string }[];
+  /** Destination for the detail view's call to action. Omitted hides it. */
+  href?: string;
+  /** Label for that button. Defaults to 'View full project'. */
+  hrefLabel?: string;
 }
 
 /** Read-only snapshot of a quaternion, for HUD widgets that only display it. */

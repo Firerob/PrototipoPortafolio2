@@ -1,11 +1,13 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useReducedMotion } from 'framer-motion';
 import { projects } from '@/content/projects';
 import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicLayoutEffect';
 import ProjectRow from './ProjectRow';
+import ProjectModal from './ProjectModal';
 import SceneScrim from '@/components/ui/SceneScrim';
 import ScrollFade from '@/components/ui/ScrollFade';
 
@@ -82,6 +84,27 @@ export default function ProjectsIndex() {
   const tilt = useRef<{ x: number; y: number }[]>([]);
 
   const [active, setActive] = useState(0);
+
+  /*
+    The open project, held as an id rather than as an index or the object
+    itself. The rAF loop below writes `active` at frame rate and the modal
+    must not be coupled to it — an index would reopen a different project the
+    moment the list re-focused, and the object would break identity on every
+    content edit.
+  */
+  const [openId, setOpenId] = useState<string | null>(null);
+  const prefersReduced = useReducedMotion();
+  const reducedMotion = prefersReduced === true;
+
+  const openProject = useMemo(
+    () => projects.find((p) => p.id === openId) ?? null,
+    [openId],
+  );
+
+  // Stable so ProjectRow's props keep their identity across the parent's
+  // re-renders — and this parent re-renders whenever the focus row changes.
+  const onOpen = useCallback((id: string) => setOpenId(id), []);
+  const onClose = useCallback(() => setOpenId(null), []);
 
   useIsomorphicLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -275,6 +298,22 @@ export default function ProjectsIndex() {
             const i = Number(row.dataset.row);
             hoverLock.current = i;
             focus.current = i;
+
+            /*
+              focusin comes through this same handler and carries no
+              coordinates. Reading clientX off it yielded NaN, which then
+              poisoned the tilt state permanently — `state.x += (NaN - state.x)
+              * k` never recovers, so a row that had once been tabbed to could
+              no longer tilt and printed "NaN / NaN" in its readout for the
+              life of the page. Keyboard focus takes the lock without tilting,
+              which is what the listener was always meant to do.
+            */
+            if (typeof event.clientX !== 'number') {
+              pointer.x = 0;
+              pointer.y = 0;
+              return;
+            }
+
             const rect = row.getBoundingClientRect();
             pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
             pointer.y = ((event.clientY - rect.top) / rect.height) * 2 - 1;
@@ -366,11 +405,19 @@ export default function ProjectsIndex() {
         <div ref={stage}>
           <ul ref={list} className="border-t border-hairline">
             {projects.map((project, i) => (
-              <ProjectRow key={project.id} project={project} index={i} total={projects.length} />
+              <ProjectRow
+                key={project.id}
+                project={project}
+                index={i}
+                total={projects.length}
+                onOpen={onOpen}
+              />
             ))}
           </ul>
         </div>
       </div>
+
+      <ProjectModal project={openProject} onClose={onClose} reducedMotion={reducedMotion} />
     </section>
   );
 }
