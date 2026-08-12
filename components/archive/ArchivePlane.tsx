@@ -1,13 +1,15 @@
 'use client';
 
-import { Suspense, useMemo, useRef, type RefObject } from 'react';
+import { Suspense, useLayoutEffect, useMemo, useRef, type RefObject } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { useVideoTexture } from '@react-three/drei';
-import { Color, DoubleSide, type Mesh, type ShaderMaterial, type Texture } from 'three';
+import { useTexture, useVideoTexture } from '@react-three/drei';
+import { Color, DoubleSide, SRGBColorSpace, type Mesh, type ShaderMaterial, type Texture } from 'three';
 import type { Project } from '@/types/project';
+import { asset } from '@/lib/asset';
 
 const PLANE_W = 2.24;
 const PLANE_H = 1.28;
+const PLANE_ASPECT = (PLANE_W / PLANE_H).toFixed(6);
 
 /*
   One shader for both cases: `uHasMap` switches between sampling the video
@@ -36,6 +38,9 @@ const fragmentShader = /* glsl */ `
   uniform float uReveal;
   uniform vec3  uTintA;
   uniform vec3  uTintB;
+  /** Source aspect (w/h) so stills and clips can be cover-fitted to the
+   *  plane, the same way orbitCardShader.ts fits project media to a card. */
+  uniform float uMapAspect;
 
   varying vec2  vUv;
   varying float vDepth;
@@ -60,7 +65,22 @@ const fragmentShader = /* glsl */ `
 
     vec3 color;
     if (uHasMap > 0.5) {
-      color = texture2D(uMap, vUv).rgb;
+      /*
+        Cover-fit, done in the shader — same technique as orbitCardShader.ts.
+        The sources are phone stills and clips in whatever aspect they were
+        shot; PLANE_W/PLANE_H is a fixed landscape quad. Scaling the UVs about
+        the centre by the ratio of the two aspects crops the overflowing axis
+        instead of stretching the image to fill it, which is the one
+        distortion a viewer always notices on a face or a line of type.
+      */
+      float planeAspect = ${PLANE_ASPECT};
+      vec2 uv = vUv - 0.5;
+      if (uMapAspect > planeAspect) {
+        uv.x *= planeAspect / uMapAspect;
+      } else {
+        uv.y *= uMapAspect / planeAspect;
+      }
+      color = texture2D(uMap, uv + 0.5).rgb;
     } else {
       /*
         Procedural stand-in for missing footage: drifting interference bands
@@ -113,7 +133,11 @@ function PlaneBody({
   revealRef,
   travelRef,
   texture,
-}: PlaneLayout & { texture: Texture | null }) {
+  // Defaults to the plane's own aspect: with no texture this is unused by
+  // the shader's procedural branch anyway, so the default is only ever
+  // observed as "no cropping", which is correct for that branch.
+  mapAspect = PLANE_W / PLANE_H,
+}: PlaneLayout & { texture: Texture | null; mapAspect?: number }) {
   const mesh = useRef<Mesh>(null);
   const material = useRef<ShaderMaterial>(null);
 
@@ -121,12 +145,13 @@ function PlaneBody({
     () => ({
       uMap: { value: texture },
       uHasMap: { value: texture ? 1 : 0 },
+      uMapAspect: { value: mapAspect },
       uTime: { value: 0 },
       uReveal: { value: 0 },
       uTintA: { value: new Color(project.tint[0]) },
       uTintB: { value: new Color(project.tint[1]) },
     }),
-    [texture, project.tint],
+    [texture, mapAspect, project.tint],
   );
 
   useFrame((_, delta) => {
@@ -182,22 +207,59 @@ function PlaneBody({
   );
 }
 
+/** Source dimensions, read off whichever element shape the texture wraps —
+ *  an HTMLImageElement for a still, an HTMLVideoElement for a clip.
+ *  `Texture.image` is typed loosely (three does not know in advance which
+ *  element a given texture wraps), so this narrows at runtime instead of
+ *  trusting a type. Falls back to the plane's own aspect if a dimension is
+ *  not yet known, which only cover-fit math would otherwise divide by zero. */
+function aspectOf(image: unknown): number {
+  const el = image as { width?: number; height?: number; videoWidth?: number; videoHeight?: number } | null;
+  const w = el?.videoWidth || el?.width || 0;
+  const h = el?.videoHeight || el?.height || 0;
+  return w > 0 && h > 0 ? w / h : PLANE_W / PLANE_H;
+}
+
 /** Video path. Only ever mounted when a real src exists. */
 function VideoPlane({ src, ...layout }: PlaneLayout & { src: string }) {
-  const texture = useVideoTexture(src, {
+  const texture = useVideoTexture(asset(src), {
     start: true,
     muted: true,
     loop: true,
     playsInline: true,
     crossOrigin: 'anonymous',
   });
-  return <PlaneBody {...layout} texture={texture} />;
+  return <PlaneBody {...layout} texture={texture} mapAspect={aspectOf(texture.image)} />;
+}
+
+/*
+  Still path. Only ever mounted when a real src exists — same reasoning as
+  VideoPlane below: a conditional COMPONENT rather than a conditional hook
+  keeps hook order stable, and useTexture suspends exactly like
+  useVideoTexture does, so it needs the same per-plane Suspense boundary.
+
+  drei's useTexture does not set colorSpace for you, and a texture read as
+  linear data renders visibly washed out — the same correction OrbitCards and
+  StudiesCore already apply to their imperatively-loaded textures, applied
+  here to a suspending one instead via a layout effect, since there is no
+  load callback to hang it off.
+*/
+function ImagePlane({ src, ...layout }: PlaneLayout & { src: string }) {
+  const texture = useTexture(asset(src));
+
+  useLayoutEffect(() => {
+    texture.colorSpace = SRGBColorSpace;
+    texture.needsUpdate = true;
+  }, [texture]);
+
+  return <PlaneBody {...layout} texture={texture} mapAspect={aspectOf(texture.image)} />;
 }
 
 export default function ArchivePlane({
+  imageSrc,
   videoSrc,
   ...layout
-}: PlaneLayout & { videoSrc?: string }) {
+}: PlaneLayout & { imageSrc?: string; videoSrc?: string }) {
   /*
     Conditional COMPONENT, not conditional hook.
 
@@ -208,11 +270,26 @@ export default function ArchivePlane({
     corridor. A live probe showed the gallery group reporting children: 0
     while every other value looked healthy.
 
-    Splitting the hook into its own component keeps hook order stable inside
-    each branch while letting the no-video case mount with no suspending hook
-    at all. The Suspense fallback now renders the procedural plane rather than
-    null, so a buffering video shows the placeholder instead of a hole.
+    Splitting each path into its own component keeps hook order stable inside
+    every branch while letting the no-media case mount with no suspending
+    hook at all. The Suspense fallback renders the procedural plane rather
+    than null, so a buffering file shows the placeholder instead of a hole.
+
+    Image wins over video, same priority as everywhere else this pair of
+    fields is read (ProjectRow, OrbitCards) — a still is decoded once, a clip
+    holds a decoder open for the length of the page. Five of the seven
+    projects in content/projects.ts carry only an `image`; without this
+    branch they rendered as the generic drifting-bands placeholder instead of
+    their own artwork, indistinguishable from a project with no media at all.
   */
+  if (imageSrc) {
+    return (
+      <Suspense fallback={<PlaneBody {...layout} texture={null} />}>
+        <ImagePlane {...layout} src={imageSrc} />
+      </Suspense>
+    );
+  }
+
   if (!videoSrc) return <PlaneBody {...layout} texture={null} />;
 
   return (

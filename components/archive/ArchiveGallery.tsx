@@ -4,7 +4,6 @@ import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import type { Group } from 'three';
 import { projects } from '@/content/projects';
-import type { Project } from '@/types/project';
 import {
   archiveScroll,
   GALLERY_RANGE,
@@ -69,9 +68,15 @@ export default function ArchiveGallery({ reducedMotion = false }: ArchiveGallery
           slot={i}
           revealRef={reveal}
           travelRef={travel}
-          /* Add a `video` field to a project in content/projects.ts to swap
-             its procedural preview for real footage. */
-          videoSrc={(project as Project & { video?: string }).video}
+          /*
+            Image wins over video, same priority ArchivePlane documents and
+            the rest of the site already uses. Set `image` or `video` on a
+            project in content/projects.ts to swap its procedural preview for
+            real artwork; with neither, the plane falls back to the
+            drifting-bands placeholder.
+          */
+          imageSrc={project.image}
+          videoSrc={project.video}
         />
       ))}
     </group>

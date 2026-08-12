@@ -13,15 +13,17 @@ export interface Project {
    * /public and get the deployment base path applied at render — see
    * lib/asset.ts, and do NOT hand-write the prefix here.
    *
-   * Takes precedence over `video` in the index preview: a still is decoded
-   * once, where a clip costs a decoder and a per-frame upload for a panel
-   * that is only visible on hover.
+   * Takes precedence over `video` everywhere both are read (the index
+   * preview, the orbit ring, the archive corridor): a still is decoded once,
+   * where a clip costs a decoder and a per-frame upload for a panel that is
+   * not always on screen.
    */
   image?: string;
   /**
-   * Optional preview clip, e.g. '/work/wear-go-land.mp4'. When present the
-   * archive corridor plays it, and the index falls back to it when no `image`
-   * is set. Same base-path rule as above.
+   * Optional preview clip, e.g. '/work/wear-go-land.mp4'. Same base-path
+   * rule as above. Read as the fallback wherever `image` is also read, so a
+   * project can carry either, both (image wins), or neither (every consumer
+   * falls back to its own generated placeholder, keyed off `tint`).
    */
   video?: string;
   /** Alt text for `image`. Required whenever an image is set — the panel is
