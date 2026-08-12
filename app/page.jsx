@@ -4,14 +4,14 @@ import HeroSection from '@/components/hero/HeroSection';
 import ProjectsOrbit from '@/components/projects/ProjectsOrbit';
 import ArchiveSection from '@/components/archive/ArchiveSection';
 import ProjectsIndex from '@/components/index/ProjectsIndex';
-import NewsSection from '@/components/news/NewsSection';
+import StudiesSection from '@/components/studies/StudiesSection';
 import AboutSection from '@/components/about/AboutSection';
 import ContactSection from '@/components/contact/ContactSection';
 import SiteFooter from '@/components/sections/SiteFooter';
 import CinematicGenesisOpening from '@/components/hero/CinematicGenesisOpening';
 import ColorMorph from '@/components/ColorMorph';
 import IndexArrival from '@/components/transitions/IndexArrival';
-import NewsArrival from '@/components/transitions/NewsArrival';
+import StudiesArrival from '@/components/transitions/StudiesArrival';
 import AboutArrival from '@/components/transitions/AboutArrival';
 import ContactArrival from '@/components/transitions/ContactArrival';
 import CorridorDepth from '@/components/transitions/CorridorDepth';
@@ -101,12 +101,12 @@ export default function Page() {
           <ProjectsIndex />
         </CorridorDepth>
 
-        {/* News is the transmission feed, so its crossing is a signal being
-            acquired out of noise. */}
-        <NewsArrival />
+        {/* Studies is a wall of measurements, so its crossing is an
+            instrument settling onto a clean reading out of noise. */}
+        <StudiesArrival />
 
         <CorridorDepth>
-          <NewsSection />
+          <StudiesSection />
         </CorridorDepth>
 
         {/* The page is pried open to get into About. */}
@@ -116,7 +116,7 @@ export default function Page() {
           <AboutSection profileSrc="/about/profile.jpg" />
         </CorridorDepth>
 
-        {/* The outbound half of the NewsArrival pair: that one resolves an
+        {/* The outbound half of the StudiesArrival pair: that one resolves an
             incoming signal, this one fires one. */}
         <ContactArrival />
 

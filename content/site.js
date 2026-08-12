@@ -21,7 +21,7 @@ export const owner = {
 
 export const navLinks = [
   { label: 'Works', href: '#works' },
-  { label: 'News', href: '#news' },
+  { label: 'Studies', href: '#studies' },
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
 ];

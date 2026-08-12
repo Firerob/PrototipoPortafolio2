@@ -187,16 +187,16 @@ body {
   }
 
   /*
-    The news crossing is NOT collapsed, because unlike the archive one it has
+    The studies crossing is NOT collapsed, because unlike the archive one it has
     a meaningful resting state: its markup renders the locked signal — a flat
     trace with SIGNAL 100% LOCKED under it — which is a perfectly good static
     boundary. It only needs to stop being a screen-tall stage.
   */
-  .news-arrival {
+  .studies-arrival {
     height: auto;
   }
 
-  .news-arrival [data-stage] {
+  .studies-arrival [data-stage] {
     position: static;
     height: auto;
     padding-block: 2.5rem;

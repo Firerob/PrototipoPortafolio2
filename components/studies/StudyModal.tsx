@@ -5,20 +5,15 @@ import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useLenis } from 'lenis/react';
 import { X } from 'lucide-react';
-import type { NewsItem } from '@/types/news';
-
-const dateFormatter = new Intl.DateTimeFormat('en-CA', {
-  year: 'numeric',
-  month: '2-digit',
-  day: '2-digit',
-  timeZone: 'UTC',
-});
+import type { Study } from '@/types/study';
+import { asset } from '@/lib/asset';
+import { register, stamp } from '@/lib/studyFormat';
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
-interface NewsModalProps {
-  item: NewsItem | null;
+interface StudyModalProps {
+  item: Study | null;
   onClose: () => void;
   reducedMotion: boolean;
 }
@@ -30,7 +25,7 @@ interface NewsModalProps {
  * context on the page — the fixed 3D canvas, the wave layer and the z-10
  * content wrapper all sit below it without any z-index arithmetic.
  */
-export default function NewsModal({ item, onClose, reducedMotion }: NewsModalProps) {
+export default function StudyModal({ item, onClose, reducedMotion }: StudyModalProps) {
   const panel = useRef<HTMLDivElement>(null);
   const restoreTo = useRef<HTMLElement | null>(null);
   const lenis = useLenis();
@@ -130,7 +125,7 @@ export default function NewsModal({ item, onClose, reducedMotion }: NewsModalPro
             ref={panel}
             role="dialog"
             aria-modal="true"
-            aria-labelledby="news-modal-title"
+            aria-labelledby="study-modal-title"
             initial={{ x: reducedMotion ? 0 : '100%', opacity: reducedMotion ? 0 : 1 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: reducedMotion ? 0 : '100%', opacity: reducedMotion ? 0 : 1 }}
@@ -148,14 +143,12 @@ export default function NewsModal({ item, onClose, reducedMotion }: NewsModalPro
           >
             <div className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-white/10 bg-ink/90 px-5 py-4 backdrop-blur-md sm:px-7">
               <span className="font-mono text-[0.58rem] uppercase tracking-[0.16em] text-text-muted">
-                [ {dateFormatter.format(new Date(`${item.date}T00:00:00Z`)).replace(/-/g, '.')}{' '}
-                <span className="text-text-muted/50">//</span> SYS.
-                {item.id.replace('-', '_').toUpperCase()} ]
+                [ {stamp(item.date)} <span className="text-text-muted/50">//</span> {register(item.id)} ]
               </span>
               <button
                 type="button"
                 onClick={onClose}
-                aria-label="Close reader"
+                aria-label="Close study"
                 className="flex size-11 shrink-0 items-center justify-center border border-white/10 text-text transition-colors duration-200 hover:border-purple-500/50 hover:text-steel"
               >
                 <X className="size-4" aria-hidden="true" />
@@ -168,19 +161,35 @@ export default function NewsModal({ item, onClose, reducedMotion }: NewsModalPro
               </span>
 
               <h3
-                id="news-modal-title"
+                id="study-modal-title"
                 className="mt-5 font-sans text-[clamp(1.4rem,3.4vw,2.05rem)] font-bold uppercase leading-[1.1] tracking-[-0.02em] text-text"
               >
                 {item.title}
               </h3>
 
-              {/* Media slot. Reserves its ratio so swapping in a real clip
-                  causes no layout shift. */}
-              <div className="relative mt-6 aspect-video w-full overflow-hidden border border-white/10">
-                {item.video ? (
+              {/*
+                Media slot. Reserves its ratio so swapping in real media
+                causes no layout shift, and resolves still → clip → tint in
+                the same order the research core does when this same study is
+                selected on the canvas behind the manifest.
+
+                Note the asset() calls: `src={item.video}` was raw here, which
+                would have 404'd under the GitHub Pages base path the moment
+                any entry actually set one.
+              */}
+              <div className="relative mt-6 aspect-video w-full overflow-hidden border border-white/10 bg-surface">
+                {item.image ? (
+                  <img
+                    className="size-full object-cover"
+                    src={asset(item.image)}
+                    alt={item.alt ?? ''}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : item.video ? (
                   <video
                     className="size-full object-cover"
-                    src={item.video}
+                    src={asset(item.video)}
                     muted
                     loop
                     playsInline
@@ -226,7 +235,28 @@ export default function NewsModal({ item, onClose, reducedMotion }: NewsModalPro
                 ))}
               </ul>
 
-              <div className="mt-8 flex items-center gap-3 border-t border-white/10 pt-4">
+              {/*
+                Same three values driving the research core on the canvas
+                behind the manifest — see StudyParams in types/study.ts. This
+                is the record of what the object is doing while this study is
+                selected, not a separate set of numbers.
+              */}
+              <dl className="mt-8 space-y-2 border-t border-white/10 pt-5 font-mono text-[0.58rem] uppercase tracking-[0.16em] text-text-muted">
+                <div className="flex items-center justify-between gap-4">
+                  <dt>distortion</dt>
+                  <dd className="tabular-nums text-steel">{item.params.distortion.toFixed(2)}</dd>
+                </div>
+                <div className="flex items-center justify-between gap-4">
+                  <dt>speed</dt>
+                  <dd className="tabular-nums text-steel">{item.params.speed.toFixed(2)}</dd>
+                </div>
+                <div className="flex items-center justify-between gap-4">
+                  <dt>facet</dt>
+                  <dd className="tabular-nums text-steel">{item.params.facet.toFixed(0)}</dd>
+                </div>
+              </dl>
+
+              <div className="mt-6 flex items-center gap-3 border-t border-white/10 pt-4">
                 <span aria-hidden="true" className="h-px flex-1 bg-hairline" />
                 <span className="font-mono text-[0.55rem] uppercase tracking-[0.18em] text-text-muted">
                   status: <span className="text-steel">{item.status ?? 'PUBLISHED'}</span>

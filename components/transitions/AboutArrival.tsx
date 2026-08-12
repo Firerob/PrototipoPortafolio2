@@ -488,7 +488,7 @@ export default function AboutArrival() {
           <span className="whitespace-nowrap text-text-muted">
             <span className="text-text-muted/60">04</span>
             <span className="mx-2 text-text-muted/40">/</span>
-            Transmission Feed
+            Research &amp; Development
           </span>
           <span ref={status} className="text-steel transition-colors duration-300">
             ACQUIRING

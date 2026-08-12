@@ -31,7 +31,7 @@ interface ProjectModalProps {
  * stacked column below `lg`. The panel itself is the scroll container, so long
  * copy never pushes the media off screen on a laptop.
  *
- * Portalled onto document.body, like NewsModal, so it escapes every stacking
+ * Portalled onto document.body, like StudyModal, so it escapes every stacking
  * context on the page: the fixed R3F canvas, the wave layer and the z-10
  * content wrapper all sit underneath without any z-index arithmetic.
  *
@@ -154,8 +154,8 @@ export default function ProjectModal({ project, onClose, reducedMotion }: Projec
           />
 
           {/*
-            Centred dialog rather than the edge drawer NewsModal uses. A news
-            item is a column of text and reads fine in 560px; this one has to
+            Centred dialog rather than the edge drawer StudyModal uses. A
+            study is a column of text and reads fine in 560px; this one has to
             hold a portrait image and its dossier side by side, which needs the
             full width of the viewport to divide.
           */}

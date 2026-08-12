@@ -37,6 +37,13 @@ export const sceneScroll: SceneScrollState = {
   presence: 0,
 };
 
+/*
+  STAGE_NEWS names a beat on the scroll timeline, and the section standing on
+  that beat is now Studies. The constant kept its name deliberately: it is
+  threaded through the palette, DeepField and the scene controller, and
+  renaming it would churn the whole 3D pipeline to describe a DOM section it
+  does not otherwise know about.
+*/
 export const STAGE_INDEX = 0;
 export const STAGE_NEWS = 1;
 export const STAGE_ABOUT = 2;

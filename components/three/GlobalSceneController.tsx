@@ -16,6 +16,7 @@ import {
   STAGE_LAST,
 } from '@/lib/sceneScroll';
 import DeepField from './DeepField';
+import StudiesCore from './StudiesCore';
 import AboutStrata from './AboutStrata';
 import ContactTransmitter from './ContactTransmitter';
 
@@ -160,15 +161,17 @@ export default function GlobalSceneController({
       {/*
         Per-stage set pieces. Each is scoped to ONE stage by stageWeight, so
         each is invisible — and does no per-frame work at all — everywhere
-        else. That gating is the whole reason two of these can coexist with
+        else. That gating is the whole reason three of these can coexist with
         DeepField without the post-hero run costing more than it did with
         none of them: at any given scroll position at most one is drawing,
-        and through Index neither is.
+        and through Index none are.
 
-        They are also deliberately unalike (see each file's header): About is
-        a slow vertical core sample being read, Contact is an urgent radial
-        broadcast. Two variations on one effect would read as a template.
+        They are also deliberately unalike (see each file's header): Studies
+        is a selectable research core with a custom shader, About is a slow
+        vertical core sample being read, Contact is an urgent radial
+        broadcast. Three variations on one effect would read as a template.
       */}
+      <StudiesCore reducedMotion={reducedMotion} />
       <AboutStrata reducedMotion={reducedMotion} />
       <ContactTransmitter reducedMotion={reducedMotion} />
     </>

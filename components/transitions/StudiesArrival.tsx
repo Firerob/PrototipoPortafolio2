@@ -13,7 +13,7 @@ if (typeof window !== 'undefined') gsap.registerPlugin(ScrollTrigger);
     noise    1.00 → 0.00   dies out by lock 0.58
     carrier  0.12 → 1.00   rises, peaks near 0.55, gone at 1
     lock     0.00 → 0.72   of the band's scroll
-    handoff  0.15 → 0.90   03 DEEP INDEX ▸ 04 TRANSMISSION FEED
+    handoff  0.15 → 0.90   03 DEEP INDEX ▸ 04 STUDIES
 
   The trace ends perfectly flat, which is the point: the burst resolves into
   the same hairline every other seam on the page draws, so the crossing does
@@ -85,13 +85,18 @@ const FLAT = trace(1, 0, null);
 const BAR_CELLS = 18;
 
 /**
- * The index → news crossing: a signal being acquired.
+ * The index → studies crossing: a signal being acquired.
  *
- * The generic SectionSeam was already here and it worked, but News is the
- * "Transmission Feed" — SYS.LOG ids, scanlines, `status: PUBLISHED` — and a
- * drawn rule says nothing about that. This one speaks the section's own
+ * The generic SectionSeam was already here and it worked, but Studies speaks
+ * in instrument readouts — SYS_STUDY ids, scanlines, `status: COMPLETE` — and
+ * a drawn rule says nothing about that. This one speaks the section's own
  * language: an oscilloscope trace that starts as noise floor, resolves into a
  * coherent carrier, and flattens into the hairline the header sits on.
+ *
+ * The metaphor survived the section's rename from a news feed to research:
+ * an instrument settling onto a clean reading is, if anything, more at home
+ * in front of a wall of measurements than it was in front of a wall of
+ * dispatches.
  *
  * It stays in the seam FAMILY rather than going its own way — same chapter
  * handoff, same mono eyebrow, same accent ramp — so the page reads as one
@@ -100,7 +105,7 @@ const BAR_CELLS = 18;
  * Shorter than IndexArrival on purpose: 170vh against 240vh. That crossing is
  * the page's set piece and this one must not compete with it.
  */
-export default function NewsArrival() {
+export default function StudiesArrival() {
   const host = useRef<HTMLDivElement>(null);
   const line = useRef<SVGPolylineElement>(null);
   const glow = useRef<SVGPolylineElement>(null);
@@ -273,8 +278,8 @@ export default function NewsArrival() {
       ref={host}
       /*
         Decorative: the chapter numbers and the section name below it are the
-        real content, and "04 TRANSMISSION FEED / SIGNAL LOCKED / News" read in
-        sequence is the same heading three times.
+        real content, and "04 RESEARCH & DEVELOPMENT / SIGNAL LOCKED /
+        Studies" read in sequence is the same heading three times.
       */
       aria-hidden="true"
             /*
@@ -291,7 +296,7 @@ export default function NewsArrival() {
         scroll, because a phone screen is tall and narrow, and the four
         crossings together were 800vh of decorative travel on a touch device.
       */
-      className="news-arrival relative h-[140svh] md:h-[170svh]"
+      className="studies-arrival relative h-[140svh] md:h-[170svh]"
     >
       <div
         data-stage
@@ -333,7 +338,7 @@ export default function NewsArrival() {
             focusable="false"
           >
             <defs>
-              <linearGradient id="news-trace" x1="0" y1="0" x2="1" y2="0">
+              <linearGradient id="studies-trace" x1="0" y1="0" x2="1" y2="0">
                 <stop offset="0%" stopColor="#c9b79c" stopOpacity="0.25" />
                 <stop offset="45%" stopColor="#a89882" />
                 <stop offset="100%" stopColor="#aeb6c6" />
@@ -359,7 +364,7 @@ export default function NewsArrival() {
               ref={line}
               points={FLAT}
               fill="none"
-              stroke="url(#news-trace)"
+              stroke="url(#studies-trace)"
               strokeWidth="1.5"
               strokeLinejoin="round"
               vectorEffect="non-scaling-stroke"
@@ -400,7 +405,7 @@ export default function NewsArrival() {
             >
               <span className="text-accent-soft">04</span>
               <span className="mx-2 text-text-muted/40">/</span>
-              Transmission Feed
+              Research &amp; Development
             </span>
           </div>
         </div>

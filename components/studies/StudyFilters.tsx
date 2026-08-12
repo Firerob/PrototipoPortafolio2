@@ -1,12 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { NEWS_CATEGORIES, type NewsCategory } from '@/types/news';
+import { STUDY_CATEGORIES, type StudyCategory } from '@/types/study';
 
-interface NewsFiltersProps {
-  active: NewsCategory;
-  counts: Record<NewsCategory, number>;
-  onChange: (category: NewsCategory) => void;
+interface StudyFiltersProps {
+  active: StudyCategory;
+  counts: Record<StudyCategory, number>;
+  onChange: (category: StudyCategory) => void;
   reducedMotion: boolean;
 }
 
@@ -15,21 +15,21 @@ interface NewsFiltersProps {
  *
  * A radiogroup rather than a row of buttons: the filters are one mutually
  * exclusive choice, which is what a radiogroup means, and it gives keyboard
- * users arrow-key traversal instead of six tab stops.
+ * users arrow-key traversal instead of five tab stops.
  */
-export default function NewsFilters({
+export default function StudyFilters({
   active,
   counts,
   onChange,
   reducedMotion,
-}: NewsFiltersProps) {
+}: StudyFiltersProps) {
   return (
     <div
       role="radiogroup"
-      aria-label="Filter transmissions by category"
+      aria-label="Filter studies by category"
       className="flex flex-wrap items-center gap-1"
     >
-      {NEWS_CATEGORIES.map((category) => {
+      {STUDY_CATEGORIES.map((category) => {
         const selected = category === active;
         const count = counts[category] ?? 0;
 
@@ -58,7 +58,7 @@ export default function NewsFilters({
             */}
             {selected && (
               <motion.span
-                layoutId={reducedMotion ? undefined : 'news-filter-underline'}
+                layoutId={reducedMotion ? undefined : 'study-filter-underline'}
                 aria-hidden="true"
                 className="absolute inset-x-0 bottom-0 h-px bg-accent-soft"
                 transition={{ duration: reducedMotion ? 0 : 0.35, ease: [0.16, 1, 0.3, 1] }}

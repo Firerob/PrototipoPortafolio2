@@ -110,6 +110,8 @@ export const PALETTE_STOPS: readonly PaletteStop[] = [
 
 export const STOP_HERO = 0;
 export const STOP_INDEX = 1;
+// The stop whose section is now Studies — see the note on STAGE_NEWS in
+// lib/sceneScroll.ts for why this kept its name.
 export const STOP_NEWS = 2;
 export const STOP_ABOUT = 3;
 export const STOP_CONTACT = 4;
