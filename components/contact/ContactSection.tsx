@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { contact, owner } from '@/content/site';
 import ContactForm from './ContactForm';
+import ContactAmbientGlow from './ContactAmbientGlow';
 import CopyEmail from './CopyEmail';
 import LiveClock from './LiveClock';
 import SocialMatrix, { type Social } from './SocialMatrix';
@@ -33,6 +34,7 @@ export default function ContactSection() {
       className="relative scroll-mt-24 overflow-hidden px-5 pb-20 pt-10 sm:px-8 sm:pb-28 sm:pt-14"
     >
       <SceneScrim />
+      <ContactAmbientGlow />
       {/* Single soft accent wash. The 3D stage is long covered by this point,
           so the glow is what carries the palette down to the page's end. */}
       <div

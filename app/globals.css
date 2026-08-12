@@ -260,3 +260,55 @@ body {
     display: none;
   }
 }
+
+/*
+  Contact's lateral ambient glow — see components/contact/ContactAmbientGlow.tsx
+  for the element structure this drives and why it is split across two nested
+  layers rather than one.
+
+  Left and right run different periods with an offset start, the same reason
+  AboutStrata and ContactTransmitter's set pieces never breathe in lockstep:
+  two lights pulsing in perfect sync read as one animation mirrored, not as
+  two independent sources.
+
+  No reduced-motion override needed, unlike .about-scanline above: that one
+  hides itself because a sweep frozen mid-travel reads as a visible artifact
+  cutting across a portrait. A soft blurred blob frozen at any point in its
+  scale/opacity range still just reads as a soft blurred blob — the global
+  reset already collapsing this to 0.01ms is a sufficient still frame, the
+  same trust the status-dot ping in ContactSection places in that same rule.
+*/
+@keyframes contact-glow-pulse-left {
+  0%,
+  100% {
+    transform: scale(0.9);
+    opacity: 0.22;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.4;
+  }
+}
+
+@keyframes contact-glow-pulse-right {
+  0%,
+  100% {
+    transform: scale(1.05);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(0.9);
+    opacity: 0.22;
+  }
+}
+
+.contact-glow-left {
+  animation: contact-glow-pulse-left 4.2s ease-in-out infinite;
+}
+
+.contact-glow-right {
+  /* Longer period and a negative delay (starts partway into its own cycle)
+     so the two are never at the same phase even at t=0. */
+  animation: contact-glow-pulse-right 4.8s ease-in-out infinite;
+  animation-delay: -1.4s;
+}
