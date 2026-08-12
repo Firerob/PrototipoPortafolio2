@@ -217,10 +217,17 @@ export default function ProjectModal({ project, onClose, reducedMotion }: Projec
                 Two columns from `lg` up, stacked below it. 5/7 rather than a
                 even split: the media is portrait and a half-width column would
                 make it taller than the viewport on a laptop.
+
+                `min-w-0` on both direct children: `grid` has no breakpoint
+                prefix, so they are grid items with the default
+                `min-width: auto` at every width, not just at `lg`. Without
+                it, one unbreakable string deep inside a column (the title
+                below is exactly that kind of content) blows the implicit
+                track — and this dialog — past the viewport on a phone.
               */}
               <div className="grid gap-8 px-5 py-7 sm:px-7 lg:grid-cols-12 lg:gap-12 lg:py-10">
                 {/* ── Media ────────────────────────────────────────────────── */}
-                <div className="lg:col-span-5">
+                <div className="min-w-0 lg:col-span-5">
                   <div className="relative aspect-[4/5] w-full overflow-hidden border border-white/10 bg-surface">
                     {project.image ? (
                       <img
@@ -286,7 +293,7 @@ export default function ProjectModal({ project, onClose, reducedMotion }: Projec
                 </div>
 
                 {/* ── Dossier ──────────────────────────────────────────────── */}
-                <div className="lg:col-span-7">
+                <div className="min-w-0 lg:col-span-7">
                   <h3
                     id="project-modal-title"
                     className="font-sans text-[clamp(1.8rem,4.6vw,3.2rem)] font-bold uppercase leading-[0.98] tracking-[-0.03em] text-text"

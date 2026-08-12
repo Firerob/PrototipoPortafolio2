@@ -93,8 +93,16 @@ export default function ContactSection() {
           </p>
         </ScrollFade>
 
+        {/*
+          `min-w-0` on both children below — see the note in
+          AboutSection.tsx's identical grid for why: `grid` has no breakpoint
+          prefix, so both children are grid items with the default
+          `min-width: auto` at every width, and one unbreakable string deep
+          inside either column is enough to blow the implicit track (and the
+          whole page) past the viewport on a phone.
+        */}
         <div className="mt-12 grid gap-10 lg:grid-cols-12 lg:gap-14">
-          <motion.div {...line(0.12)} className="lg:col-span-7">
+          <motion.div {...line(0.12)} className="min-w-0 lg:col-span-7">
             <ContactForm
               projectTypes={contact.projectTypes}
               email={contact.email}
@@ -102,7 +110,7 @@ export default function ContactSection() {
             />
           </motion.div>
 
-          <div className="flex flex-col gap-10 lg:col-span-5">
+          <div className="flex min-w-0 flex-col gap-10 lg:col-span-5">
             <motion.div {...line(0.18)}>
               <CopyEmail email={contact.email} />
             </motion.div>

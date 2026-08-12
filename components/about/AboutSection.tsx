@@ -57,11 +57,27 @@ export default function AboutSection({ profileSrc }: AboutSectionProps) {
           </h2>
         </ScrollFade>
 
+        {/*
+          `min-w-0` on both children below, not decorative.
+
+          `grid` (unlike `lg:grid-cols-12`) has no breakpoint prefix, so this
+          container is a grid — and its direct children are grid ITEMS,
+          subject to CSS Grid's default `min-width: auto` — at every width,
+          including below `lg` where there is only one implicit column. A
+          grid item's automatic minimum size is its content's min-content
+          width unless overridden, so a single long unbreakable string deep
+          inside either column silently grows the whole implicit track to
+          fit it — measured on this exact pattern in Studies at 690px past a
+          390px viewport, one uppercase title long enough to force it. `w-*`
+          utilities do not help: percentage widths are irrelevant to a
+          min-content calculation. `min-w-0` is the one declaration that
+          actually caps it.
+        */}
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           {/* ── Profile card ───────────────────────────────────────────── */}
           <motion.div
             {...line(0.05)}
-            className="mx-auto w-full max-w-[420px] lg:col-span-5 lg:mx-0 lg:max-w-none"
+            className="mx-auto w-full min-w-0 max-w-[420px] lg:col-span-5 lg:mx-0 lg:max-w-none"
           >
             <ProfileCard3D
               profileSrc={profileSrc}
@@ -73,7 +89,7 @@ export default function AboutSection({ profileSrc }: AboutSectionProps) {
           </motion.div>
 
           {/* ── Bio, stack, stats ──────────────────────────────────────── */}
-          <div className="lg:col-span-7">
+          <div className="min-w-0 lg:col-span-7">
             <motion.div {...line(0.1)}>
               {/* Scrambled kicker. The real string is exposed via aria-label,
                   so the decode never reaches assistive tech as gibberish. */}

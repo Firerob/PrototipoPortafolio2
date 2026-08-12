@@ -119,8 +119,23 @@ export default function StudiesSection() {
           />
         </div>
 
+        {/*
+          `min-w-0` on both children below, not decorative.
+
+          `grid` has no breakpoint prefix, so this container is a grid at
+          every width, and its two direct children are grid items subject to
+          CSS Grid's default `min-width: auto` even below `lg`, where there
+          is only one implicit column. A grid item's automatic minimum size
+          is its content's min-content width unless overridden — and
+          StudyManifest's row titles are `truncate` (white-space: nowrap),
+          so their min-content is the FULL untruncated string. The longest
+          title in content/studies.ts alone was enough to grow the implicit
+          track to 684px and blow the whole page past a 390px viewport,
+          confirmed by measuring it live. `min-w-0` is what actually caps it;
+          `truncate` cannot do its job without it.
+        */}
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-5">
+          <div className="min-w-0 lg:col-span-5">
             <StudyManifest
               items={visible}
               activeId={effectiveId}
@@ -138,7 +153,7 @@ export default function StudiesSection() {
             </p>
           </div>
 
-          <div className="lg:col-span-7">
+          <div className="min-w-0 lg:col-span-7">
             <StudyTelemetry item={activeItem} onOpenFull={() => activeItem && onOpen(activeItem.id)} reducedMotion={reducedMotion} />
           </div>
         </div>
