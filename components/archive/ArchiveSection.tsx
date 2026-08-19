@@ -11,6 +11,7 @@ import {
   subscribeTheme,
 } from '@/lib/archiveScroll';
 import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicLayoutEffect';
+import { openProjectDetail } from '@/lib/projectDetail';
 import WaveTransition from './WaveTransition';
 
 /** Viewport heights of pinned scroll. Four gives each of the three overlapping
@@ -68,7 +69,17 @@ export default function ArchiveSection() {
             reads, which is where the scrub feel actually belongs.
           */
           onUpdate: (self) => setArchiveProgress(self.progress),
-          onRefresh: (self) => setArchiveProgress(self.progress),
+          onRefresh: (self) => {
+            setArchiveProgress(self.progress);
+            // Same fix as ProjectsOrbit's pin, and the same reason: `pin`
+            // wraps pinEl in a .pin-spacer this component never renders, so
+            // the pointer-events-none on pinEl itself doesn't reach it — the
+            // spacer was left catching every tap meant for a corridor plane.
+            const spacer = pinEl.parentElement;
+            if (spacer?.classList.contains('pin-spacer')) {
+              spacer.style.pointerEvents = 'none';
+            }
+          },
         });
       });
     }, section);
@@ -88,15 +99,38 @@ export default function ArchiveSection() {
     <>
       <WaveTransition />
 
+      {/*
+        pointer-events-none on the section too — same reasoning as
+        ProjectsOrbit's section: GSAP's pin-spacer is excluded in onRefresh
+        above, but the section itself is a third same-height box with the
+        browser default `pointer-events: auto`, and was the next thing
+        catching every tap meant for a corridor plane once the spacer no
+        longer did. Nothing inside declares its own `auto` (the project list
+        is sr-only, not clickable by pointer), so nothing needs to opt back
+        in here.
+      */}
       <section
         ref={section}
         id="archive"
         aria-labelledby="archive-heading"
         // Transparent: the corridor of video planes is rendered by the shared
         // canvas behind this, so any background here would hide it.
-        className="relative z-10 bg-transparent"
+        className="pointer-events-none relative z-10 bg-transparent"
       >
-        <div ref={pin} className="relative flex h-[100svh] min-h-[560px] flex-col justify-between overflow-hidden">
+        {/*
+          pointer-events-none: nothing left inside this box is meant to catch
+          the mouse/touch (the header is decorative and the project list below
+          is sr-only), so the box itself must not sit as a full-height,
+          full-width hit target over the corridor's planes — the same "empty
+          div still blocks clicks to the canvas beneath it" issue fixed in
+          ProjectsOrbit's pin. Focus and Enter/Space on the sr-only buttons
+          are unaffected: pointer-events only governs pointer hit-testing, not
+          keyboard activation.
+        */}
+        <div
+          ref={pin}
+          className="pointer-events-none relative flex h-[100svh] min-h-[560px] flex-col justify-between overflow-hidden"
+        >
           {/*
             Blueprint grid. Two layered gradients give the fine cells and the
             heavier section lines; the crosses come from a third layer whose
@@ -131,10 +165,20 @@ export default function ArchiveSection() {
             }}
           />
 
+          {/*
+            Both header lines sit directly over the tilted video corridor —
+            the section itself is transparent so the canvas shows through —
+            so a plain colour swap between themes was not enough contrast
+            once a bright plane drifted behind the type. The shadow direction
+            flips with the theme: a dark glow reads on the light corridor
+            wash, a black one on the near-black hero backdrop.
+          */}
           <header className="relative mx-auto w-full max-w-[1600px] px-5 pt-8 sm:px-8 sm:pt-10">
             <div
               className={`flex items-center gap-3 font-mono text-[0.62rem] uppercase tracking-[0.28em] transition-colors duration-500 ${
-                light ? 'text-[#5b6180]' : 'text-text-muted'
+                light
+                  ? 'text-[#5b6180] [text-shadow:0_1px_10px_rgba(255,255,255,0.75)]'
+                  : 'text-text-muted [text-shadow:0_1px_8px_rgba(0,0,0,0.7)]'
               }`}
             >
               <span aria-hidden="true" className={light ? 'text-[#5433ff]' : 'text-accent-soft'}>
@@ -149,7 +193,9 @@ export default function ArchiveSection() {
             <h2
               id="archive-heading"
               className={`mt-3 font-sans text-[clamp(1.75rem,4.5vw,3rem)] font-bold leading-none tracking-[-0.03em] transition-colors duration-500 ${
-                light ? 'text-[#12141f]' : 'text-text'
+                light
+                  ? 'text-[#12141f] [text-shadow:0_2px_16px_rgba(255,255,255,0.8)]'
+                  : 'text-text [text-shadow:0_2px_16px_rgba(0,0,0,0.75)]'
               }`}
             >
               Archive
@@ -157,46 +203,26 @@ export default function ArchiveSection() {
           </header>
 
           {/*
-            The project list stays in the DOM.
+            The project list stays reachable, just not painted over the scene.
 
-            The corridor is WebGL and therefore invisible to assistive tech and
-            to anyone without a working context. This list is the same content
-            as real, focusable links — it is the archive, and the 3D planes are
-            its presentation.
+            It used to render as a static grid stacked on top of the tilted
+            video corridor — legible on its own, but it fought the planes for
+            the same screen space and made the 3D gallery read as cluttered
+            rather than as the presentation. The corridor is WebGL and
+            therefore invisible to assistive tech and to anyone without a
+            working context, so the list itself is not gone: `sr-only` keeps
+            every title, order and tag reachable by a screen reader or Tab,
+            each one now opening the same detail view a click on its plane
+            does, through a real <button> rather than a `#project-id` anchor
+            that pointed at no matching section.
           */}
-          <div className="relative mx-auto w-full max-w-[1600px] px-5 pb-10 sm:px-8 sm:pb-14">
-            <ul className="grid grid-cols-1 gap-x-8 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="sr-only">
+            <ul>
               {projects.map((project, i) => (
                 <li key={project.id}>
-                  <a
-                    href={`#${project.id}`}
-                    className={`group flex min-h-11 items-baseline justify-between gap-4 border-b py-3 transition-colors duration-300 ${
-                      light
-                        ? 'border-[#d3d8e8] text-[#12141f] hover:border-[#5433ff]'
-                        : 'border-hairline text-text hover:border-accent-soft'
-                    }`}
-                  >
-                    <span className="flex items-baseline gap-3">
-                      <span
-                        aria-hidden="true"
-                        className={`font-mono text-[0.6rem] tracking-[0.2em] transition-colors duration-300 ${
-                          light ? 'text-[#868fa8]' : 'text-text-muted'
-                        }`}
-                      >
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-                      <span className="text-sm font-semibold uppercase tracking-[-0.01em]">
-                        {project.title}
-                      </span>
-                    </span>
-                    <span
-                      className={`shrink-0 font-mono text-[0.6rem] uppercase tracking-[0.18em] transition-colors duration-300 ${
-                        light ? 'text-[#868fa8]' : 'text-text-muted'
-                      }`}
-                    >
-                      {project.tags[0]}
-                    </span>
-                  </a>
+                  <button type="button" onClick={() => openProjectDetail(project.id)}>
+                    {String(i + 1).padStart(2, '0')} — {project.title} ({project.tags[0]})
+                  </button>
                 </li>
               ))}
             </ul>

@@ -2,6 +2,7 @@ import HeroCanvas from '@/components/three/HeroCanvas';
 import { PointerProvider } from '@/components/three/PointerProvider';
 import HeroSection from '@/components/hero/HeroSection';
 import ProjectsOrbit from '@/components/projects/ProjectsOrbit';
+import ProjectDetailPortal from '@/components/projects/ProjectDetailPortal';
 import ArchiveSection from '@/components/archive/ArchiveSection';
 import ProjectsIndex from '@/components/index/ProjectsIndex';
 import StudiesSection from '@/components/studies/StudiesSection';
@@ -126,6 +127,11 @@ export default function Page() {
       </main>
 
       <SiteFooter className="relative z-10" />
+
+      {/* Reachable from a click on any works-orbit or archive-corridor card —
+          see lib/projectDetail.ts for why this needs its own portal instead
+          of reusing ProjectsIndex's local modal state. */}
+      <ProjectDetailPortal />
     </PointerProvider>
   );
 }

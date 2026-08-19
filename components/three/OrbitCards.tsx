@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
+import { useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
 import {
   LinearFilter,
   MathUtils,
@@ -14,9 +14,17 @@ import {
   type Texture,
 } from 'three';
 import type { Project } from '@/types/project';
-import { assemblyFraction, orbitPhase, setWorksCount, worksScroll } from '@/lib/worksScroll';
+import {
+  assemblyFraction,
+  orbitPhase,
+  setWorksCount,
+  syncWorksActiveIndex,
+  worksScroll,
+} from '@/lib/worksScroll';
 import { archiveScroll } from '@/lib/archiveScroll';
 import { asset } from '@/lib/asset';
+import { openProjectDetail } from '@/lib/projectDetail';
+import { DESIGN_VIEWPORT_WIDTH, softFitFactor } from '@/lib/responsive3d';
 import {
   CARD_H,
   CARD_W,
@@ -44,6 +52,69 @@ const ENTRY = new Vector3(-13, -1.2, 2.2);
 /** Smoothed follow of the raw scroll value — see the useFrame comment. */
 const SCRUB_LAMBDA = 0.0016;
 
+/*
+  Floor under the responsive shrink applied below.
+
+  softFitFactor alone — the same curve Prism.jsx uses on the model at the
+  centre of this same ring — took the front card down to ~36% of its
+  authored size on an iPhone-width viewport. That was the correct fix for
+  the card bleeding off both screen edges, but once it could actually be
+  compared on a real phone (rather than just measured against "does it fit")
+  it read as the camera having pulled back too far: distant and small rather
+  than the section's hero content. This floor keeps softFitFactor's curve
+  doing its job on wider, tablet-ish viewports while guaranteeing the card
+  never drops below a size that still reads as the main subject on the
+  narrowest phones — a deliberate middle ground between the original
+  edge-bleeding 100% and the too-small 36%.
+*/
+const MIN_CARD_FIT = 0.62;
+
+/*
+  ── Mobile-only trajectory tuning ────────────────────────────────────────
+
+  Everything below reads `mobileness` — 0 at and above the 16:9 design
+  width, ramping toward 1 as the viewport narrows toward NARROW_FLOOR. A
+  real phone (iPhone 14 portrait measures 1.91, see lib/responsive3d.ts)
+  lands close to but short of 1 rather than pinned at it, and every desktop
+  and tablet-ish width above the design width is exactly 0 — no breakpoint,
+  no listener, corrects itself on resize/rotation like every other
+  responsive read in this file.
+
+  NARROW_FLOOR sits below any real phone on purpose: pinning `mobileness` at
+  1 for the *narrowest plausible* device, rather than for the widest one,
+  is what keeps a mid-size phone from already being maxed out.
+*/
+const NARROW_FLOOR = 1.1;
+
+/** Vertical wave amplitude at the two ends of `mobileness`. The full 0.34 is
+ *  what keeps the ring reading as 3D rather than a flat disc (see the slot
+ *  comment below); on a phone that same swing was carrying the side cards
+ *  up into the header on every rotation, so it is nearly flattened there —
+ *  "very suave" rather than zero, so the ring does not go fully 2D. */
+const WAVE_AMPLITUDE_DESKTOP = 0.34;
+const WAVE_AMPLITUDE_MOBILE = 0.05;
+
+/** How far the whole ring pulls back in Z (toward the prism, away from the
+ *  camera) at full mobileness. Desktop's framing was tuned by eye against
+ *  the prism already sharing the frame; a phone's tighter crop reads better
+ *  with the ring sitting deeper into the same space instead of hanging out
+ *  in front of it. */
+const Z_PULLBACK_MOBILE = 0.42;
+
+/** Ceiling on the extra scale multiplied on top of `fit` at full
+ *  mobileness — a small compensation for Z_PULLBACK_MOBILE moving the ring
+ *  further away (which would otherwise shrink it further), not a second
+ *  independent size increase. Capped under 1.08 deliberately: enough to
+ *  keep the card feeling present, not enough to fight MIN_CARD_FIT's own
+ *  "should not look gigantic" reasoning. */
+const MOBILE_SCALE_BOOST = 1.07;
+
+/** Ceiling on the upward lift at full mobileness — see the slot comment for
+ *  why this exists. Lower than an earlier pass (0.7): with the wave above
+ *  now nearly flat, less lift is needed to clear the caption, and the old
+ *  value was overshooting into the header on the narrowest phones. */
+const LIFT_MOBILE = 0.42;
+
 // Allocated once. Building Vector3s inside useFrame would mean hundreds of
 // short-lived objects per second and periodic GC hitches.
 const slot = new Vector3();
@@ -69,7 +140,16 @@ export default function OrbitCards({ projects, reducedMotion = false }: OrbitCar
   const groups = useRef<(Group | null)[]>([]);
   const materials = useRef<(ShaderMaterial | null)[]>([]);
   const scrubbed = useRef(0);
-  const { camera } = useThree();
+  const { camera, gl } = useThree();
+  /** Index currently under the pointer, so the cursor swap only fires on a
+   *  genuine enter/leave rather than every frame. */
+  const hovered = useRef<number | null>(null);
+
+  const setHover = (i: number | null) => {
+    if (hovered.current === i) return;
+    hovered.current = i;
+    gl.domElement.style.cursor = i === null ? 'auto' : 'pointer';
+  };
 
   const uniformSets = useMemo(
     () => projects.map((project) => makeOrbitCardUniforms(project.tint)),
@@ -176,9 +256,77 @@ export default function OrbitCards({ projects, reducedMotion = false }: OrbitCar
     setWorksCount(projects.length);
   }, [projects.length]);
 
-  useFrame((_, delta) => {
+  // Reset the cursor on unmount so a hover left mid-page doesn't strand it as
+  // 'pointer' once the ring is gone.
+  useEffect(() => () => setHover(null), []);
+
+  useFrame((state, delta) => {
     const dt = Math.min(delta, 1 / 30);
     const count = projects.length;
+
+    /*
+      ── Responsive fit ────────────────────────────────────────────────────
+
+      CARD_W/CARD_H and ORBIT_RADIUS are authored against the 16:9 desktop
+      frame (see the block comment above). Nothing here previously read
+      state.viewport, so on a portrait phone — where the visible WIDTH at
+      this depth is a fraction of desktop's while the visible HEIGHT stays
+      fixed (fov and camera distance are both device-independent, per
+      lib/responsive3d.ts) — the front card kept its full authored size and
+      ended up wider than the screen: it bled off both edges and read as an
+      aggressive, deformed zoom instead of a card.
+
+      softFitFactor is the same fix Prism.jsx already applies to the model at
+      the centre of this same ring, for the identical reason (there: 124% of
+      an iPhone's width down to ~44%). Reusing it here — rather than moving
+      the camera — keeps CameraRig the single writer of camera.position, which
+      the archive dive and the works/prism spin both depend on staying exact.
+      It returns 1 at and above the 16:9 design width, so desktop is
+      untouched, and it re-evaluates every frame off `state.viewport`, so an
+      orientation change corrects it with no listener and no breakpoint.
+      MIN_CARD_FIT then floors the result — see that constant's own comment
+      for why the bare curve alone ended up reading as "too far away".
+    */
+    const rawFit = MathUtils.clamp(softFitFactor(state.viewport.width), MIN_CARD_FIT, 1);
+
+    /*
+      `mobileness` — the one signal every mobile-only adjustment below reads.
+      See its own comment by NARROW_FLOOR for the curve; this is the single
+      read of state.viewport for all of them, rather than each effect
+      deriving its own slightly different ramp.
+    */
+    const mobileness = MathUtils.clamp(
+      1 - (state.viewport.width - NARROW_FLOOR) / (DESIGN_VIEWPORT_WIDTH - NARROW_FLOOR),
+      0,
+      1,
+    );
+
+    // See MOBILE_SCALE_BOOST — compensates Z_PULLBACK_MOBILE below, not a
+    // second independent size change.
+    const fit = rawFit * MathUtils.lerp(1, MOBILE_SCALE_BOOST, mobileness);
+
+    /*
+      Vertical lift on a narrow (portrait/mobile) viewport.
+
+      HERO_FOV is fixed and the vertical framing it produces is therefore
+      identical on every device — only the on-screen caption competes for
+      space differently. ProjectsOrbit's caption panel sits pinned to the
+      bottom of a short mobile viewport and was overlapping the front card;
+      lifting the ring keeps the active card clear of it. Tuned together with
+      the flattened wave below — see LIFT_MOBILE's own comment — rather than
+      independently, since the two used to compound into cards clipping the
+      header on the narrowest phones.
+    */
+    const mobileLift = mobileness * LIFT_MOBILE;
+
+    // Whole ring pulled back toward the prism at full mobileness; the front
+    // card ends up a little further from the camera, which MOBILE_SCALE_BOOST
+    // above compensates on size.
+    const zPullback = mobileness * Z_PULLBACK_MOBILE;
+
+    // See WAVE_AMPLITUDE_MOBILE — the vertical bob below is what was
+    // carrying side cards into the header on a phone.
+    const waveAmplitude = MathUtils.lerp(WAVE_AMPLITUDE_DESKTOP, WAVE_AMPLITUDE_MOBILE, mobileness);
 
     /*
       Damped follow of the raw scroll value.
@@ -196,6 +344,15 @@ export default function OrbitCards({ projects, reducedMotion = false }: OrbitCar
         (worksScroll.progress - scrubbed.current) * (1 - Math.pow(SCRUB_LAMBDA, dt));
 
     const progress = scrubbed.current;
+
+    /*
+      Keep the DOM caption locked to the same value that is about to place
+      the ring below — not to the raw scroll progress a fast flick can be
+      several cards ahead of. See syncWorksActiveIndex's own comment; this is
+      the one call site that matters, since it runs every frame the ring
+      itself moves.
+    */
+    syncWorksActiveIndex(progress);
 
     /*
       Ring rotation.
@@ -256,17 +413,22 @@ export default function OrbitCards({ projects, reducedMotion = false }: OrbitCar
       slot.set(
         Math.sin(angle) * ORBIT_RADIUS,
         // Gentle vertical wave: a perfectly flat ring reads as a 2D circle.
-        Math.sin(angle * 2 + i) * 0.34,
-        Math.cos(angle) * ORBIT_RADIUS,
+        // waveAmplitude is what keeps this from swinging cards into the
+        // header on a phone — see its own comment.
+        Math.sin(angle * 2 + i) * waveAmplitude + mobileLift,
+        Math.cos(angle) * ORBIT_RADIUS - zPullback,
       );
 
       if (reducedMotion) {
         // No flight, no spin — cards sit in their slots, fully present.
         group.position.copy(slot);
-        group.scale.setScalar(1);
+        group.scale.setScalar(fit);
       } else {
         group.position.lerpVectors(ENTRY, slot, eased);
-        group.scale.setScalar(MathUtils.lerp(0.55, 1, eased));
+        // `fit` multiplies the arrival scale rather than replacing it: the
+        // 0.55→1 settle-in pop still happens, just scaled to the card's
+        // authored-vs-device size the same way the eventual resting size is.
+        group.scale.setScalar(MathUtils.lerp(0.55, 1, eased) * fit);
       }
 
       /*
@@ -341,7 +503,33 @@ export default function OrbitCards({ projects, reducedMotion = false }: OrbitCar
           }}
           visible={false}
         >
-          <mesh>
+          <mesh
+            /*
+              Opens this project's detail view.
+
+              three's own raycaster does not consult `.visible` (verified in
+              its Object3D traversal — only the renderer and the shadow map
+              skip invisible objects), so a card that has not yet flown in, or
+              one the archive dive has already dismissed, would otherwise
+              still catch clicks at its parked position. Reading the parent
+              group's `visible` — the same flag the useFrame loop above sets
+              every frame — is what keeps interaction in sync with what is
+              actually on screen.
+            */
+            onClick={(event: ThreeEvent<MouseEvent>) => {
+              if (groups.current[i]?.visible === false) return;
+              event.stopPropagation();
+              openProjectDetail(project.id);
+            }}
+            onPointerOver={(event: ThreeEvent<PointerEvent>) => {
+              if (groups.current[i]?.visible === false) return;
+              event.stopPropagation();
+              setHover(i);
+            }}
+            onPointerOut={() => {
+              if (hovered.current === i) setHover(null);
+            }}
+          >
             {/* Segmented: the arrival bow is a vertex displacement, so a 1x1
                 quad would have no interior vertices to bend. */}
             <planeGeometry args={[CARD_W, CARD_H, 16, 20]} />

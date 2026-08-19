@@ -70,6 +70,35 @@ export function setWorksCount(count: number): void {
 export function setWorksProgress(progress: number): void {
   worksScroll.progress = Math.min(1, Math.max(0, progress));
 
+  /*
+    Immediate fallback sync, not the source of truth.
+
+    OrbitCards is dynamically imported with ssr:false, so this ScrollTrigger
+    can fire onUpdate/onRefresh before the canvas — and therefore the
+    per-frame syncWorksActiveIndex() call below — has ever run once. Deriving
+    the index from the raw progress here too means the caption still tracks
+    scroll during that gap instead of sitting frozen on card 1.
+
+    Once OrbitCards IS mounted, syncWorksActiveIndex() overwrites this on the
+    very next frame with the value derived from the damped ring position, so
+    there is no fight between the two — this one only ever wins for the
+    handful of frames before the ring exists to disagree with it.
+  */
+  syncWorksActiveIndex(worksScroll.progress);
+}
+
+/**
+ * The card the caption should name, kept in lockstep with the ring itself.
+ *
+ * Call this with the SAME value that actually positions the ring each
+ * frame — OrbitCards' damped `scrubbed.current`, not the raw scroll
+ * progress — so the text can never announce a card before (or after) it
+ * has actually arrived at the front. Feeding it the raw progress instead
+ * was the previous bug: ScrollTrigger's onUpdate fires on the unsmoothed
+ * value, so a fast flick could move the caption two or three cards ahead of
+ * whichever one was still easing into position on screen.
+ */
+export function syncWorksActiveIndex(smoothedProgress: number): void {
   const count = worksScroll.count;
   if (count === 0) return;
 
@@ -88,7 +117,7 @@ export function setWorksProgress(progress: number): void {
     rounding that expression back out is exact by construction.
   */
   const next =
-    count === 1 ? 0 : Math.round(orbitPhase(worksScroll.progress, count) * (count - 1));
+    count === 1 ? 0 : Math.round(orbitPhase(smoothedProgress, count) * (count - 1));
 
   if (next === worksScroll.activeIndex) return;
   worksScroll.activeIndex = next;

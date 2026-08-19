@@ -1,11 +1,13 @@
 'use client';
 
-import { Suspense, useLayoutEffect, useMemo, useRef, type RefObject } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { Suspense, useEffect, useLayoutEffect, useMemo, useRef, type RefObject } from 'react';
+import { useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
 import { useTexture, useVideoTexture } from '@react-three/drei';
 import { Color, DoubleSide, SRGBColorSpace, type Mesh, type ShaderMaterial, type Texture } from 'three';
 import type { Project } from '@/types/project';
 import { asset } from '@/lib/asset';
+import { openProjectDetail } from '@/lib/projectDetail';
+import { isNarrowViewport } from '@/lib/responsive3d';
 
 const PLANE_W = 2.24;
 const PLANE_H = 1.28;
@@ -140,6 +142,16 @@ function PlaneBody({
 }: PlaneLayout & { texture: Texture | null; mapAspect?: number }) {
   const mesh = useRef<Mesh>(null);
   const material = useRef<ShaderMaterial>(null);
+  const { gl } = useThree();
+  const hovered = useRef(false);
+
+  const setHover = (state: boolean) => {
+    if (hovered.current === state) return;
+    hovered.current = state;
+    gl.domElement.style.cursor = state ? 'pointer' : 'auto';
+  };
+
+  useEffect(() => () => setHover(false), []);
 
   const uniforms = useMemo(
     () => ({
@@ -154,7 +166,7 @@ function PlaneBody({
     [texture, mapAspect, project.tint],
   );
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     const node = mesh.current;
     if (!node) return;
     const dt = Math.min(delta, 1 / 30);
@@ -178,10 +190,19 @@ function PlaneBody({
     const side = slot % 2 === 0 ? -1 : 1;
     const z = -7.6 - slot * 2.8 + travel;
 
-    // Raised into the upper band: at the previous height the nearest plane
-    // overlapped the DOM project list along the bottom edge and made it
-    // unreadable.
-    node.position.set(side * 1.6, (slot % 3) * 0.4 + 0.25, z);
+    /*
+      Pull the pair in on a narrow viewport.
+
+      The 1.6-unit spread was tuned against the desktop frustum; on a phone's
+      much narrower width the near planes were crowding the screen edges. This
+      is the same fitFactor-style read of `state.viewport` the hero furniture
+      already uses (see lib/responsive3d.ts) — no listener, no breakpoint,
+      correct again the instant the device rotates.
+    */
+    const narrow = isNarrowViewport(state.viewport.width, state.viewport.height);
+    const spread = narrow ? 0.95 : 1.6;
+
+    node.position.set(side * spread, (slot % 3) * 0.4 + 0.25, z);
     node.rotation.set(-0.07, side * -0.5, side * 0.04);
 
     if (material.current) {
@@ -192,7 +213,29 @@ function PlaneBody({
   });
 
   return (
-    <mesh ref={mesh}>
+    <mesh
+      ref={mesh}
+      /*
+        Opens this project's detail view — same store the works orbit uses
+        (lib/projectDetail.ts), so a project reads identically from either
+        gallery. `node.visible` above is read straight off the mesh rather
+        than through a React prop: three's raycaster ignores `.visible` on
+        its own, so a plane that has not yet reveal-faded in, or one the
+        corridor has already withdrawn, must not still catch a click at its
+        parked position.
+      */
+      onClick={(event: ThreeEvent<MouseEvent>) => {
+        if (!mesh.current?.visible) return;
+        event.stopPropagation();
+        openProjectDetail(project.id);
+      }}
+      onPointerOver={(event: ThreeEvent<PointerEvent>) => {
+        if (!mesh.current?.visible) return;
+        event.stopPropagation();
+        setHover(true);
+      }}
+      onPointerOut={() => setHover(false)}
+    >
       <planeGeometry args={[PLANE_W, PLANE_H, 1, 1]} />
       <shaderMaterial
         ref={material}
